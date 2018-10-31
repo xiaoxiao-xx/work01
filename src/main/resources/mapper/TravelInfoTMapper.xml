@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wh.dao.TravelInfoTMapper">
+  <resultMap id="BaseResultMap" type="com.wh.pojo.TravelInfoT">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="travel_num" jdbcType="VARCHAR" property="travelNum" />
+    <result column="origin" jdbcType="VARCHAR" property="origin" />
+    <result column="destination" jdbcType="VARCHAR" property="destination" />
+    <result column="cause" jdbcType="VARCHAR" property="cause" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, travel_num, origin, destination, cause, gmt_create
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from travel_info_t
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from travel_info_t
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.wh.pojo.TravelInfoT">
+    insert into travel_info_t (id, travel_num, origin, 
+      destination, cause, gmt_create
+      )
+    values (#{id,jdbcType=BIGINT}, #{travelNum,jdbcType=VARCHAR}, #{origin,jdbcType=VARCHAR}, 
+      #{destination,jdbcType=VARCHAR}, #{cause,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wh.pojo.TravelInfoT">
+    insert into travel_info_t
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="travelNum != null">
+        travel_num,
+      </if>
+      <if test="origin != null">
+        origin,
+      </if>
+      <if test="destination != null">
+        destination,
+      </if>
+      <if test="cause != null">
+        cause,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="travelNum != null">
+        #{travelNum,jdbcType=VARCHAR},
+      </if>
+      <if test="origin != null">
+        #{origin,jdbcType=VARCHAR},
+      </if>
+      <if test="destination != null">
+        #{destination,jdbcType=VARCHAR},
+      </if>
+      <if test="cause != null">
+        #{cause,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wh.pojo.TravelInfoT">
+    update travel_info_t
+    <set>
+      <if test="travelNum != null">
+        travel_num = #{travelNum,jdbcType=VARCHAR},
+      </if>
+      <if test="origin != null">
+        origin = #{origin,jdbcType=VARCHAR},
+      </if>
+      <if test="destination != null">
+        destination = #{destination,jdbcType=VARCHAR},
+      </if>
+      <if test="cause != null">
+        cause = #{cause,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wh.pojo.TravelInfoT">
+    update travel_info_t
+    set travel_num = #{travelNum,jdbcType=VARCHAR},
+      origin = #{origin,jdbcType=VARCHAR},
+      destination = #{destination,jdbcType=VARCHAR},
+      cause = #{cause,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,85 @@
+<!-- 页签导航 -->
+<div role="tabpanel">
+  <ul class="nav nav-tabs" role="tablist">
+  <!--   <li role="presentation" class="active"><a href="#rolePanel" aria-controls="rolePanel" role="tab" data-toggle="tab" >列表</a></li> -->
+    <li role="presentation" class="active"><a href="#addPanel" aria-controls="addPanel" role="tab" data-toggle="tab">新增</a></li>
+  </ul>
+</div>
+
+<!-- 页签面板-->
+<div class="tab-content">
+  
+  <!-- 新增角色 -->
+  <div role="tabpanel" class="tab-pane active" id="addPanel">
+    <div class="panel panel-default">
+      <div class="panel-body" >
+        <form class="form-horizontal" >
+          <!-- inputs -->
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="destination">目的地</label>
+            <div class="col-md-3">
+              <input type="text" id="destination"  class="form-control" name="destination">
+            </div>
+            <label class="col-md-2 control-label" for="travel_number">差旅编号</label>
+            <div class="col-md-2">
+              <input type="text" id="travel_number" readonly  class="form-control" name="travel_number" value="">
+            </div>
+            
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="time">出发时间</label>
+            <div class="col-md-3">
+              <input type="datetime-local" id="time"  class="form-control" name="time">
+            </div>
+          </div>
+          <div class="form-group" >
+            <label class="col-md-4 control-label" for="purpose">出差目的</label>
+            <div class="col-md-3">
+              <input type="text" id="purpose"  class="form-control" name="purpose">
+            </div>
+          </div>
+          <div class="form-group" id="InputsWrapper" >
+            <label class="col-md-1 control-label" for="name_1">员工姓名</label>
+            <div class="col-md-2 ">
+              <input type="text" id="name_1"  class="form-control" name="name_1">
+            </div>
+            <label class="col-md-1 control-label" for="job_number_1">工号</label>
+            <div class="col-md-2 ">
+              <input type="text" id="job_number_1"  class="form-control" name="job_number_1">
+            </div>
+            	<strong>交通工具</strong>	<div class="btn-group" >
+                  	  	<select class="form-control" id="transportation_1" name="select_transportation_1">
+  						<option>飞机</option>
+  						<option>高铁</option>
+  						<option>汽车</option>
+  						<option>其他</option>
+					</select>
+            	</div>
+          	
+            	<strong>支付方式</strong>	<div class="btn-group" >
+                  	  	<select class="form-control" id="methods_1" name="methods_1">
+  						<option>公司</option>
+  						<option>个人</option>
+					</select>
+            	</div>
+          		
+          		<strong>金额</strong><div class="btn-group" style="width:80px">
+              			<input type="number" id="money_1"  class="form-control" name="money_1">
+          		</div>
+          </div>
+          <!-- buttons -->
+          <div class="form-group">
+            <div class="col-md-4 col-md-offset-4">
+            	<button class="btn" type="button" id="AddMoreFileBox">添加员工</button>
+            	<button type="submit" class="btn btn-primary" id="verify">确  认</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+

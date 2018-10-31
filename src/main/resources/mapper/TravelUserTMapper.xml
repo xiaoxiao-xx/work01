@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wh.dao.TravelUserTMapper">
+  <resultMap id="BaseResultMap" type="com.wh.pojo.TravelUserT">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="travel_num" jdbcType="VARCHAR" property="travelNum" />
+    <result column="user_num" jdbcType="VARCHAR" property="userNum" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="gmt_go" jdbcType="TIMESTAMP" property="gmtGo" />
+    <result column="gmt_back" jdbcType="TIMESTAMP" property="gmtBack" />
+    <result column="trasportation_back" jdbcType="VARCHAR" property="trasportationBack" />
+    <result column="trasportation_go" jdbcType="VARCHAR" property="trasportationGo" />
+    <result column="cost_go" jdbcType="DECIMAL" property="costGo" />
+    <result column="cost_back" jdbcType="DECIMAL" property="costBack" />
+    <result column="cos_stay" jdbcType="DECIMAL" property="cosStay" />
+    <result column="booking_type_back" jdbcType="VARCHAR" property="bookingTypeBack" />
+    <result column="booking_type_go" jdbcType="VARCHAR" property="bookingTypeGo" />
+    <result column="stay_booking_type" jdbcType="VARCHAR" property="stayBookingType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, travel_num, user_num, user_name, gmt_go, gmt_back, trasportation_back, trasportation_go, 
+    cost_go, cost_back, cos_stay, booking_type_back, booking_type_go, stay_booking_type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from travel_user_t
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from travel_user_t
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.wh.pojo.TravelUserT">
+    insert into travel_user_t (id, travel_num, user_num, 
+      user_name, gmt_go, gmt_back, 
+      trasportation_back, trasportation_go, cost_go, 
+      cost_back, cos_stay, booking_type_back, 
+      booking_type_go, stay_booking_type)
+    values (#{id,jdbcType=BIGINT}, #{travelNum,jdbcType=VARCHAR}, #{userNum,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{gmtGo,jdbcType=TIMESTAMP}, #{gmtBack,jdbcType=TIMESTAMP}, 
+      #{trasportationBack,jdbcType=VARCHAR}, #{trasportationGo,jdbcType=VARCHAR}, #{costGo,jdbcType=DECIMAL}, 
+      #{costBack,jdbcType=DECIMAL}, #{cosStay,jdbcType=DECIMAL}, #{bookingTypeBack,jdbcType=VARCHAR}, 
+      #{bookingTypeGo,jdbcType=VARCHAR}, #{stayBookingType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wh.pojo.TravelUserT">
+    insert into travel_user_t
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="travelNum != null">
+        travel_num,
+      </if>
+      <if test="userNum != null">
+        user_num,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="gmtGo != null">
+        gmt_go,
+      </if>
+      <if test="gmtBack != null">
+        gmt_back,
+      </if>
+      <if test="trasportationBack != null">
+        trasportation_back,
+      </if>
+      <if test="trasportationGo != null">
+        trasportation_go,
+      </if>
+      <if test="costGo != null">
+        cost_go,
+      </if>
+      <if test="costBack != null">
+        cost_back,
+      </if>
+      <if test="cosStay != null">
+        cos_stay,
+      </if>
+      <if test="bookingTypeBack != null">
+        booking_type_back,
+      </if>
+      <if test="bookingTypeGo != null">
+        booking_type_go,
+      </if>
+      <if test="stayBookingType != null">
+        stay_booking_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="travelNum != null">
+        #{travelNum,jdbcType=VARCHAR},
+      </if>
+      <if test="userNum != null">
+        #{userNum,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtGo != null">
+        #{gmtGo,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtBack != null">
+        #{gmtBack,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trasportationBack != null">
+        #{trasportationBack,jdbcType=VARCHAR},
+      </if>
+      <if test="trasportationGo != null">
+        #{trasportationGo,jdbcType=VARCHAR},
+      </if>
+      <if test="costGo != null">
+        #{costGo,jdbcType=DECIMAL},
+      </if>
+      <if test="costBack != null">
+        #{costBack,jdbcType=DECIMAL},
+      </if>
+      <if test="cosStay != null">
+        #{cosStay,jdbcType=DECIMAL},
+      </if>
+      <if test="bookingTypeBack != null">
+        #{bookingTypeBack,jdbcType=VARCHAR},
+      </if>
+      <if test="bookingTypeGo != null">
+        #{bookingTypeGo,jdbcType=VARCHAR},
+      </if>
+      <if test="stayBookingType != null">
+        #{stayBookingType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wh.pojo.TravelUserT">
+    update travel_user_t
+    <set>
+      <if test="travelNum != null">
+        travel_num = #{travelNum,jdbcType=VARCHAR},
+      </if>
+      <if test="userNum != null">
+        user_num = #{userNum,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtGo != null">
+        gmt_go = #{gmtGo,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtBack != null">
+        gmt_back = #{gmtBack,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trasportationBack != null">
+        trasportation_back = #{trasportationBack,jdbcType=VARCHAR},
+      </if>
+      <if test="trasportationGo != null">
+        trasportation_go = #{trasportationGo,jdbcType=VARCHAR},
+      </if>
+      <if test="costGo != null">
+        cost_go = #{costGo,jdbcType=DECIMAL},
+      </if>
+      <if test="costBack != null">
+        cost_back = #{costBack,jdbcType=DECIMAL},
+      </if>
+      <if test="cosStay != null">
+        cos_stay = #{cosStay,jdbcType=DECIMAL},
+      </if>
+      <if test="bookingTypeBack != null">
+        booking_type_back = #{bookingTypeBack,jdbcType=VARCHAR},
+      </if>
+      <if test="bookingTypeGo != null">
+        booking_type_go = #{bookingTypeGo,jdbcType=VARCHAR},
+      </if>
+      <if test="stayBookingType != null">
+        stay_booking_type = #{stayBookingType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wh.pojo.TravelUserT">
+    update travel_user_t
+    set travel_num = #{travelNum,jdbcType=VARCHAR},
+      user_num = #{userNum,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      gmt_go = #{gmtGo,jdbcType=TIMESTAMP},
+      gmt_back = #{gmtBack,jdbcType=TIMESTAMP},
+      trasportation_back = #{trasportationBack,jdbcType=VARCHAR},
+      trasportation_go = #{trasportationGo,jdbcType=VARCHAR},
+      cost_go = #{costGo,jdbcType=DECIMAL},
+      cost_back = #{costBack,jdbcType=DECIMAL},
+      cos_stay = #{cosStay,jdbcType=DECIMAL},
+      booking_type_back = #{bookingTypeBack,jdbcType=VARCHAR},
+      booking_type_go = #{bookingTypeGo,jdbcType=VARCHAR},
+      stay_booking_type = #{stayBookingType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
