@@ -1,22 +1,22 @@
 package com.wh.service.impl;
 
 import com.google.gson.Gson;
+import com.wh.CostStandardConfig;
 import com.wh.dao.TravelUserTMapper;
 import com.wh.pojo.vo.PageVO;
 import com.wh.pojo.vo.TravelCostVO;
+import com.wh.pojo.vo.TravelInfo;
 import com.wh.service.TravelCostService;
 import com.wh.util.WriteExcel;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class TravelCostServiceImpl implements TravelCostService {
@@ -24,11 +24,11 @@ public class TravelCostServiceImpl implements TravelCostService {
     private static final String TRANSPORTATION_TYPE_COMP = "0";
     private static final String TRANSPORTATION_TYPE_OTHER = "1";
     private static final String STAY_TYPE_COMP = "0";
-    private static final BigDecimal TRAFFIC_ALLOWANCE_ONE_DAY = new BigDecimal(60.00);
-
+    private static final String TITEL_START = "微核及中粒";
+    private static final String TITEL_END = "差旅费明细表";
+    CostStandardConfig cs = new CostStandardConfig();
     private static final Gson GSON = new Gson();
     private static PageVO page = new PageVO();
-    private WriteExcel writeExcel = new WriteExcel();
     @Resource
     private TravelUserTMapper tut;
 
@@ -94,46 +94,23 @@ public class TravelCostServiceImpl implements TravelCostService {
                 tcvo.setStayComp(BigDecimal.valueOf(0));
             }
             //交通补贴标准/天
-            tcvo.setTrafficAllowanceOneDay(TRAFFIC_ALLOWANCE_ONE_DAY);
+            tcvo.setTrafficAllowanceOneDay(CostStandardConfig.TRAFFIC_ALLOWANCE_ONE_DAY);
             //交通补贴标准
-            tcvo.setTrafficAllowanceStandard(TRAFFIC_ALLOWANCE_ONE_DAY.multiply(days));
+            tcvo.setTrafficAllowanceStandard(CostStandardConfig.TRAFFIC_ALLOWANCE_ONE_DAY.multiply(days));
             //交通补贴实报
-            tcvo.setTrafficAllowanceReal(BigDecimal.valueOf(0));
+            tcvo.setTrafficAllowanceReal(CostStandardConfig.DEFALUT_REAL_MONEY);
             //生活补贴标准/天
-            BigDecimal lifeAllowanceOneDay = computedLifeAllowanceOneDay(tcvo.getUserLevel());
+            BigDecimal lifeAllowanceOneDay = cs.computedLifeAllowanceOneDay(tcvo.getUserLevel());
             tcvo.setLifeAllowanceOneDay(lifeAllowanceOneDay);
             //生活补贴标准
             tcvo.setLifeAllowanceStandard(lifeAllowanceOneDay.multiply(days));
             //生活补贴实报
-            tcvo.setLifeAllowanceReal(BigDecimal.valueOf(0));
+            tcvo.setLifeAllowanceReal(CostStandardConfig.DEFALUT_REAL_MONEY);
 
-            tcvo.setSalaryAllowance(BigDecimal.valueOf(0));
-            tcvo.setSubTotal(BigDecimal.valueOf(0));
+            tcvo.setSalaryAllowance(CostStandardConfig.DEFALUT_REAL_MONEY);
+            tcvo.setSubTotal(CostStandardConfig.DEFALUT_REAL_MONEY);
         }
         return listTravelCost;
-    }
-
-    /**
-     * 根据人员级别计算生活补贴标准/天
-     * 0---执行级
-     * 1---关联级
-     *
-     * @param userLevel
-     * @return
-     */
-    private BigDecimal computedLifeAllowanceOneDay(String userLevel) {
-        BigDecimal money = new BigDecimal(0);
-        switch (userLevel) {
-            case "0":
-                money = BigDecimal.valueOf(110);
-                break;
-            case "1":
-                money = BigDecimal.valueOf(120);
-                break;
-            default:
-                break;
-        }
-        return money;
     }
 
     /**
@@ -241,16 +218,98 @@ public class TravelCostServiceImpl implements TravelCostService {
         return floatDay;
     }
 
+    /**
+     * 非空数据导出到excel 存放为webapp下的travel.xlsx
+     * @param request
+     * @return 文档下载地址
+     */
     @Override
     public String exportInfo(HttpServletRequest request) {
         String time = request.getParameter("keyword");
+        String title = TITEL_START+time+TITEL_END;
         List<TravelCostVO> list = tut.listTravelInfoOneMonth(time);
         if (list != null && list.size() > 0) {
             List<TravelCostVO> listExport = wrapTravelCostVO(list);
-            //生成excel文档、保存到服务器、返回路径
-            //writeExcel.writeExcel();
-            new WriteExcel().writeExcel(listExport,"E:/xxx.xls");
+            List<TravelInfo> travelInfos = travelCostToInfo(listExport);
+            String path = request.getSession().getServletContext().getRealPath("/");
+            String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+            try {
+                WriteExcel excel = new WriteExcel(path+"/travel.xlsx");
+                excel.setFirtRow(title);
+                excel.writeExcel(travelInfos,3);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return basePath+"/travel.xlsx";
         }
-        return "no";
+        return "none";
     }
+
+    /**
+     * 为excel对应字段赋值
+     * @param listExport
+     * @return
+     */
+    private List<TravelInfo> travelCostToInfo(List<TravelCostVO> listExport) {
+        if (listExport != null && listExport.size() > 0) {
+            List<TravelInfo> travelInfos = new ArrayList<>(listExport.size());
+            for (int i = 0; i < listExport.size(); i++) {
+                TravelCostVO t = listExport.get(i);
+                TravelInfo b = new TravelInfo();
+                b.setId(t.getId());
+                b.setUserName(t.getUserName());
+                b.setDepartment(t.getDepartment());
+                b.setCostDep(wrapLevel(t.getCostDep()));
+                b.setUserLevel(wrapLevel(t.getUserLevel()));
+                b.setCause(t.getCause() == null ? "" : t.getCause());
+                b.setTrip(t.getTrip());
+                b.setGmtGo(t.getGmtGo());
+                b.setGoTimePoint(t.getGoTimePoint());
+                b.setGmtBack(t.getGmtBack());
+                b.setBackTimePoint(t.getBackTimePoint());
+                b.setDays(t.getDays());
+                b.setTrasportationComp(t.getTrasportationComp());
+                b.setTrasportationOther(t.getTrasportationOther());
+                b.setStayOneDay(t.getStayOneDay());
+                b.setStayStandard(t.getStayStandard());
+                b.setStayComp(t.getStayComp());
+                b.setStayOther(t.getStayOther());
+                b.setTrafficAllowanceOneDay(t.getTrafficAllowanceOneDay());
+                b.setTrafficAllowanceStandard(t.getTrafficAllowanceStandard());
+                b.setTrafficAllowanceReal(t.getTrafficAllowanceReal());
+                b.setSalaryAllowance(t.getSalaryAllowance());
+                b.setLifeAllowanceOneDay(t.getLifeAllowanceOneDay());
+                b.setLifeAllowanceStandard(t.getLifeAllowanceStandard());
+                b.setLifeAllowanceReal(t.getLifeAllowanceReal());
+                b.setSubTotal(t.getSubTotal());
+                b.setMarks(t.getMarks() == null ? "" : t.getMarks());
+                travelInfos.add(b);
+            }
+            return travelInfos;
+        }
+        return null;
+    }
+
+    private String wrapLevel(String costDep) {
+        String level = " ";
+        switch (costDep) {
+            case "0":
+                level = "执行级";
+                break;
+            case "1":
+                level = "关联级";
+                break;
+            case "2":
+                level = "部门级";
+                break;
+            case "3":
+                level = "经营级";
+                break;
+            default:
+                break;
+        }
+        return level;
+    }
+
+
 }

@@ -132,12 +132,17 @@ function levelFormate(str) {
  */
 function exportInfo() {
     keyword = $("#test1").val();
-    if (confirm("确定导出"+keyword+"差旅明细？")){
-        $.post('travelCostController/exportInfo.ajax',{keyword:keyword},function (re,ree,reee) {
-            console.log(re);
-            console.log(ree);
-            console.log(reee);
-        })
+    if(keyword != "none") {
+        if (confirm("确定导出" + keyword + "差旅明细？")) {
+            $.post('travelCostController/exportInfo.ajax', {keyword: keyword}, function (re, state) {
+                console.log(re);
+                if ("success" == state && re != "none") {
+                    location.href = re;
+                } else {
+                    alert("导出失败,请确定已选择正确的月度");
+                }
+            })
+        }
     }
-    return;
+    return false;
 }

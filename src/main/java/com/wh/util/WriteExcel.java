@@ -1,15 +1,11 @@
 package com.wh.util;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,32 +22,35 @@ public class WriteExcel<T> {
 
     private static final String EXCEL_XLS = "xls";
     private static final String EXCEL_XLSX = "xlsx";
+    private OutputStream out = null;
+    private Workbook workbook;
+    private Sheet sheet;
+    private File file;
+    private String path;
 
-    public static void main(String[] args) {
-        List<User> listU = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            User u = new User("xiao", "12", "nan");
-            listU.add(u);
-        }
-        new WriteExcel().writeExcel(listU, "E:/travel.xlsx");
+    public WriteExcel(String path) throws IOException {
+        this.path = path;
+        this.file = new File(path);
+        this.workbook = getWorkbook(file);
+        this.sheet = workbook.getSheetAt(0);
     }
 
-    public void writeExcel(List<T> list, String path) {
-        OutputStream out = null;
+    /**
+     * @param list  与excel字段对应对象集合
+     * @param space 保留前space行
+     */
+    public void writeExcel(List<T> list, int space) {
         try {
-            File file = new File(path);
-            Workbook workbook = getWorkbook(file);
-            Sheet sheet = workbook.getSheetAt(0);
             int rowNum = sheet.getLastRowNum();
-            for (int i = 0; i < rowNum; i++) {
-                Row row = sheet.getRow(i);
-                sheet.removeRow(row);
-            }
-            out = new FileOutputStream(file);
-            workbook.write(out);
+
+            CellStyle lastRowStyle = getLastRowStyle(rowNum);
+            CellStyle style = getComtextStyle(space);
+            deleteNotInSpace(space, rowNum);
+
+            Field[] fields = null;
             for (int i = 0; i < list.size(); i++) {
-                Row row = sheet.createRow(i + 3);
-                Field[] fields = list.get(i).getClass().getDeclaredFields();
+                Row row = sheet.createRow(i + space);
+                fields = list.get(i).getClass().getDeclaredFields();
                 //在一行内循环写入数据
                 for (int j = 0; j < fields.length; j++) {
                     int n = 0;
@@ -60,11 +59,12 @@ public class WriteExcel<T> {
                         Cell cell = row.createCell(n++);
                         String val = String.valueOf(field.get(list.get(i)));
                         cell.setCellValue(val);
+                        cell.setCellStyle(style);
                     }
                 }
             }
-            out = new FileOutputStream(file);
-            workbook.write(out);
+            setlastRow(list.size(),fields.length, space, lastRowStyle);
+            flushWorkBook();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -77,7 +77,53 @@ public class WriteExcel<T> {
                 }
             }
         }
-        System.out.println("导出成功");
+    }
+
+    private CellStyle getLastRowStyle(int rowNum) {
+        Row row = sheet.getRow(rowNum);
+        return row.getCell(0).getCellStyle();
+    }
+
+    private CellStyle getComtextStyle(int space) {
+        Row row = sheet.getRow(space);
+        return row.getCell(0).getCellStyle();
+    }
+
+    private void deleteNotInSpace(int space, int rowNum) throws IOException {
+        for (int i = space; i <= rowNum; i++) {
+            Row row = sheet.getRow(i);
+            if (row != null) {
+                sheet.removeRow(row);
+            }
+        }
+        flushWorkBook();
+    }
+
+    private void flushWorkBook() throws IOException {
+        out = new FileOutputStream(file);
+        workbook.write(out);
+    }
+
+    public void setFirtRow(String value) throws IOException {
+        Row row = sheet.getRow(0);
+        Cell cell = row.getCell(0);
+        CellStyle cellStyle = cell.getCellStyle();
+        cell.setCellValue(value);
+        cell.setCellStyle(cellStyle);
+        flushWorkBook();
+    }
+
+    private void setlastRow(int size, int len, int space, CellStyle lastRowStyle) {
+        Row row = sheet.createRow(size + space);
+        for (int i = 0; i < len; i++) {
+            Cell cell = row.createCell(i);
+            cell.setCellStyle(lastRowStyle);
+            if (i == 0) {
+                cell.setCellValue("合计");
+            }else {
+                cell.setCellValue(" ");
+            }
+        }
     }
 
     /**
