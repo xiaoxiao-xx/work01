@@ -48,11 +48,13 @@ public class WriteExcel<T> {
             deleteNotInSpace(space, rowNum);
 
             Field[] fields = null;
+            int len = 0;
             for (int i = 0; i < list.size(); i++) {
                 Row row = sheet.createRow(i + space);
                 fields = list.get(i).getClass().getDeclaredFields();
+                len = fields.length;
                 //在一行内循环写入数据
-                for (int j = 0; j < fields.length; j++) {
+                for (int j = 0; j < len; j++) {
                     int n = 0;
                     for (Field field : fields) {
                         field.setAccessible(true);
@@ -63,7 +65,7 @@ public class WriteExcel<T> {
                     }
                 }
             }
-            setlastRow(list.size(),fields.length, space, lastRowStyle);
+            setlastRow(list.size(),len, space, lastRowStyle);
             flushWorkBook();
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,16 +81,33 @@ public class WriteExcel<T> {
         }
     }
 
+
+    /**
+     * 获取最后一行的excel的style
+     * @param rowNum
+     * @return CellStyle
+     */
     private CellStyle getLastRowStyle(int rowNum) {
         Row row = sheet.getRow(rowNum);
         return row.getCell(0).getCellStyle();
     }
 
+    /**
+     * 获取中间需要修该文本的style
+     * @param space
+     * @return CellStyle
+     */
     private CellStyle getComtextStyle(int space) {
         Row row = sheet.getRow(space);
         return row.getCell(0).getCellStyle();
     }
 
+    /**
+     * 删除要覆盖的内容
+     * @param space
+     * @param rowNum
+     * @throws IOException
+     */
     private void deleteNotInSpace(int space, int rowNum) throws IOException {
         for (int i = space; i <= rowNum; i++) {
             Row row = sheet.getRow(i);
@@ -99,11 +118,20 @@ public class WriteExcel<T> {
         flushWorkBook();
     }
 
+    /**
+     * 刷新输出流，使excel文档的修改生效
+     * @throws IOException
+     */
     private void flushWorkBook() throws IOException {
         out = new FileOutputStream(file);
         workbook.write(out);
     }
 
+    /**
+     * 自定义首行标题
+     * @param value
+     * @throws IOException
+     */
     public void setFirtRow(String value) throws IOException {
         Row row = sheet.getRow(0);
         Cell cell = row.getCell(0);
@@ -113,6 +141,13 @@ public class WriteExcel<T> {
         flushWorkBook();
     }
 
+    /**
+     * 自定义尾行表格
+     * @param size
+     * @param len
+     * @param space
+     * @param lastRowStyle
+     */
     private void setlastRow(int size, int len, int space, CellStyle lastRowStyle) {
         Row row = sheet.createRow(size + space);
         for (int i = 0; i < len; i++) {
@@ -128,7 +163,6 @@ public class WriteExcel<T> {
 
     /**
      * 获取excel的版本，返回合适的WorkBook对象
-     *
      * @param file 文件对象
      * @return WorkBook
      * @throws IOException
