@@ -39,5 +39,25 @@ public class CostStandardConfig {
         }
         return money;
     }
+    public String wrapLevel(String costDep) {
+        String level = " ";
+        switch (costDep) {
+            case EXCUTIVE_LEVEL:
+                level = "执行级";
+                break;
+            case RELATION_LEVEL:
+                level = "关联级";
+                break;
+            case DEPARTMENT_LEVEL:
+                level = "部门级";
+                break;
+            case MANAGEMENT_LEVEL:
+                level = "经营级";
+                break;
+            default:
+                break;
+        }
+        return level;
+    }
 
 }

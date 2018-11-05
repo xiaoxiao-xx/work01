@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/travelCostController")
@@ -36,10 +37,9 @@ public class TravelCostController {
         return tcs.listTravel_cost(request);
     }
 
-    @RequestMapping("/exportInfo.ajax")
-    @ResponseBody
-    public String exportInfo(HttpServletRequest request){
-        return tcs.exportInfo(request);
+    @RequestMapping("/exportInfo.do")
+    public void exportInfo(HttpServletRequest request, HttpServletResponse response){
+        tcs.exportInfo(request,response);
     }
 
 }

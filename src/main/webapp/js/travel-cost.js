@@ -81,6 +81,9 @@ function showpage(pn) {
         $.each(re, function (n, l) {
             var costDep = levelFormate(l.costDep);
             var userLevel = levelFormate(l.userLevel);
+            if (l.cause == undefined) {
+                l.cause = " "
+            }
             $("#ctable").append("<tr>\n" +
                 "                        <td>" + l.id + "</td>\n" +
                 "                        <td>" + l.userName + "</td>\n" +
@@ -134,14 +137,7 @@ function exportInfo() {
     keyword = $("#test1").val();
     if(keyword != "none") {
         if (confirm("确定导出" + keyword + "差旅明细？")) {
-            $.post('travelCostController/exportInfo.ajax', {keyword: keyword}, function (re, state) {
-                console.log(re);
-                if ("success" == state && re != "none") {
-                    location.href = re;
-                } else {
-                    alert("导出失败,请确定已选择正确的月度");
-                }
-            })
+            location.href = 'travelCostController/exportInfo.do?keyword='+keyword;
         }
     }
     return false;

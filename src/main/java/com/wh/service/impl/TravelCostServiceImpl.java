@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -26,7 +28,7 @@ public class TravelCostServiceImpl implements TravelCostService {
     private static final String STAY_TYPE_COMP = "0";
     private static final String TITEL_START = "微核及中粒";
     private static final String TITEL_END = "差旅费明细表";
-    CostStandardConfig cs = new CostStandardConfig();
+    private CostStandardConfig cs = new CostStandardConfig();
     private static final Gson GSON = new Gson();
     private static PageVO page = new PageVO();
     @Resource
@@ -220,33 +222,54 @@ public class TravelCostServiceImpl implements TravelCostService {
 
     /**
      * 非空数据导出到excel 存放为webapp下的travel.xlsx
+     *
      * @param request
      * @return 文档下载地址
      */
     @Override
-    public String exportInfo(HttpServletRequest request) {
+    public void exportInfo(HttpServletRequest request, HttpServletResponse response) {
         String time = request.getParameter("keyword");
-        String title = TITEL_START+time+TITEL_END;
+        String title = TITEL_START + time + TITEL_END;
         List<TravelCostVO> list = tut.listTravelInfoOneMonth(time);
         if (list != null && list.size() > 0) {
             List<TravelCostVO> listExport = wrapTravelCostVO(list);
             List<TravelInfo> travelInfos = travelCostToInfo(listExport);
-            String path = request.getSession().getServletContext().getRealPath("/");
-            String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+            String path = request.getSession().getServletContext().getRealPath("/file");
+            String filePath = path + "\\"+"travel.xlsx";
             try {
-                WriteExcel excel = new WriteExcel(path+"/travel.xlsx");
+                WriteExcel excel = new WriteExcel(filePath);
                 excel.setFirtRow(title);
-                excel.writeExcel(travelInfos,3);
+                excel.writeExcel(travelInfos, 3);
+                downLoadFile(time,filePath, response);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return basePath+"/travel.xlsx";
         }
-        return "none";
+    }
+
+    private void downLoadFile(String title, String strUrl, HttpServletResponse response) throws IOException {
+        InputStream bis = new BufferedInputStream(new FileInputStream(new File(strUrl)));
+        // 假如以中文名下载的话
+        // 转码，免得文件名中文乱码
+        String filename = title+"差旅费明细表.xlsx";
+        filename = URLEncoder.encode(filename, "UTF-8");
+        // 设置文件下载头
+        response.addHeader("Content-Disposition", "attachment;filename=" + filename);
+        // 1.设置文件ContentType类型，这样设置，会自动判断下载文件类型
+        response.setContentType("multipart/form-data");
+        BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
+        byte[] buffer = new byte[1024];
+        int len;
+        while ((len = bis.read(buffer)) != -1) {
+            out.write(buffer,0,len);
+        }
+        bis.close();
+        out.close();
     }
 
     /**
      * 为excel对应字段赋值
+     *
      * @param listExport
      * @return
      */
@@ -259,8 +282,8 @@ public class TravelCostServiceImpl implements TravelCostService {
                 b.setId(t.getId());
                 b.setUserName(t.getUserName());
                 b.setDepartment(t.getDepartment());
-                b.setCostDep(wrapLevel(t.getCostDep()));
-                b.setUserLevel(wrapLevel(t.getUserLevel()));
+                b.setCostDep(cs.wrapLevel(t.getCostDep()));
+                b.setUserLevel(cs.wrapLevel(t.getUserLevel()));
                 b.setCause(t.getCause() == null ? "" : t.getCause());
                 b.setTrip(t.getTrip());
                 b.setGmtGo(t.getGmtGo());
@@ -289,27 +312,4 @@ public class TravelCostServiceImpl implements TravelCostService {
         }
         return null;
     }
-
-    private String wrapLevel(String costDep) {
-        String level = " ";
-        switch (costDep) {
-            case "0":
-                level = "执行级";
-                break;
-            case "1":
-                level = "关联级";
-                break;
-            case "2":
-                level = "部门级";
-                break;
-            case "3":
-                level = "经营级";
-                break;
-            default:
-                break;
-        }
-        return level;
-    }
-
-
 }

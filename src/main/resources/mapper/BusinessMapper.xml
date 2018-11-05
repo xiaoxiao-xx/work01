@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wh.dao.BusinessMapper">
+  <resultMap id="BaseResultMap" type="com.wh.pojo.Business">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="department" jdbcType="VARCHAR" property="department" />
+    <result column="departmentcost" jdbcType="VARCHAR" property="departmentcost" />
+    <result column="stafflevel" jdbcType="VARCHAR" property="stafflevel" />
+    <result column="purpose" jdbcType="VARCHAR" property="purpose" />
+    <result column="trip" jdbcType="VARCHAR" property="trip" />
+    <result column="startdate" jdbcType="VARCHAR" property="startdate" />
+    <result column="goff" jdbcType="VARCHAR" property="goff" />
+    <result column="enddate" jdbcType="VARCHAR" property="enddate" />
+    <result column="endff" jdbcType="VARCHAR" property="endff" />
+    <result column="days" jdbcType="VARCHAR" property="days" />
+    <result column="companyorder" jdbcType="VARCHAR" property="companyorder" />
+    <result column="otherorder" jdbcType="VARCHAR" property="otherorder" />
+    <result column="travelstandard" jdbcType="VARCHAR" property="travelstandard" />
+    <result column="livestandard" jdbcType="VARCHAR" property="livestandard" />
+    <result column="companyset" jdbcType="VARCHAR" property="companyset" />
+    <result column="personalset" jdbcType="VARCHAR" property="personalset" />
+    <result column="trafficperday" jdbcType="VARCHAR" property="trafficperday" />
+    <result column="trafficreality" jdbcType="VARCHAR" property="trafficreality" />
+    <result column="trafficreal" jdbcType="VARCHAR" property="trafficreal" />
+    <result column="liveperday" jdbcType="VARCHAR" property="liveperday" />
+    <result column="livereality" jdbcType="VARCHAR" property="livereality" />
+    <result column="livereal" jdbcType="VARCHAR" property="livereal" />
+    <result column="subsidy" jdbcType="VARCHAR" property="subsidy" />
+    <result column="subplan" jdbcType="VARCHAR" property="subplan" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="filename" jdbcType="VARCHAR" property="filename" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, department, departmentcost, stafflevel, purpose, trip, startdate, goff, 
+    enddate, endff, days, companyorder, otherorder, travelstandard, livestandard, companyset, 
+    personalset, trafficperday, trafficreality, trafficreal, liveperday, livereality, 
+    livereal, subsidy, subplan, remarks, filename
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from business
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from business
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wh.pojo.Business">
+    insert into business (id, name, department, 
+      departmentcost, stafflevel, purpose, 
+      trip, startdate, goff, 
+      enddate, endff, days, 
+      companyorder, otherorder, travelstandard, 
+      livestandard, companyset, personalset, 
+      trafficperday, trafficreality, trafficreal, 
+      liveperday, livereality, livereal, 
+      subsidy, subplan, remarks, 
+      filename)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, 
+      #{departmentcost,jdbcType=VARCHAR}, #{stafflevel,jdbcType=VARCHAR}, #{purpose,jdbcType=VARCHAR}, 
+      #{trip,jdbcType=VARCHAR}, #{startdate,jdbcType=VARCHAR}, #{goff,jdbcType=VARCHAR}, 
+      #{enddate,jdbcType=VARCHAR}, #{endff,jdbcType=VARCHAR}, #{days,jdbcType=VARCHAR}, 
+      #{companyorder,jdbcType=VARCHAR}, #{otherorder,jdbcType=VARCHAR}, #{travelstandard,jdbcType=VARCHAR}, 
+      #{livestandard,jdbcType=VARCHAR}, #{companyset,jdbcType=VARCHAR}, #{personalset,jdbcType=VARCHAR}, 
+      #{trafficperday,jdbcType=VARCHAR}, #{trafficreality,jdbcType=VARCHAR}, #{trafficreal,jdbcType=VARCHAR}, 
+      #{liveperday,jdbcType=VARCHAR}, #{livereality,jdbcType=VARCHAR}, #{livereal,jdbcType=VARCHAR}, 
+      #{subsidy,jdbcType=VARCHAR}, #{subplan,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{filename,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wh.pojo.Business">
+    insert into business
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="department != null">
+        department,
+      </if>
+      <if test="departmentcost != null">
+        departmentcost,
+      </if>
+      <if test="stafflevel != null">
+        stafflevel,
+      </if>
+      <if test="purpose != null">
+        purpose,
+      </if>
+      <if test="trip != null">
+        trip,
+      </if>
+      <if test="startdate != null">
+        startdate,
+      </if>
+      <if test="goff != null">
+        goff,
+      </if>
+      <if test="enddate != null">
+        enddate,
+      </if>
+      <if test="endff != null">
+        endff,
+      </if>
+      <if test="days != null">
+        days,
+      </if>
+      <if test="companyorder != null">
+        companyorder,
+      </if>
+      <if test="otherorder != null">
+        otherorder,
+      </if>
+      <if test="travelstandard != null">
+        travelstandard,
+      </if>
+      <if test="livestandard != null">
+        livestandard,
+      </if>
+      <if test="companyset != null">
+        companyset,
+      </if>
+      <if test="personalset != null">
+        personalset,
+      </if>
+      <if test="trafficperday != null">
+        trafficperday,
+      </if>
+      <if test="trafficreality != null">
+        trafficreality,
+      </if>
+      <if test="trafficreal != null">
+        trafficreal,
+      </if>
+      <if test="liveperday != null">
+        liveperday,
+      </if>
+      <if test="livereality != null">
+        livereality,
+      </if>
+      <if test="livereal != null">
+        livereal,
+      </if>
+      <if test="subsidy != null">
+        subsidy,
+      </if>
+      <if test="subplan != null">
+        subplan,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="filename != null">
+        filename,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null">
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentcost != null">
+        #{departmentcost,jdbcType=VARCHAR},
+      </if>
+      <if test="stafflevel != null">
+        #{stafflevel,jdbcType=VARCHAR},
+      </if>
+      <if test="purpose != null">
+        #{purpose,jdbcType=VARCHAR},
+      </if>
+      <if test="trip != null">
+        #{trip,jdbcType=VARCHAR},
+      </if>
+      <if test="startdate != null">
+        #{startdate,jdbcType=VARCHAR},
+      </if>
+      <if test="goff != null">
+        #{goff,jdbcType=VARCHAR},
+      </if>
+      <if test="enddate != null">
+        #{enddate,jdbcType=VARCHAR},
+      </if>
+      <if test="endff != null">
+        #{endff,jdbcType=VARCHAR},
+      </if>
+      <if test="days != null">
+        #{days,jdbcType=VARCHAR},
+      </if>
+      <if test="companyorder != null">
+        #{companyorder,jdbcType=VARCHAR},
+      </if>
+      <if test="otherorder != null">
+        #{otherorder,jdbcType=VARCHAR},
+      </if>
+      <if test="travelstandard != null">
+        #{travelstandard,jdbcType=VARCHAR},
+      </if>
+      <if test="livestandard != null">
+        #{livestandard,jdbcType=VARCHAR},
+      </if>
+      <if test="companyset != null">
+        #{companyset,jdbcType=VARCHAR},
+      </if>
+      <if test="personalset != null">
+        #{personalset,jdbcType=VARCHAR},
+      </if>
+      <if test="trafficperday != null">
+        #{trafficperday,jdbcType=VARCHAR},
+      </if>
+      <if test="trafficreality != null">
+        #{trafficreality,jdbcType=VARCHAR},
+      </if>
+      <if test="trafficreal != null">
+        #{trafficreal,jdbcType=VARCHAR},
+      </if>
+      <if test="liveperday != null">
+        #{liveperday,jdbcType=VARCHAR},
+      </if>
+      <if test="livereality != null">
+        #{livereality,jdbcType=VARCHAR},
+      </if>
+      <if test="livereal != null">
+        #{livereal,jdbcType=VARCHAR},
+      </if>
+      <if test="subsidy != null">
+        #{subsidy,jdbcType=VARCHAR},
+      </if>
+      <if test="subplan != null">
+        #{subplan,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="filename != null">
+        #{filename,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wh.pojo.Business">
+    update business
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null">
+        department = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentcost != null">
+        departmentcost = #{departmentcost,jdbcType=VARCHAR},
+      </if>
+      <if test="stafflevel != null">
+        stafflevel = #{stafflevel,jdbcType=VARCHAR},
+      </if>
+      <if test="purpose != null">
+        purpose = #{purpose,jdbcType=VARCHAR},
+      </if>
+      <if test="trip != null">
+        trip = #{trip,jdbcType=VARCHAR},
+      </if>
+      <if test="startdate != null">
+        startdate = #{startdate,jdbcType=VARCHAR},
+      </if>
+      <if test="goff != null">
+        goff = #{goff,jdbcType=VARCHAR},
+      </if>
+      <if test="enddate != null">
+        enddate = #{enddate,jdbcType=VARCHAR},
+      </if>
+      <if test="endff != null">
+        endff = #{endff,jdbcType=VARCHAR},
+      </if>
+      <if test="days != null">
+        days = #{days,jdbcType=VARCHAR},
+      </if>
+      <if test="companyorder != null">
+        companyorder = #{companyorder,jdbcType=VARCHAR},
+      </if>
+      <if test="otherorder != null">
+        otherorder = #{otherorder,jdbcType=VARCHAR},
+      </if>
+      <if test="travelstandard != null">
+        travelstandard = #{travelstandard,jdbcType=VARCHAR},
+      </if>
+      <if test="livestandard != null">
+        livestandard = #{livestandard,jdbcType=VARCHAR},
+      </if>
+      <if test="companyset != null">
+        companyset = #{companyset,jdbcType=VARCHAR},
+      </if>
+      <if test="personalset != null">
+        personalset = #{personalset,jdbcType=VARCHAR},
+      </if>
+      <if test="trafficperday != null">
+        trafficperday = #{trafficperday,jdbcType=VARCHAR},
+      </if>
+      <if test="trafficreality != null">
+        trafficreality = #{trafficreality,jdbcType=VARCHAR},
+      </if>
+      <if test="trafficreal != null">
+        trafficreal = #{trafficreal,jdbcType=VARCHAR},
+      </if>
+      <if test="liveperday != null">
+        liveperday = #{liveperday,jdbcType=VARCHAR},
+      </if>
+      <if test="livereality != null">
+        livereality = #{livereality,jdbcType=VARCHAR},
+      </if>
+      <if test="livereal != null">
+        livereal = #{livereal,jdbcType=VARCHAR},
+      </if>
+      <if test="subsidy != null">
+        subsidy = #{subsidy,jdbcType=VARCHAR},
+      </if>
+      <if test="subplan != null">
+        subplan = #{subplan,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="filename != null">
+        filename = #{filename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wh.pojo.Business">
+    update business
+    set name = #{name,jdbcType=VARCHAR},
+      department = #{department,jdbcType=VARCHAR},
+      departmentcost = #{departmentcost,jdbcType=VARCHAR},
+      stafflevel = #{stafflevel,jdbcType=VARCHAR},
+      purpose = #{purpose,jdbcType=VARCHAR},
+      trip = #{trip,jdbcType=VARCHAR},
+      startdate = #{startdate,jdbcType=VARCHAR},
+      goff = #{goff,jdbcType=VARCHAR},
+      enddate = #{enddate,jdbcType=VARCHAR},
+      endff = #{endff,jdbcType=VARCHAR},
+      days = #{days,jdbcType=VARCHAR},
+      companyorder = #{companyorder,jdbcType=VARCHAR},
+      otherorder = #{otherorder,jdbcType=VARCHAR},
+      travelstandard = #{travelstandard,jdbcType=VARCHAR},
+      livestandard = #{livestandard,jdbcType=VARCHAR},
+      companyset = #{companyset,jdbcType=VARCHAR},
+      personalset = #{personalset,jdbcType=VARCHAR},
+      trafficperday = #{trafficperday,jdbcType=VARCHAR},
+      trafficreality = #{trafficreality,jdbcType=VARCHAR},
+      trafficreal = #{trafficreal,jdbcType=VARCHAR},
+      liveperday = #{liveperday,jdbcType=VARCHAR},
+      livereality = #{livereality,jdbcType=VARCHAR},
+      livereal = #{livereal,jdbcType=VARCHAR},
+      subsidy = #{subsidy,jdbcType=VARCHAR},
+      subplan = #{subplan,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      filename = #{filename,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
