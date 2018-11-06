@@ -114,7 +114,6 @@ function showpage(pn) {
                 "                        <td></td>\n" +
                 "                    </tr>");
         })
-        $("[data-toggle='tooltip']").tooltip();
     });
 };
 
