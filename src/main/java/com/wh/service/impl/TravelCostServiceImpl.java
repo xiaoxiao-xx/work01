@@ -90,10 +90,10 @@ public class TravelCostServiceImpl implements TravelCostService {
             //住宿公司或其他订购费
             if (STAY_TYPE_COMP.equals(tcvo.getStayBookingType())) {
                 tcvo.setStayComp(tcvo.getCostStay());
-                tcvo.setStayOther(BigDecimal.valueOf(0));
+                tcvo.setStayOther(CostStandardConfig.DEFALUT_REAL_MONEY);
             } else {
                 tcvo.setStayOther(tcvo.getCostStay());
-                tcvo.setStayComp(BigDecimal.valueOf(0));
+                tcvo.setStayComp(CostStandardConfig.DEFALUT_REAL_MONEY);
             }
             //交通补贴标准/天
             tcvo.setTrafficAllowanceOneDay(CostStandardConfig.TRAFFIC_ALLOWANCE_ONE_DAY);
@@ -221,8 +221,7 @@ public class TravelCostServiceImpl implements TravelCostService {
     }
 
     /**
-     * 非空数据导出到excel 存放为webapp下的travel.xlsx
-     *
+     * 非空数据导出到excel
      * @param request
      * @return 文档下载地址
      */

@@ -90,7 +90,7 @@ function showpage(pn) {
                 "                        <td>" + l.department + "</td>\n" +
                 "                        <td>" + costDep + "</td>\n" +
                 "                        <td>" + userLevel + "</td>\n" +
-                "                        <td>" + l.cause + "</td>\n" +
+                "                        <td title='"+l.cause+"'>" + l.cause + "</td>\n" +
                 "                        <td>" + l.trip + "</td>\n" +
                 "                        <td>" + l.gmtGo + "</td>\n" +
                 "                        <td>" + l.goTimePoint + "</td>\n" +
@@ -114,7 +114,7 @@ function showpage(pn) {
                 "                        <td></td>\n" +
                 "                    </tr>");
         })
-
+        $("[data-toggle='tooltip']").tooltip();
     });
 };
 
@@ -124,6 +124,10 @@ function levelFormate(str) {
             return "执行级";
         case "1":
             return "关联级";
+        case "2":
+            return "部门级";
+        case "3":
+            return "经营级";
         default:
             break;
     }
@@ -135,10 +139,11 @@ function levelFormate(str) {
  */
 function exportInfo() {
     keyword = $("#test1").val();
-    if(keyword != "none") {
+    if(keyword != "none" && keyword != '') {
         if (confirm("确定导出" + keyword + "差旅明细？")) {
             location.href = 'travelCostController/exportInfo.do?keyword='+keyword;
         }
+    }else {
+        alert("请选择合适的月度！");
     }
-    return false;
 }

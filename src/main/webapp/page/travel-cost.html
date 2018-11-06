@@ -14,21 +14,19 @@
         text-align: center;
     }
 
-    button {
-        position: fixed;
-        top: 69px;
-        right: 4px;
+    thead tr {
+        background-color: #337ab7;
+        color: white;
     }
 </style>
-<!-- 导出 -->
-<div>
-    <input type="text" id="test1" class="form-control" style="width: 168px">
-    <button class="btn btn-primary" style="margin-right: 870px; margin-top: 1px;" onclick="timechange()">按月度查询</button>
-</div>
-<div>
+<div class="form-inline">
+    <div class="form-group">
+        <label for="test1">月度:</label>
+        <input type="text" class="form-control" id="test1" placeholder="月度" autocomplete="off">
+    </div>
+    <button class="btn btn-primary" onclick="timechange()">查询</button>
     <button class="btn btn-primary" onclick="exportInfo()">导出EXCEL</button>
 </div>
-
 <div role="tabpanel">
     <!-- 页签面板-->
     <div class="tab-content">
@@ -38,7 +36,7 @@
             <div id="travel_cost_t">
                 <table id="" class="table table-bordered" style="width: 3000px">
                     <thead>
-                    <tr>
+                    <tr class="special">
                         <th rowspan="2">序号</th>
                         <th rowspan="2">姓名</th>
                         <th rowspan="2">部门</th>

@@ -52,7 +52,7 @@
         <result column="life_allowance_real" jdbcType="DECIMAL" property="lifeAllowanceReal"/>
         <result column="salary_allowance" jdbcType="DECIMAL" property="salaryAllowance"/>
         <result column="sub_total" jdbcType="DECIMAL" property="subTotal"/>
-        <result column="stay_days" jdbcType="VARCHAR" property="stayDays"/>
+        <result column="stay_days" jdbcType="DECIMAL" property="stayDays"/>
         <result column="marks" jdbcType="VARCHAR" property="marks"/>
     </resultMap>
     <sql id="Base_Column_List">
@@ -268,7 +268,7 @@
         INNER JOIN city_cost_standard_t ON city_cost_standard_t.city_name = travel_info_t.destination
         INNER JOIN user_t ON travel_user_t.user_num = user_t.user_num
         <if test="time != 'none'">
-            and CONCAT(YEAR(gmt_back),'年',MONTH(gmt_back),'月') = #{time,jdbcType=VARCHAR}
+            and CONCAT(YEAR(gmt_back),'年',IF(MONTH(gmt_back) &lt; 10,CONCAT('0',MONTH(gmt_back)),MONTH(gmt_back)),'月') = #{time,jdbcType=VARCHAR}
         </if>
         limit #{offst,jdbcType=VARCHAR},#{size,jdbcType=VARCHAR}
     </select>
@@ -298,6 +298,6 @@
         INNER JOIN travel_info_t ON travel_info_t.travel_num = travel_user_t.travel_num
         INNER JOIN city_cost_standard_t ON city_cost_standard_t.city_name = travel_info_t.destination
         INNER JOIN user_t ON travel_user_t.user_num = user_t.user_num
-        and CONCAT(YEAR(gmt_back),'年',MONTH(gmt_back),'月') = #{time,jdbcType=VARCHAR}
+        and CONCAT(YEAR(gmt_back),'年',IF(MONTH(gmt_back) &lt; 10,CONCAT('0',MONTH(gmt_back)),MONTH(gmt_back)),'月') = #{time,jdbcType=VARCHAR}
     </select>
 </mapper>
