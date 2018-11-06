@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="wh.dao.CostMapper">
+<mapper namespace="com.wh.dao.CostMapper">
 	
-	<resultMap type="wh.pojo.Information" id="informationMap">
+	<resultMap type="com.wh.pojo.Information" id="informationMap">
 		<result property="state" column="state" jdbcType="VARCHAR"/>
 		<result property="userNum" column="user_num" jdbcType="VARCHAR"/>
 		<result property="userName" column="user_name" jdbcType="VARCHAR"/>
@@ -24,7 +24,7 @@
 			travel_user_t
 	</select>
 	
-	<select id="findBudget" parameterType="wh.pojo.Information" resultMap="informationMap">
+	<select id="findBudget" parameterType="com.wh.pojo.Information" resultMap="informationMap">
 		SELECT
 			city_cost_standard_t.standard
 		FROM
@@ -33,7 +33,7 @@
 			city_name = #{destination}
 	</select>
 	
-	<update id="updateCost" parameterType="wh.pojo.Information">
+	<update id="updateCost" parameterType="com.wh.pojo.Information">
 		UPDATE
 			travel_user_t
 		SET

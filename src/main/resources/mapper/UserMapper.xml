@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="wh.dao.UserMapper">
+<mapper namespace="com.wh.dao.UserMapper">
 	
 	<!-- role的ResultMap -->
 <!-- 	<resultMap type="Role" id="roleMap"> -->
@@ -10,7 +10,7 @@
 <!-- 		<result property="name" column="role_name"/> -->
 <!-- 	</resultMap> -->
 	<!-- user的resultMap -->
-	<resultMap type="wh.pojo.Information" id="informationMap">
+	<resultMap type="com.wh.pojo.Information" id="informationMap">
 		<result property="state" column="state" jdbcType="VARCHAR"/>
 		<result property="userNum" column="user_num" jdbcType="VARCHAR"/>
 		<result property="userName" column="user_name" jdbcType="VARCHAR"/>
@@ -25,7 +25,7 @@
 	</resultMap>
 	<!-- 用户的分页+模糊(全部数据) -->
 	<select id="getCount"
-	        parameterType="wh.vo.Page"
+	        parameterType="com.wh.vo.Page"
 	        resultType="java.lang.Integer">
 	    SELECT
 			count(*) as geshu
@@ -38,7 +38,7 @@
 			GROUP BY travel_num) n
 	</select>
 	<select id="getUsers"
-	        parameterType="wh.vo.Page"
+	        parameterType="com.wh.vo.Page"
 	        resultMap="informationMap">
 	       SELECT
 				travel_info_t.cause,travel_user_t.travel_num,user_t.state,travel_user_t.user_num,travel_user_t.user_name,travel_user_t.gmt_go,travel_user_t.gmt_back,travel_info_t.destination
@@ -139,7 +139,7 @@
 <!-- 	</update> -->
 	<!-- 分页+模糊(指定角色名称) -->
 	<select id="getCountByGo"
-	        parameterType="wh.vo.Page"
+	        parameterType="com.wh.vo.Page"
 	        resultType="java.lang.Integer">
 <!-- 		select -->
 <!-- 		   count(user_num) as geshu -->
@@ -161,7 +161,7 @@ SELECT
 	
 	
 	<select id="getUsersByGo"
-	        parameterType="wh.vo.Page"
+	        parameterType="com.wh.vo.Page"
 	        resultMap="informationMap">
 <!-- 	       SELECT -->
 <!-- 				u.state,travel_user_t.user_num,travel_user_t.user_name,travel_user_t.gmt_go,travel_user_t.gmt_back,travel_info_t.destination -->
@@ -201,7 +201,7 @@ SELECT
 	
 	<!-- 分页+模糊(指定角色名称) -->
 	<select id="getCountByBack"
-	        parameterType="wh.vo.Page"
+	        parameterType="com.wh.vo.Page"
 	        resultType="java.lang.Integer">
 
 		SELECT
@@ -216,7 +216,7 @@ SELECT
 	</select>
 
 	<select id="getUsersByBack"
-	        parameterType="wh.vo.Page"
+	        parameterType="com.wh.vo.Page"
 	        resultMap="informationMap">
 	        
  			SELECT

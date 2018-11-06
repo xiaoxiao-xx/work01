@@ -2,10 +2,6 @@
 $(function() {
 	//加载页面顶部工具栏
 	load_header();
-	//加载消息框
-	load_msg();
-	//加载修改密码部分
-	load_pwd();
 	//加载左侧导航栏
 	load_nav();
 	//加载主页
@@ -17,18 +13,6 @@ function load_header() {
 	$('#header').load('page/header.html');
 }
 
-// 加载消息框
-function load_msg() {
-	//消息弹出框
-	$('#message_dialog').load('page/message.html', function(){
-		$.getScript("js/message.js");
-	});
-}
-
-// 加载修改密码部分
-function load_pwd() {
-	$('#editPasswd').load('page/edit_pwd.html');
-}
 
 // 加载左侧导航栏
 function load_nav() {
@@ -39,8 +23,8 @@ function load_nav() {
 
 // 加载主页
 function load_main() {
-	$('#main').load('page/main.html', function(){
-		$.getScript("js/main.js");
+	$('#main').load('page/user.html', function(){
+		$.getScript("js/user.js");
 	});
 }
 

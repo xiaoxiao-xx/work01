@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="wh.dao.LoginMapper">
+<mapper namespace="com.wh.dao.LoginMapper">
 
-	<select id="login" parameterType="wh.pojo.User" resultType="java.lang.String">
+	<select id="login" parameterType="com.wh.pojo.User" resultType="java.lang.String">
 		select
 			user_id
 		from user_table
