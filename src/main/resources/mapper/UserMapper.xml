@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wh.dao.UserMapper">
+	
+	<!-- role的ResultMap -->
+<!-- 	<resultMap type="Role" id="roleMap"> -->
+<!-- 	    注意:从表中的外键id,不能跟主表的主键id名字相同 -->
+<!-- 		<id property="id" column="role_id" /> -->
+<!-- 		<result property="name" column="role_name"/> -->
+<!-- 	</resultMap> -->
+	<!-- user的resultMap -->
+	<resultMap type="wh.pojo.Information" id="informationMap">
+		<result property="state" column="state" jdbcType="VARCHAR"/>
+		<result property="userNum" column="user_num" jdbcType="VARCHAR"/>
+		<result property="userName" column="user_name" jdbcType="VARCHAR"/>
+		<result property="destination" column="destination" jdbcType="VARCHAR"/>
+		<result property="gmtGo" column="gmt_go" jdbcType="TIMESTAMP"/>
+		<result property="gmtBack" column="gmt_back" jdbcType="TIMESTAMP"/>
+		<result property="travelNum" column="travel_num" jdbcType="VARCHAR"/>
+		<result property="stayDays" column="stay_days" jdbcType="VARCHAR"/>
+<!-- 		<collection property="roles" ofType="Role"  -->
+<!-- 		            javaType="java.util.List" -->
+<!-- 		            resultMap="roleMap"></collection> -->
+	</resultMap>
+	<!-- 用户的分页+模糊(全部数据) -->
+	<select id="getCount"
+	        parameterType="wh.vo.Page"
+	        resultType="java.lang.Integer">
+	    SELECT
+			count(*) as geshu
+		FROM(
+			SELECT
+				COUNT(*)
+			FROM
+				travel_user_t 
+			where user_name like #{userKeyword}
+			GROUP BY travel_num) n
+	</select>
+	<select id="getUsers"
+	        parameterType="wh.vo.Page"
+	        resultMap="informationMap">
+	       SELECT
+				travel_info_t.cause,travel_user_t.travel_num,user_t.state,travel_user_t.user_num,travel_user_t.user_name,travel_user_t.gmt_go,travel_user_t.gmt_back,travel_info_t.destination
+			FROM
+				travel_info_t
+			INNER JOIN travel_user_t ON travel_info_t.travel_num = travel_user_t.travel_num
+			INNER JOIN user_t ON travel_user_t.user_num = user_t.user_num
+			INNER JOIN 
+					(select travel_user_t.travel_num as num from travel_user_t 
+					where travel_user_t.user_name like #{userKeyword}
+					group by travel_user_t.travel_num
+					LIMIT #{begin},#{pageSize})n
+				ON n.num = travel_user_t.travel_num
+				
+	</select>
+	
+	<!-- 根据用户id查询用户信息 -->
+<!-- 	<select id="findUserById"  -->
+<!-- 	        parameterType="java.lang.String" -->
+<!-- 	        resultMap="userMap"> -->
+<!-- 		select -->
+<!-- 			u.user_id, -->
+<!-- 			u.user_loginname, -->
+<!-- 			u.user_logintype, -->
+<!-- 			u.user_nickname, -->
+<!-- 			u.user_password, -->
+<!-- 			u.user_type, -->
+<!-- 			u.user_head, -->
+<!-- 			u.user_score, -->
+<!-- 			u.user_islock, -->
+<!-- 			u.user_pwdstate, -->
+<!-- 			u.user_regdate, -->
+<!-- 			u.user_age, -->
+<!-- 			u.user_sex, -->
+<!-- 			r.role_id, -->
+<!-- 			r.role_name -->
+<!-- 		from ( -->
+<!-- 				select * from t_user  -->
+<!-- 				where  -->
+<!-- 				  user_id=#{userId} -->
+<!-- 		     ) u -->
+<!-- 	    left outer join t_user_role ur on u.user_id=ur.uid -->
+<!-- 	    left outer join t_role r on ur.rid=r.role_id -->
+<!-- 	</select> -->
+	<!-- 添加用户 -->
+<!-- 	<insert id="addUser" -->
+<!-- 	        parameterType="User"> -->
+<!-- 		insert into t_user -->
+<!-- 		( -->
+<!-- 			user_id, -->
+<!-- 			user_loginname, -->
+<!-- 			user_password, -->
+<!-- 			user_nickname, -->
+<!-- 			user_age, -->
+<!-- 			user_sex, -->
+<!-- 			user_head -->
+<!-- 		) -->
+<!-- 		values -->
+<!-- 		( -->
+<!-- 			#{id}, -->
+<!-- 			#{loginName}, -->
+<!-- 			#{password}, -->
+<!-- 			#{nickName}, -->
+<!-- 			#{age}, -->
+<!-- 			#{sex}, -->
+<!-- 			#{head} -->
+<!-- 		) -->
+	        
+<!-- 	</insert> -->
+	<!-- 添加用户和角色的中间表 -->
+<!-- 	<insert id="addUserRole" -->
+<!-- 	        parameterType="UserRole"> -->
+<!-- 		insert into t_user_role -->
+<!-- 		( -->
+<!-- 			uid, -->
+<!-- 			rid -->
+<!-- 		) -->
+<!-- 		values -->
+<!-- 		( -->
+<!-- 			#{userId}, -->
+<!-- 			#{roleId} -->
+<!-- 		)   -->
+	        
+<!-- 	</insert> -->
+	<!-- 更新用户信息 -->
+<!-- 	<update id="updateUser"  -->
+<!-- 	        parameterType="User"> -->
+	        
+<!-- 		update t_user set -->
+<!-- 			user_loginname=#{loginName}, -->
+<!-- 			user_password=#{password}, -->
+<!-- 			user_nickname=#{nickName}, -->
+<!-- 			user_age=#{age}, -->
+<!-- 			user_sex=#{sex}, -->
+<!-- 			user_head=#{head} -->
+<!-- 		where user_id=#{id} -->
+	
+<!-- 	</update> -->
+	<!-- 分页+模糊(指定角色名称) -->
+	<select id="getCountByGo"
+	        parameterType="wh.vo.Page"
+	        resultType="java.lang.Integer">
+<!-- 		select -->
+<!-- 		   count(user_num) as geshu -->
+<!-- 		from user_t -->
+<!-- 		where  -->
+<!-- 		   state = #{roleType} and user_name like #{userKeyword} -->
+SELECT
+			count(*) as geshu
+		FROM(
+			SELECT
+				COUNT(*)
+			FROM
+				travel_user_t 
+<!-- 			inner join user_t on user_t.user_num = travel_user_t.user_num -->
+<!-- 			where user_t.state = #{roleType} and  travel_user_t.user_name like #{userKeyword} -->
+				where travel_user_t.gmt_back is null and  travel_user_t.user_name like #{userKeyword}
+			GROUP BY travel_user_t.travel_num) n
+	</select>
+	
+	
+	<select id="getUsersByGo"
+	        parameterType="wh.vo.Page"
+	        resultMap="informationMap">
+<!-- 	       SELECT -->
+<!-- 				u.state,travel_user_t.user_num,travel_user_t.user_name,travel_user_t.gmt_go,travel_user_t.gmt_back,travel_info_t.destination -->
+<!-- 			FROM -->
+<!-- 				(select state,user_num from user_t where state = #{roleType} LIMIT #{begin},#{pageSize}) u -->
+<!-- 			INNER JOIN travel_user_t ON u.user_num = travel_user_t.user_num -->
+<!-- 			INNER JOIN travel_info_t ON travel_user_t.travel_num = travel_info_t.travel_num -->
+<!-- 			where travel_user_t.user_name like #{userKeyword} -->
+ SELECT
+				travel_info_t.cause,travel_user_t.travel_num,user_t.state,travel_user_t.user_num,travel_user_t.user_name,travel_user_t.gmt_go,travel_user_t.gmt_back,travel_info_t.destination
+			FROM
+				travel_info_t
+			INNER JOIN travel_user_t ON travel_info_t.travel_num = travel_user_t.travel_num
+		
+<!-- 		INNER JOIN  -->
+		
+<!-- 		(select state,user_num from user_t where user_t.state = #{roleType})u -->
+		
+<!-- 		ON u.user_num = travel_user_t.user_num -->
+		
+			INNER JOIN
+				user_t 
+			ON user_t.user_num = travel_user_t.user_num
+			
+		INNER JOIN 
+		
+		(select travel_user_t.travel_num as num from travel_user_t 
+		where travel_user_t.gmt_back is null and travel_user_t.user_name like #{userKeyword}  
+		group by travel_user_t.travel_num
+		LIMIT #{begin},#{pageSize})n
+		
+		ON n.num = travel_user_t.travel_num
+<!-- 		where user_t.state = #{roleType} -->
+		
+		
+	</select>
+	
+	<!-- 分页+模糊(指定角色名称) -->
+	<select id="getCountByBack"
+	        parameterType="wh.vo.Page"
+	        resultType="java.lang.Integer">
+
+		SELECT
+			count(*) as geshu
+		FROM(
+			SELECT
+				COUNT(*)
+			FROM
+				travel_user_t 
+				where travel_user_t.gmt_back is not null and  travel_user_t.user_name like #{userKeyword}
+			GROUP BY travel_user_t.travel_num) n
+	</select>
+
+	<select id="getUsersByBack"
+	        parameterType="wh.vo.Page"
+	        resultMap="informationMap">
+	        
+ 			SELECT
+				travel_info_t.cause,travel_user_t.travel_num,user_t.state,travel_user_t.user_num,travel_user_t.user_name,travel_user_t.gmt_go,travel_user_t.gmt_back,travel_info_t.destination
+			FROM
+				travel_info_t
+			INNER JOIN travel_user_t ON travel_info_t.travel_num = travel_user_t.travel_num
+			INNER JOIN
+				user_t 
+			ON user_t.user_num = travel_user_t.user_num
+			INNER JOIN 
+				(select travel_user_t.travel_num as num from travel_user_t 
+				where travel_user_t.gmt_back is not null and travel_user_t.user_name like #{userKeyword}  
+				group by travel_user_t.travel_num
+				LIMIT #{begin},#{pageSize})n
+			ON n.num = travel_user_t.travel_num
+
+	</select>
+	
+	
+	
+	
+	<!-- 查询所有数据 -->
+<!-- 	<select id="findAllUsers" -->
+<!-- 	        resultMap="userMap"> -->
+<!-- 	     select -->
+<!-- 			u.user_id, -->
+<!-- 			u.user_loginname, -->
+<!-- 			u.user_logintype, -->
+<!-- 			u.user_nickname, -->
+<!-- 			u.user_password, -->
+<!-- 			u.user_type, -->
+<!-- 			u.user_head, -->
+<!-- 			u.user_score, -->
+<!-- 			u.user_islock, -->
+<!-- 			u.user_pwdstate, -->
+<!-- 			u.user_regdate, -->
+<!-- 			u.user_age, -->
+<!-- 			u.user_sex, -->
+<!-- 			r.role_id, -->
+<!-- 			r.role_name -->
+<!-- 		from t_user u -->
+<!-- 	    left outer join t_user_role ur on u.user_id=ur.uid -->
+<!-- 	    left outer join t_role r on ur.rid=r.role_id -->
+	
+<!-- 	</select> -->
+	
+	
+</mapper>

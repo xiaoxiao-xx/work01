@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wh.dao.CostMapper">
+	
+	<resultMap type="wh.pojo.Information" id="informationMap">
+		<result property="state" column="state" jdbcType="VARCHAR"/>
+		<result property="userNum" column="user_num" jdbcType="VARCHAR"/>
+		<result property="userName" column="user_name" jdbcType="VARCHAR"/>
+		<result property="destination" column="destination" jdbcType="VARCHAR"/>
+		<result property="gmtGo" column="gmt_go" jdbcType="TIMESTAMP"/>
+		<result property="gmtBack" column="gmt_back" jdbcType="TIMESTAMP"/>
+		<result property="travelNum" column="travel_num" jdbcType="VARCHAR"/>
+		<result property="cityName" column="city_name" jdbcType="VARCHAR"/>
+		<result property="cityCode" column="city_code" jdbcType="VARCHAR"/>
+		<result property="standard" column="standard" jdbcType="DOUBLE"/>
+	</resultMap>
+	
+	<select id="findCost" parameterType="java.lang.String" resultMap="informationMap">
+<!-- 		姓名、出差天数、城市对应费用标准      （ 前端计算 - 预算上限） -->
+		SELECT
+			gmtGo,gmtBack,destination
+		FROM
+			travel_user_t
+	</select>
+	
+	<select id="findBudget" parameterType="wh.pojo.Information" resultMap="informationMap">
+		SELECT
+			city_cost_standard_t.standard
+		FROM
+			city_cost_standard_t
+		WHERE
+			city_name = #{destination}
+	</select>
+	
+	<update id="updateCost" parameterType="wh.pojo.Information">
+		UPDATE
+			travel_user_t
+		SET
+			cos_stay = #{costPayMoney},
+			stay_booking_type = #{costPayMethod}
+		WHERE
+			travel_num = #{travelNum}
+	</update>
+	
+</mapper>
