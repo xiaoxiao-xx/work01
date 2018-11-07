@@ -67,6 +67,12 @@
 			<version>2.6.12</version>
 		</dependency>
 		<!--end excel jar包-->
+		<!-- 读取配置文件相关 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 
 	<build>
