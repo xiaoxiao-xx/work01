@@ -1,9 +1,3 @@
-$(function(){
- $("#importExcel").submit(function(){
-		return importExp();
-	});
-});
-
 function importExp() {
     var formData = new FormData();
     var name = $("#upfile").val();
@@ -25,6 +19,7 @@ function importExp() {
         success : function(responseStr) {
             if(responseStr=="successful"){
                 alert("导入成功");
+                $('#main').load("page/importExcel.html");
             }else{
                 alert("导入失败");
             }

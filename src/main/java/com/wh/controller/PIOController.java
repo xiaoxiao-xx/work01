@@ -30,12 +30,12 @@ public class PIOController {
         /*System.out.println("fileName-->" + fileName);
         System.out.println("getContentType-->" + contentType);*/
         String filePath = request.getSession().getServletContext().getRealPath("imgupload/");
-        System.out.println("+++++++++++++++"+filePath);
+
         try {
             FileUtils.uploadFile(file.getBytes(), filePath, fileName);
           //  Business business = null;
 			if(poi.isExistfileName(filePath+fileName)>0){
-            	System.out.println("ssss");
+			    
             	poi.delFileName(filePath+fileName);
             	poi.loadExcel(filePath+fileName);  
      	        poi.init();  

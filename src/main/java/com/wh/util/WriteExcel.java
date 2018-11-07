@@ -28,6 +28,9 @@ public class WriteExcel<T> {
     private File file;
     private String path;
 
+    public WriteExcel() {
+    }
+
     public WriteExcel(String path) throws IOException {
         this.path = path;
         this.file = new File(path);

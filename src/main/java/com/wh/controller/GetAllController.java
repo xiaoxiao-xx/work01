@@ -1,25 +1,41 @@
 package com.wh.controller;
 
-
-import com.wh.pojo.Business;
 import com.wh.service.GetAllService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
+@RequestMapping("/getALL")
 public class GetAllController {
 	@Resource
 	private GetAllService getAllService;
-	  @RequestMapping(value="/getAll", method = RequestMethod.GET)
-	    @ResponseBody
-	    public List<Business> getAll(){
-	
-		  List<Business> all = getAllService.selectAll();
-	      return all;
-	    }
+
+	/**
+	 * 获取分页相关数据，页数，总条数，每页条数
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/getPage.ajax")
+	@ResponseBody
+	public String getPage(HttpServletRequest request){
+
+
+		return getAllService.getPage(request);
+	}
+
+	/**
+	 *
+	 */
+	@RequestMapping(value = "/listTravel.ajax",produces = "text/html;charset=utf-8")
+	@ResponseBody
+	public String listTravel_cost(HttpServletRequest request){
+
+		return getAllService.listTravel(request);
+	}
+
+
 }
