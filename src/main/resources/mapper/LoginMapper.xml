@@ -5,10 +5,10 @@
 
 	<select id="login" parameterType="com.wh.pojo.User" resultType="java.lang.String">
 		select
-			user_id
-		from user_table
-		where user_name=#{userName} and
-			  password=#{password}
+			user_num
+		from user_t
+		where user_num=#{userName} and
+			  passwd=#{password}
 	</select>
 
 

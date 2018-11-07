@@ -48,11 +48,11 @@ public class TravelCostServiceImpl implements TravelCostService {
     public String listTravel_cost(HttpServletRequest request) {
         String time = request.getParameter("keyword");
         String pn = request.getParameter("pn");
-        int offst = (Integer.parseInt(pn) - 1) * NUM_OF_ONE_PAGE;
+        int offset = (Integer.parseInt(pn) - 1) * NUM_OF_ONE_PAGE;
         int size = NUM_OF_ONE_PAGE;
         Map<String, Object> map = new HashMap<>();
         map.put("time", time);
-        map.put("offst", offst);
+        map.put("offset", offset);
         map.put("size", size);
         List<TravelCostVO> listTravelCost = tut.listTravelCost(map);
         if (listTravelCost != null) {
