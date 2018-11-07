@@ -2,17 +2,20 @@ package com.wh.service.impl;
 
 import com.wh.dao.UpdateMapper;
 import com.wh.pojo.Information;
+import com.wh.pojo.TravelUserT;
+import com.wh.pojo.UserT;
 import com.wh.service.UpdateService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class UpdateServiceImpl implements UpdateService {
-	@Autowired
+	@Resource
 	private UpdateMapper updateMapper;
 	
 	@Override
@@ -47,6 +50,16 @@ public class UpdateServiceImpl implements UpdateService {
 		}
 		
 		
+	}
+
+	@Override
+	public void editBackTravel(List<TravelUserT> travelUserList, List<UserT> userList) {
+//		for(int i=0;i<travelUserList.size();i++){
+//			updateMapper.updateTravelUser(travelUserList.get(i));
+//		}
+//		for(int i=0;i<userList.size();i++){
+//			updateMapper.updateUser(userList.get(i));
+//		}
 	}
 
 }

@@ -23,8 +23,8 @@ function load_nav() {
 
 // 加载主页
 function load_main() {
-	$('#main').load('page/user.html', function(){
-		$.getScript("js/user.js");
+	$('#main').load('page/travel-user.html', function(){
+		$.getScript("js/travel-user.js");
 	});
 }
 

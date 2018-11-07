@@ -9,6 +9,7 @@ var userHead;
 var roleType="all";
 
 var x = 0;
+var y = 0;
 
 $(function(){
 	
@@ -45,39 +46,27 @@ $(function(){
 	$("#user_search_btn").click(function(){
 		findUsers(1);
 	});
-	//给删除model框的确定按钮添加click事件
-	$("#delete_user_btn").click(function(e){
-		deleteUser();
-	});
+
 	//给"详情"标签添加点击事件
 	$('#user_tab li:eq(1) a').click(function (e) {
-		  e.preventDefault()
+		  e.preventDefault();
 		  $(this).tab('show');
-//		  $("#detailPanel .editBack").html('请在"列表"中选择一个用户显示详情');
+		  $("#detailPanel .editBack").html('请在"列表"中选择一个用户显示详情');
 	});
-	//给"新增标签添加点击事件"
-//	$('#user_tab li:eq(2) a').click(function (e) {
-//		  e.preventDefault()
-//		  $(this).tab('show');
-//		  findAllRoleName("#addUserPanel #roleCategory");
-//	});
-	//给添加用户的表单添加submit事件
-//	$("#addUserPanel form").submit(function(){
-//		return addUser();
-//	});
+
 	//给修改的模态框的"确定"添加click事件
-	$("#editUser form").submit(function(){
-		//alert("aaaaaaaaaaaaaaaaaaaaaaaaa");
-		//
-		return updateUser();
-	});
+	// $("#editUser form").submit(function(){
+	// 	//alert("aaaaaaaaaaaaaaaaaaaaaaaaa");
+	// 	//
+	// 	return updateUser();
+	// });
 	
 	//给修改的住宿的"确定"添加click事件
-	$("#editCost form").submit(function(){
-		//alert("aaaaaaaaaaaaaaaaaaaaaaaaa");
-		//
-		return updateCost();
-	});
+	// $("#editCost form").submit(function(){
+	// 	//alert("aaaaaaaaaaaaaaaaaaaaaaaaa");
+	// 	//
+	// 	return updateCost();
+	// });
 	
 	//给全部变量roleType赋值
 	$("#role_type button").click(function(){
@@ -95,124 +84,125 @@ $(function(){
 		$(this).addClass("active");
 		findUsers(1);
 	});
-	//给导出按钮添加click事件
-	$("#export_btn").click(function(){
-		window.location.href=basePath+"user/exportuser";
-	});
 });
-function updateUser(){
-	var inputPersons=$("#editUser #inputPersons").val();
-	var inputDestination=$("#editUser #inputDestination").val();
-	var inputGoTime=$("#editUser #inputGoTime").val();
-	var inputCause=$("#editUser #inputCause").val();
-	var inputBackTime=$("#editUser #inputBackTime").val();
-	var inputBackMethod=$("#editUser #inputBackMethod").val();
-	var inputPayMethods=$("#editUser #inputPayMethods").val();
-	var payMoney=$("#editUser #payMoney").val();
-	var travelNum=$("#editUser #inputTravelNum").val();
-	var userNum=$("#editUser #inputUserNum").val();
-	var up = {
-		    "persons":inputPersons,
-		    "destination":inputDestination,
-		    "cause":inputCause,
-		    "gmtBack":inputBackTime,
-		    "backMethod":inputBackMethod,
-		    "payMethods":inputPayMethods,
-		    "payMoney":payMoney,
-		    "travelNum":travelNum,
-		    "userNum":userNum
-		 }
-	
-	//异步请求更新数据
-	$.ajax({
-		url:"update/travel",
-		type:"post",
-		data:JSON.stringify(up),
-		contentType:"application/json;charse=UTF-8",
-		success:function(data,status){
-			location.reload(true);
-		},
-		error:function(){
-			alert("请求失败!");
-		}
-	});
-	return false;
-}
 
-function updateCost(){
-	var costTravelNum=$("#editCost #costTravelNum").val();
-	var costPayMethod=$("#editCost #costPayMethod").val();
-	var costpayMoney=$("#editCost #costpayMoney").val();
-	
-	alert("准备进入ajax");
-	var up = {
-		    "travelNum":costTravelNum,
-		    "costPayMethod":costPayMethod,
-		    "costPayMoney":costpayMoney
-		 }
-	
-	//异步请求更新数据
-	$.ajax({
-		url:"update/cost",
-		type:"post",
-		data:JSON.stringify(up),
-		contentType:"application/json;charse=UTF-8",
-		success:function(result){
-			if(result.status==0){
-				location.reload(true);
-			}
+//更新返回详情（弹框）
+// function updateUser(){
+// 	var inputPersons=$("#editUser #inputPersons").val();
+// 	var inputDestination=$("#editUser #inputDestination").val();
+// 	var inputGoTime=$("#editUser #inputGoTime").val();
+// 	var inputCause=$("#editUser #inputCause").val();
+// 	var inputBackTime=$("#editUser #inputBackTime").val();
+// 	var inputBackMethod=$("#editUser #inputBackMethod").val();
+// 	var inputPayMethods=$("#editUser #inputPayMethods").val();
+// 	var payMoney=$("#editUser #payMoney").val();
+// 	var travelNum=$("#editUser #inputTravelNum").val();
+// 	var userNum=$("#editUser #inputUserNum").val();
+// 	var up = {
+// 		    "persons":inputPersons,
+// 		    "destination":inputDestination,
+// 		    "cause":inputCause,
+// 		    "gmtBack":inputBackTime,
+// 		    "backMethod":inputBackMethod,
+// 		    "payMethods":inputPayMethods,
+// 		    "payMoney":payMoney,
+// 		    "travelNum":travelNum,
+// 		    "userNum":userNum
+// 		 }
+//
+// 	//异步请求更新数据
+// 	$.ajax({
+// 		url:"update/travel",
+// 		type:"post",
+// 		data:JSON.stringify(up),
+// 		contentType:"application/json;charse=UTF-8",
+// 		success:function(data,status){
+// 			location.reload(true);
+// 		},
+// 		error:function(){
+// 			alert("请求失败!");
+// 		}
+// 	});
+// 	return false;
+// }
 
-		},
-		error:function(){
-			alert("请求失败!");
-		}
-	});
-	return false;
-}
+//更新住宿详情（弹框）
+// function updateCost(){
+// 	var costTravelNum=$("#editCost #costTravelNum").val();
+// 	var costPayMethod=$("#editCost #costPayMethod").val();
+// 	var costpayMoney=$("#editCost #costpayMoney").val();
+//
+// 	alert("准备进入ajax");
+// 	var up = {
+// 		    "travelNum":costTravelNum,
+// 		    "costPayMethod":costPayMethod,
+// 		    "costPayMoney":costpayMoney
+// 		 }
+//
+// 	//异步请求更新数据
+// 	$.ajax({
+// 		url:"update/cost",
+// 		type:"post",
+// 		data:JSON.stringify(up),
+// 		contentType:"application/json;charse=UTF-8",
+// 		success:function(result){
+// 			if(result.status==0){
+// 				location.reload(true);
+// 			}
+//
+// 		},
+// 		error:function(){
+// 			alert("请求失败!");
+// 		}
+// 	});
+// 	return false;
+// }
 
-//给返回页面赋值
-function updateUserClick(editName,destination,gmtGo,cause,travelNum,editNum){
+//给返回页面赋值（弹框）
+// function updateUserClick(editName,destination,gmtGo,cause,travelNum,editNum){
+//
+// 	$("#editUser #inputPersons").val(editName);
+// 	$("#editUser #inputDestination").val(destination);
+// 	var gmtGoTime = new Date(gmtGo).toLocaleString().replace("/","-").replace("/","-");
+// 	$("#editUser #inputGoTime").val(gmtGoTime);
+// 	$("#editUser #inputCause").val(cause);
+// 	$("#editUser #inputTravelNum").val(travelNum);
+// 	$("#editUser #inputUserNum").val(editNum);
+//
+// }
 
-	$("#editUser #inputPersons").val(editName);
-	$("#editUser #inputDestination").val(destination);
-	var gmtGoTime = new Date(gmtGo).toLocaleString().replace("/","-").replace("/","-");
-	$("#editUser #inputGoTime").val(gmtGoTime);
-	$("#editUser #inputCause").val(cause);
-	$("#editUser #inputTravelNum").val(travelNum);
-	$("#editUser #inputUserNum").val(editNum);
-	
-}
+//提交住宿详情（弹框）
+// function updateCostClick(editName,destination,stayDays,cause,travelNum,editNum){
+// 	var findCity = {
+// 			"destination":destination
+// 	}
+// 	$.ajax({
+// 		url:"find/budget",
+// 		type:"post",
+// 		data:JSON.stringify(findCity),
+// 		contentType:"application/json;charse=UTF-8",
+// 		success:function(result){
+// 			if(result.status==0){
+// 				if(result.data!=null){
+// 					var standards = result.data.standard;
+// 					var budget = standards*stayDays;
+// 					$("#editCost #costPersons").val(editName);
+// 					$("#editCost #costDays").val(stayDays);
+// 					$("#editCost #costBudget").val(budget);
+// 					$("#editCost #costTravelNum").val(travelNum);
+// 				}
+// 			}else if(result.status==1){
+// 				alert(result.message);
+// 			}
+// 		},
+// 		error:function(){
+// 			alert("请求失败~");
+// 		}
+// 	})
+//
+// }
 
-function updateCostClick(editName,destination,stayDays,cause,travelNum,editNum){
-	var findCity = {
-			"destination":destination
-	}
-	$.ajax({
-		url:"find/budget",
-		type:"post",
-		data:JSON.stringify(findCity),
-		contentType:"application/json;charse=UTF-8",
-		success:function(result){
-			if(result.status==0){
-				if(result.data!=null){
-					var standards = result.data.standard;
-					var budget = standards*stayDays;
-					$("#editCost #costPersons").val(editName);
-					$("#editCost #costDays").val(stayDays);
-					$("#editCost #costBudget").val(budget);
-					$("#editCost #costTravelNum").val(travelNum);
-				}
-			}else if(result.status==1){
-				alert(result.message);
-			}
-		},
-		error:function(){
-			alert("请求失败~");
-		}
-	})
-	
-}
-
+//带分页查询
 function findUsers(currentPage){
 	var userKeyword=$("#user_search").val();
 	if(userKeyword==""){
@@ -322,6 +312,7 @@ function findUsers(currentPage){
 }
 
 //分割-----------------------------
+//添加出差人员
 function addUser() {
 	var MaxInputs    = 20; //maximum input boxes allowed
 	var InputsWrapper  = $("#InputsWrapper"); //Input boxes wrapper ID
@@ -373,6 +364,7 @@ function selectEditNum(editNum,travelNum){
 //通过差旅编号编辑返回信息
 function editBackByTravelNum(editName,destination,gmtGo,cause,travelNum,editNum){
 	x = 0;
+	y = 0;
 	$('#user_tab li:eq(1) a').tab('show');
 	$("#detailPanel .editBack").html("");
 	
@@ -432,7 +424,7 @@ function editBackByTravelNum(editName,destination,gmtGo,cause,travelNum,editNum)
 	'<div class="form-group">'+
 	'<div class="col-md-4 col-md-offset-4">'+
 	'<button class="btn" type="button" id="addBackUser">添加员工</button>'+
-	'<button type="submit" class="btn btn-primary" id="sub">确认</button>'+
+	'<button type="submit" class="btn btn-primary" id="submitBack">确认</button>'+
 	'</div>'+
 	'</div>'+
 	'</form>';
@@ -447,6 +439,27 @@ function editBackByTravelNum(editName,destination,gmtGo,cause,travelNum,editNum)
 	$("#detailPanel #backUserNum").val(editNum);
 	
 	addBackUser(editName,editNum);
+
+
+    $("#detailPanel form").submit(function(){
+        $.ajax({
+            async: false,
+            url:'edit/back/travel',
+            type: "post",
+            data:$("#detailPanel form").serialize(),
+            dataType: "json",
+            success: function (result) {
+            	alert(result.message);
+
+                // location.reload(true);
+            },
+			error:function(){
+				alert("请求失败!");
+			}
+		});
+        return false;
+    });
+
 //	$.ajax({
 //		url:"/edit/back/"+travelNum,
 //		type:"get",
@@ -515,27 +528,8 @@ function editBackByTravelNum(editName,destination,gmtGo,cause,travelNum,editNum)
 
 //添加返程员工
 function addBackUser(editName,editNum) {
-	
-	var arrNum = editNum.split(",");
-	var arrName = editName.split(",");
-	var middle = "";
-	for(var i=0;i<arrNum.length;i++){
-		middle+='<option>'+arrName[i]+'</option>';
-	}
-	var backName = '<select class="form-control" id="backName_'+arrNum[x]+'" name="back_'+arrNum[x]+'">'+middle+'</select>';
-	
-	var result = '<tr>'+
-	'<td class="text-center">'+backName+'</td>'+
-	'<td class="text-center"><input type="datetime-local" id="backTime_'+arrNum[x]+'" class="form-control" name="backTime_'+arrNum[x]+'"></td>'+
-	'<td class="text-center"><select class="form-control" id="backTrasportation_'+arrNum[x]+'" name="backTrasportation_'+arrNum[x]+'"><option value="1">飞机</option><option value="2">高铁</option><option value="3">汽车</option><option value="4">其他</option></select></td>'+
-	'<td class="text-center"><select id="backTrasportation_payMethod_'+arrNum[x]+'" class="form-control" name="backTrasportation_payMethod_'+arrNum[x]+'"><option value="1">公司</option><option value="2">个人</option></select></td>'+
-	'<td class="text-center"><input type="text" id="backTrasportation_payMoney_'+arrNum[x]+'" class="form-control" name="backTrasportation_payMoney_'+arrNum[x]+'"></td>'+
-	'<td class="text-center"><select id="backCost_payMethod_'+arrNum[x]+'" class="form-control" name="backCost_payMethod_'+arrNum[x]+'"><option value="1">公司</option><option value="2">个人</option></select></td>'+
-	'<td class="text-center"><input type="text" id="backCost_payMoney_'+arrNum[x]+'" class="form-control" name="backCost_payMoney_'+arrNum[x]+'"></td>'+
-	'<td class="text-center"><input type="button" value="删除" onclick="deleteRow(this)"></td>'+
-	'</tr>';
-	
-	var maxInputs    = arrNum.length; //maximum input boxes allowed
+
+	var maxInputs    = editNum.split(",").length; //maximum input boxes allowed
 	var backTbody  = $("#backTbody"); //Input boxes wrapper ID
 	var addButton    = $("#addBackUser"); //Add button ID
 	 //to keep track of text box added
@@ -543,10 +537,31 @@ function addBackUser(editName,editNum) {
 	{
 	    if(x < maxInputs) //max input box allowed
 	    {
+            var arrNum = editNum.split(",");
+            var arrName = editName.split(",");
+            var middle = "";
+            for(var i=0;i<arrNum.length;i++){
+                middle+='<option value="'+arrNum[i]+'">'+arrName[i]+'</option>';
+            }
+            var backName = '<select class="form-control" id="backName_'+y+'" name="backName">'+middle+'</select>';
+
+            var result = '<tr>'+
+                '<td class="text-center">'+backName+'</td>'+
+                '<td class="text-center"><input type="datetime-local" id="backTime_'+y+'" class="form-control" name="backTime"></td>'+
+                '<td class="text-center"><select class="form-control" id="backTrasportation_'+y+'" name="backTrasportation"><option value="1">飞机</option><option value="2">高铁</option><option value="3">汽车</option><option value="4">其他</option></select></td>'+
+                '<td class="text-center"><select id="backTrasportation_payMethod_'+y+'" class="form-control" name="backTrasportation_payMethod"><option value="1">公司</option><option value="2">个人</option></select></td>'+
+                '<td class="text-center"><input type="text" id="backTrasportation_payMoney_'+y+'" class="form-control" name="backTrasportation_payMoney"></td>'+
+                '<td class="text-center"><select id="backCost_payMethod_'+y+'" class="form-control" name="backCost_payMethod"><option value="1">公司</option><option value="2">个人</option></select></td>'+
+                '<td class="text-center"><input type="text" id="backCost_payMoney_'+y+'" class="form-control" name="backCost_payMoney"></td>'+
+                '<td class="text-center"><input type="button" value="删除" onclick="deleteRow(this)"></td>'+
+                '</tr>';
+
 	      //add input box
 	      $(backTbody).append(result);
-	      $("#backNumb").val(x);
 	      x++; //text box increment
+		  y++;
+	      $("#backNumb").val(x);
+
 	    }
 	return false;
 	});
@@ -557,6 +572,7 @@ function deleteRow(r){
 	var i=r.parentNode.parentNode.rowIndex;
 	document.getElementById('backTable').deleteRow(i);
 	x--;
+    $("#backNumb").val(x);
 }
 
 
