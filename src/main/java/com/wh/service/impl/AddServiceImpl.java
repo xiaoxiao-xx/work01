@@ -5,15 +5,15 @@ import com.wh.pojo.TravelInfoT;
 import com.wh.pojo.TravelUserT;
 import com.wh.pojo.UserT;
 import com.wh.service.AddService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
 public class AddServiceImpl implements AddService {
-	@Autowired
+	@Resource
 	private AddMapper addMapper;
 	@Override
 	@Transactional

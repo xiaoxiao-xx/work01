@@ -53,7 +53,6 @@ public class UpdateController {
 
 		Integer backNumb = Integer.parseInt(request.getParameter("backNumb"));
 		String backTravelNum = request.getParameter("backTravelNum");
-//		String backUserNum = request.getParameter("backUserNum");
 
 		//添加的人员信息
 		String[] backUserNum = request.getParameterValues("backName" );
@@ -67,6 +66,7 @@ public class UpdateController {
 		List<UserT> userList = new ArrayList<>();
 		for(int i=0;i<backNumb;i++){
 			TravelUserT travelUserT = new TravelUserT();
+			travelUserT.setTravelNum(backTravelNum);
 			travelUserT.setUserNum(backUserNum[i]);
 			travelUserT.setGmtBack(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(backTime[i].replace('T', ' ')));
 			travelUserT.setTrasportationBack(backTrasportation[i]);
@@ -80,13 +80,17 @@ public class UpdateController {
 			userT.setUserNum(backUserNum[i]);
 			userList.add(userT);
 		}
-//		String time = request.getParameter("time").replace('T', ' ');
-//		String purpose = request.getParameter("purpose");
-
 		Result result = new Result();
-		updateService.editBackTravel(travelUserList,userList);
 		result.setStatus(0);
 		result.setMessage("编辑成功~");
+		try{
+			updateService.editBackTravel(travelUserList,userList);
+		}catch (Exception e){
+			e.printStackTrace();
+			result.setStatus(1);
+			result.setMessage("添加失败~请稍后再试~");
+			return result;
+		}
 		return result;
 	}
 	

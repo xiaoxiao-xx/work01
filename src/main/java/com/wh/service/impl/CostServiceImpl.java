@@ -4,13 +4,14 @@ import com.wh.dao.CostMapper;
 import com.wh.pojo.Information;
 import com.wh.service.CostService;
 import com.wh.vo.Result;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 @Service
 public class CostServiceImpl implements CostService {
 
-	@Autowired
+	@Resource
 	private CostMapper costMapper;
 
 	@Override

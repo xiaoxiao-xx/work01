@@ -6,9 +6,10 @@ import com.wh.service.UserService;
 import com.wh.util.PageUtil;
 import com.wh.vo.Page;
 import com.wh.vo.Result;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +17,9 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-	@Autowired
+	@Resource
 	private PageUtil pageUtil;
-	@Autowired
+	@Resource
 	private UserMapper userMapper;
 	
 	public Result findUsersByPage(Page page) throws Exception {
@@ -106,10 +107,10 @@ public class UserServiceImpl implements UserService {
 			List<Information> a = new ArrayList<>();
 			List<String> b = new ArrayList<>();
 			for(int i=0;i<users.size();i++){
-				if(!b.contains(users.get(i).getTravelNum())){
+				if(!b.contains(users.get(i).getTravelNum())&&users.get(i).getGmtBack()==null){
 					b.add(users.get(i).getTravelNum());
 					a.add(users.get(i));
-				}else{
+				}else if(b.contains(users.get(i).getTravelNum())&&users.get(i).getGmtBack()==null){
 					for(int j=0;j<a.size();j++){
 						if(users.get(i).getTravelNum().equals(a.get(j).getTravelNum())){
 							a.get(j).setUserName(a.get(j).getUserName()+",</br>"+users.get(i).getUserName());
@@ -157,14 +158,17 @@ public class UserServiceImpl implements UserService {
 			List<Information> a = new ArrayList<>();
 			List<String> b = new ArrayList<>();
 			for(int i=0;i<users.size();i++){
-				if(!b.contains(users.get(i).getTravelNum())){
+				if(!b.contains(users.get(i).getTravelNum())&&users.get(i).getGmtBack()!=null){
 					b.add(users.get(i).getTravelNum());
+					users.get(i).setBackTimes(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(users.get(i).getGmtBack()));
 					a.add(users.get(i));
-				}else{
+				}else if(b.contains(users.get(i).getTravelNum())&&users.get(i).getGmtBack()!=null){
 					for(int j=0;j<a.size();j++){
 						if(users.get(i).getTravelNum().equals(a.get(j).getTravelNum())){
 							a.get(j).setUserName(a.get(j).getUserName()+",</br>"+users.get(i).getUserName());
-							a.get(j).setUserNum(a.get(j).getUserNum()+",</br>"+users.get(i).getUserNum());	
+							a.get(j).setUserNum(a.get(j).getUserNum()+",</br>"+users.get(i).getUserNum());
+							a.get(j).setBackTimes(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(a.get(j).getGmtBack())+","+new SimpleDateFormat("yyyy-MM-dd HH:mm").format(users.get(i).getGmtBack()));
+//							a.get(j).setGmtBack(a.get(j).getGmtBack()+","+users.get(i).getUserName());
 						}
 					}
 				}

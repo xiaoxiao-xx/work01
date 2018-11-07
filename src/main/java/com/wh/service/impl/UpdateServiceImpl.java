@@ -53,13 +53,14 @@ public class UpdateServiceImpl implements UpdateService {
 	}
 
 	@Override
+	@Transactional
 	public void editBackTravel(List<TravelUserT> travelUserList, List<UserT> userList) {
-//		for(int i=0;i<travelUserList.size();i++){
-//			updateMapper.updateTravelUser(travelUserList.get(i));
-//		}
-//		for(int i=0;i<userList.size();i++){
-//			updateMapper.updateUser(userList.get(i));
-//		}
+		for(int i=0;i<travelUserList.size();i++){
+			updateMapper.updateTravelUser(travelUserList.get(i));
+		}
+		for(int i=0;i<userList.size();i++){
+			updateMapper.updateUser(userList.get(i));
+		}
 	}
 
 }

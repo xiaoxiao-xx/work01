@@ -13,7 +13,7 @@ public interface UpdateMapper {
 
 	void updateUserT(String userNum);
 
-//	void updateTravelUser(TravelUserT travelUserT);
-//
-//	void updateUser(UserT userT);
+	void updateTravelUser(TravelUserT travelUserT);
+
+	void updateUser(UserT userT);
 }

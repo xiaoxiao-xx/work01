@@ -31,50 +31,54 @@ public class AddController {
 		String destination = request.getParameter("destination");
 		String travel_number = request.getParameter("travel_number");
 		String time = request.getParameter("time").replace('T', ' ');
-//		String time = request.getParameter("time");
 		String purpose = request.getParameter("purpose");
 		travelInfoT.setTravelNum(travel_number);
 		travelInfoT.setDestination(destination);
 		travelInfoT.setCause(purpose);
 		travelInfoT.setGmtCreate(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(time));
-		System.err.println(travelInfoT);
-		
+		System.out.println(travelInfoT);
+		System.out.println(number);
+		String[] addNames = request.getParameterValues("addName");
+		String[] addJobNumbers = request.getParameterValues("addJobNumber");
+		String[] addTransportations = request.getParameterValues("addTransportation");
+		String[] addPayMethods = request.getParameterValues("addPayMethod");
+		String[] addMonies = request.getParameterValues("addMoney");
 		//差旅人员表
+
 		List<TravelUserT> listTravelUserT = new ArrayList<>();
-		for(int i=1;i<=number;i++){
-			
+		for(int i=0;i<number;i++){
 			TravelUserT travelUserT = new TravelUserT();
 			travelUserT.setTravelNum(travel_number);
-			travelUserT.setUserName(request.getParameter("name_"+i));
-			travelUserT.setUserNum(request.getParameter("job_number_"+i));
+			travelUserT.setUserName(addNames[i]);
+			travelUserT.setUserNum(addJobNumbers[i]);
 			travelUserT.setGmtGo(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(time));
-			travelUserT.setTrasportationGo(request.getParameter("transportation_"+i));
-			travelUserT.setCostGo(BigDecimal.valueOf(Double.parseDouble(request.getParameter("money_"+i))));
-			travelUserT.setBookingTypeGo(request.getParameter("methods_"+i));
+			travelUserT.setTrasportationGo(addTransportations[i]);
+			travelUserT.setCostGo(new BigDecimal(addMonies[i]));
+			travelUserT.setBookingTypeGo(addPayMethods[i]);
 			listTravelUserT.add(travelUserT);
 		}
-		System.err.println(listTravelUserT);
-		
+		System.out.println(listTravelUserT);
 		//员工表
 		List<UserT> listUserT = new ArrayList<>();
-		for(int i=1;i<=number;i++){
+		for(int i=0;i<number;i++){
 			UserT usert = new UserT();
-			usert.setUserNum(request.getParameter("job_number_"+i));
-			usert.setUserName(request.getParameter("name_"+i));
+			usert.setUserNum(addJobNumbers[i]);
+			usert.setUserName(addNames[i]);
 			usert.setState("1");
 			listUserT.add(usert);
 		}
+		System.out.println(listUserT);
 		Result result = new Result();
 		result.setStatus(0);
 		result.setMessage("添加成功~");
 		try {
 			addService.addTravelUsers(travelInfoT,listTravelUserT,listUserT);
 		} catch (Exception e) {
+			e.printStackTrace();
 			result.setStatus(1);
 			result.setMessage("添加失败~请稍后再试~");
 			return result;
 		}
-
 		return result;
 	}
 

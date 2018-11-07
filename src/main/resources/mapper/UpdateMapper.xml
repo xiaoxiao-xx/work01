@@ -24,22 +24,31 @@
 		WHERE
 			user_num = #{userNum}
 	</update>
+	<!--stay_days = #{stayDays}-->
+	<update id="updateTravelUser" parameterType="com.wh.pojo.TravelUserT">
+		UPDATE
+			travel_user_t
+		SET
+			gmt_back = #{gmtBack},
+			trasportation_back = #{trasportationBack},
+			booking_type_back = #{bookingTypeBack},
+			cost_back = #{costBack},
+			stay_booking_type = #{stayBookingType},
+			cos_stay = #{cosStay}
 
-	<!--<update id="updateTravelUser" parameterType="com.wh.pojo.TravelUserT">-->
-		<!--UPDATE-->
-			<!--travel_user_t-->
-		<!--SET-->
-			<!--gmt_back = #{gmtBack},-->
-			<!--trasportation_back = #{trasportationBack},-->
-			<!--booking_type_back = #{bookingTypeBack},-->
-			<!--cost_back = #{costBack},-->
-			<!--stay_booking_type = #{stayBookingType},-->
-			<!--cos_stay = #{cosStay}-->
-			<!---->
-			<!--stay_days = #{stayDays}-->
-		<!--WHERE-->
-			<!--travel_num = #{travelNum}-->
-	<!--</update>-->
+
+		WHERE
+			travel_num = #{travelNum} and user_num = #{userNum}
+	</update>
+
+	<update id="updateUser" parameterType="com.wh.pojo.UserT">
+		UPDATE
+			user_t
+		SET
+			state = '0'
+		WHERE
+			user_num = #{userNum}
+	</update>
 	
 </mapper>
 
