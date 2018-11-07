@@ -1,9 +1,11 @@
 package com.wh.dao;
 
 import com.wh.pojo.Business;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-
+import java.util.Map;
+@Mapper
 public interface TravelMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -18,5 +20,8 @@ public interface TravelMapper {
     int updateByPrimaryKey(Business record);
     int  select(String filename);
     void delete(String filename);
-    List<Business> selectAll();
+
+    int countGetAll();
+
+    List<Business> selectByPage(Map<String, Object> map);
 }

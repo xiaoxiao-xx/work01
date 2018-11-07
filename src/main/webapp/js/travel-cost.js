@@ -26,7 +26,6 @@ $(function () {
 });
 
 function getPage() {
-    console.log(keyword);
     if ('none' != keyword) {
         keyword = $("#test1").val();
     }
@@ -70,6 +69,10 @@ function getPage() {
     });
 };
 
+function formatId(id, pn) {
+    return (pn-1)*10+parseInt(id);
+}
+
 //显示分页记录
 function showpage(pn) {
     var data = {
@@ -84,8 +87,9 @@ function showpage(pn) {
             if (l.cause == undefined) {
                 l.cause = " "
             }
+            var id = formatId(l.id,pn);
             $("#ctable").append("<tr>\n" +
-                "                        <td>" + l.id + "</td>\n" +
+                "                        <td>" + id + "</td>\n" +
                 "                        <td>" + l.userName + "</td>\n" +
                 "                        <td>" + l.department + "</td>\n" +
                 "                        <td>" + costDep + "</td>\n" +
