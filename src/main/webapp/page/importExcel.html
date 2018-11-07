@@ -1,62 +1,20 @@
-
 <head>
     <script src="../js/common/jquery-1.11.3.js"></script>
     <script src="../js/importExcel.js"></script>
     <script src="../js/common/jquery.dataTables.min.js"></script>
-    <link href="../css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="../css/jquery.dataTables.min.css" rel="stylesheet"/>
     <script type="text/javascript">
+        var page = 0;                      //第一页
+        var pageSize = 10;                 //默认十条数据
+        var pageCount = 0;                 //总页数
+        var currData;
         $(document).ready(function () {
-
-            var page = 0;                      //第一页
-            var pageSize = 10;                 //默认十条数据
-            var pageCount = 0;                 //总页数
-            var currData;                      //当前页数据
-            //渲染数据函数
-            function pageRender( currData ){
-                $("#ctable").html("");
-                    $.each(currData, function (n, l) {
-                        $("#ctable").append("<tr>\n" +
-                            "                            <td>" + (page*10+n + 1) + "</td>\n" +
-                            "                        <td>" + l.name + "</td>\n" +
-                            "                        <td>" + l.department + "</td>\n" +
-                            "                        <td>" + l.departmentcost + "</td>\n" +
-                            "                        <td>" + l.stafflevel + "</td>\n" +
-                            "                        <td title=" + l.purpose + ">" + l.purpose + "</td>\n" +
-                            "                        <td>" + l.trip + "</td>\n" +
-                            "                        <td>" + l.startdate + "</td>\n" +
-                            "                        <td>" + l.goff + "</td>\n" +
-                            "                        <td>" + l.enddate + "</td>\n" +
-                            "                        <td>" + l.endff + "</td>\n" +
-                            "                        <td>" + l.days + "</td>\n" +
-                            "                        <td>" + l.companyorder + "</td>\n" +
-                            "                        <td>" + l.otherorder + "</td>\n" +
-                            "                        <td>" + l.travelstandard + "</td>\n" +
-                            "                        <td>" + l.livestandard + "</td>\n" +
-                            "                        <td>" + l.companyset + "</td>\n" +
-                            "                        <td>" + l.personalset + "</td>\n" +
-                            "                        <td>" + l.trafficperday + "</td>\n" +
-                            "                        <td>" + l.trafficreality + "</td>\n" +
-                            "                        <td>" + l.trafficreal + "</td>\n" +
-                            "                        <td>" + l.liveperday + "</td>\n" +
-                            "                        <td>" + l.livereality + "</td>\n" +
-                            "                        <td>" + l.livereal + "</td>\n" +
-                            "                        <td>" + l.subsidy + "</td>\n" +
-                            "                        <td>" + l.subplan + "</td>\n" +
-                            "                        <td>" + l.remarks + "</td>\n" +
-                            "                        <td></td>\n" +
-                            "                    </tr>");
-
-                    })
-            }
-
-
-            //$('#example').DataTable(); 
+            //$('#example').DataTable();
             $.getJSON('/getAll', function (re) {
-
                 var data = re;        //data是总数据
                 pageCount = Math.ceil(data.length / pageSize)      //总数除每页数量向上取整拿到总页数
-                currData=data.slice(0,pageSize)     //默认首页
-                pageRender(currData)        //默认渲染首页
+                currData = data.slice(0, pageSize)     //默认首页
+                pageRender(currData);        //默认渲染首页
                 // 分页=========================================
                 var pagination = ` <li>
                                 <a href="javascript:;" aria-label="Previous" data-page='0'>
@@ -76,16 +34,54 @@
                 // 分页==========================================
                 $('.pagination').on('click', 'a', function (e) {
                     page = $(this).attr('data-page') - 0;//拿到所选页
-                    currData = data.slice(page*10,page*10+pageSize)   //所选页数据
+                    currData = data.slice(page * 10, page * 10 + pageSize)   //所选页数据
                     pageRender(currData)
-                    
-                })
 
+                })
 
 
             });
 
         });
+
+        //渲染数据函数
+        function pageRender(currData) {
+            console.log(111);
+            $("#ctable").html("");
+            $.each(currData, function (n, l) {
+                $("#ctable").append("<tr>\n" +
+                    "                            <td>" + (page * 10 + n + 1) + "</td>\n" +
+                    "                        <td>" + l.name + "</td>\n" +
+                    "                        <td>" + l.department + "</td>\n" +
+                    "                        <td>" + l.departmentcost + "</td>\n" +
+                    "                        <td>" + l.stafflevel + "</td>\n" +
+                    "                        <td title=" + l.purpose + ">" + l.purpose + "</td>\n" +
+                    "                        <td>" + l.trip + "</td>\n" +
+                    "                        <td>" + l.startdate + "</td>\n" +
+                    "                        <td>" + l.goff + "</td>\n" +
+                    "                        <td>" + l.enddate + "</td>\n" +
+                    "                        <td>" + l.endff + "</td>\n" +
+                    "                        <td>" + l.days + "</td>\n" +
+                    "                        <td>" + l.companyorder + "</td>\n" +
+                    "                        <td>" + l.otherorder + "</td>\n" +
+                    "                        <td>" + l.travelstandard + "</td>\n" +
+                    "                        <td>" + l.livestandard + "</td>\n" +
+                    "                        <td>" + l.companyset + "</td>\n" +
+                    "                        <td>" + l.personalset + "</td>\n" +
+                    "                        <td>" + l.trafficperday + "</td>\n" +
+                    "                        <td>" + l.trafficreality + "</td>\n" +
+                    "                        <td>" + l.trafficreal + "</td>\n" +
+                    "                        <td>" + l.liveperday + "</td>\n" +
+                    "                        <td>" + l.livereality + "</td>\n" +
+                    "                        <td>" + l.livereal + "</td>\n" +
+                    "                        <td>" + l.subsidy + "</td>\n" +
+                    "                        <td>" + l.subplan + "</td>\n" +
+                    "                        <td>" + l.remarks + "</td>\n" +
+                    "                        <td></td>\n" +
+                    "                    </tr>");
+
+            })
+        }
     </script>
 </head>
 <style>
@@ -109,92 +105,93 @@
         top: 69px;
         right: 4px;
     }
-     tr th {
+
+    tr th {
         background-color: #337ab7;
         color: white;
     }
-    
-  /*  .div-right{float:right;margin-top:40px;position:relative; left:-200px;} */
+
+    /*  .div-right{float:right;margin-top:40px;position:relative; left:-200px;} */
 </style>
 
 <body>
-    <!-- <div class="div-right">
-    <input type="text" id="test1" placeholder="输入姓名查询" class="form-control" style="width: 168px" readonly >
-    <button class="btn btn-primary" style="margin-right: 870px; margin-top:41px;margin-right: 180px;" onclick="timechange()">查询</button>
+<!-- <div class="div-right">
+<input type="text" id="test1" placeholder="输入姓名查询" class="form-control" style="width: 168px" readonly >
+<button class="btn btn-primary" style="margin-right: 870px; margin-top:41px;margin-right: 180px;" onclick="timechange()">查询</button>
 </div>  -->
-    <!-- 导出 -->
-    <div class="container" style="margin-left: -45px">
-        <h4>选择Excel1文件</h4>
-        <form class="form-inline" id="import">
-            <div class="form-group">
-                <input class="form-control" type="file" name="file" id="upfile" />
-                <input class="btn btn-primary" type="submit" value="上传" onclick="importExp()" id="impotExcel" />
-                <span><strong>&nbsp;&nbsp;&nbsp;格式：.xlsx</strong></span>
-            </div>
-        </form>
+<!-- 导出 -->
+<div class="container" style="margin-left: -45px">
+    <h4>选择Excel1文件</h4>
+    <form class="form-inline" id="import">
+        <div class="form-group">
+            <input class="form-control" type="file" name="file" id="upfile"/>
+            <input class="btn btn-primary" type="submit" value="上传" onclick="importExp()" id="impotExcel"/>
+            <span><strong>&nbsp;&nbsp;&nbsp;格式：.xlsx</strong></span>
+        </div>
+    </form>
 
-        <div role="tabpanel">
-            <!-- 页签面板-->
-            <div class="tab-content">
-                <!-- 用户信息 -->
-                <div role="tabpanel" class="tab-pane active" id="userPanel">
-                    <h2 align="center" id="title"></h2>
-                    <table id="example" class="table table-bordered" style="width: 3000px">
-                        <thead>
-                        <tr>
-                            <th rowspan="2">序号</th>
-                            <th rowspan="2">姓名</th>
-                            <th rowspan="2">部门</th>
-                            <th rowspan="2">费用所属部门</th>
-                            <th rowspan="2">人员级别</th>
-                            <th rowspan="2">出差目的</th>
-                            <th rowspan="2">出差行程</th>
-                            <th rowspan="2">开始日期</th>
-                            <th rowspan="2">出发时间点</th>
-                            <th rowspan="2">结束日期</th>
-                            <th rowspan="2">结束时间点</th>
-                            <th rowspan="2">天数</th>
-                            <th colspan="2">飞机/火车/汽车</th>
-                            <th colspan="4">住宿报销</th>
-                            <th colspan="3">交通补贴</th>
-                            <th colspan="3">生活补贴</th>
-                            <th rowspan="2">工资发放补贴</th>
-                            <th rowspan="2">个人小计</th>
-                            <th rowspan="2">备注</th>
-                        </tr>
-                        <tr>
-                            <th>公司订购</th>
-                            <th>其他订购</th>
-                            <th>标准/天</th>
-                            <th>住宿标准</th>
-                            <th>公司订</th>
-                            <th>个人订</th>
-                            <th>标准/天</th>
-                            <th>补贴标准</th>
-                            <th>实报</th>
-                            <th>标准/天</th>
-                            <th>补贴标准</th>
-                            <th>实报</th>
-                        </tr>
-                        </thead>
-                        <tbody id="ctable">
-                        </tbody>
+    <div role="tabpanel">
+        <!-- 页签面板-->
+        <div class="tab-content">
+            <!-- 用户信息 -->
+            <div role="tabpanel" class="tab-pane active" id="userPanel">
+                <h2 align="center" id="title"></h2>
+                <table id="example" class="table table-bordered" style="width: 3000px">
+                    <thead>
+                    <tr>
+                        <th rowspan="2">序号</th>
+                        <th rowspan="2">姓名</th>
+                        <th rowspan="2">部门</th>
+                        <th rowspan="2">费用所属部门</th>
+                        <th rowspan="2">人员级别</th>
+                        <th rowspan="2">出差目的</th>
+                        <th rowspan="2">出差行程</th>
+                        <th rowspan="2">开始日期</th>
+                        <th rowspan="2">出发时间点</th>
+                        <th rowspan="2">结束日期</th>
+                        <th rowspan="2">结束时间点</th>
+                        <th rowspan="2">天数</th>
+                        <th colspan="2">飞机/火车/汽车</th>
+                        <th colspan="4">住宿报销</th>
+                        <th colspan="3">交通补贴</th>
+                        <th colspan="3">生活补贴</th>
+                        <th rowspan="2">工资发放补贴</th>
+                        <th rowspan="2">个人小计</th>
+                        <th rowspan="2">备注</th>
+                    </tr>
+                    <tr>
+                        <th>公司订购</th>
+                        <th>其他订购</th>
+                        <th>标准/天</th>
+                        <th>住宿标准</th>
+                        <th>公司订</th>
+                        <th>个人订</th>
+                        <th>标准/天</th>
+                        <th>补贴标准</th>
+                        <th>实报</th>
+                        <th>标准/天</th>
+                        <th>补贴标准</th>
+                        <th>实报</th>
+                    </tr>
+                    </thead>
+                    <tbody id="ctable">
+                    </tbody>
 
-                    </table>
-                    <!-- end -->
-                    <!-- 分页 -->
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination">
+                </table>
+                <!-- end -->
+                <!-- 分页 -->
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
 
 
-                        </ul>
-                    </nav>
-                    <div id="kkpager">
-                    </div>
+                    </ul>
+                </nav>
+                <div id="kkpager">
                 </div>
             </div>
         </div>
     </div>
+</div>
 </body>
 
 </html>

@@ -20,6 +20,7 @@ function login_form(){
 		dataType:"json",
 		success:function(result){
 			//result是服务端返回的数据
+			console.log(result.status);
 			if(result.status==0){
 				window.location.href="index.html";
 				if(remember){
