@@ -1,25 +1,10 @@
 // onload
 $(function() {
-	//加载页面顶部工具栏
-	load_header();
-	//加载左侧导航栏
-	load_nav();
 	//加载主页
 	load_main();
+    //加载左侧
+    register_nav();
 });
-
-// 加载页面顶部工具栏
-function load_header() {
-	$('#header').load('page/header.html');
-}
-
-
-// 加载左侧导航栏
-function load_nav() {
-	$('#siderbar').load('page/nav.html', function(){
-		register_nav();
-	});
-}
 
 // 加载主页
 function load_main() {
@@ -46,8 +31,5 @@ function register_nav() {
 function load_script($li) {
 	var target = $li.children("a").attr("name");
 	var name = target.substring(target.lastIndexOf("/")+1, target.lastIndexOf(".html"));
-	if("user"==name){
-		$.getScript("js/common/ajaxfileupload.js");
-	}
 	$.getScript("js/" + name + ".js");
 }

@@ -1,4 +1,3 @@
-//@ sourceURL=role.js
 var fieldCount=0;
 var timestamp = (new Date()).valueOf();
 //分割-------------------------------
