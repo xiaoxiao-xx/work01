@@ -37,5 +37,15 @@ public class GetAllController {
 		return getAllService.listTravel(request);
 	}
 
+/**
+ *
+ */
+@RequestMapping("/selectExcel.ajax")
+@ResponseBody
+public String selectExcel(HttpServletRequest request){
+
+
+		return getAllService.selectExcel(request);
+}
 
 }
