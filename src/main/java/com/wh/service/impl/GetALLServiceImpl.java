@@ -54,4 +54,18 @@ public class GetALLServiceImpl implements GetAllService {
         }
         return GSON.toJson(list);
     }
+
+    /**
+     * 查询
+     * @param request
+     * @return
+     */
+    @Override
+    public String selectExcel(HttpServletRequest request) {
+        String value=request.getParameter("value");
+        value="%"+value+"%";
+        List<Business> list = travelMapper.selectExcel(value);
+        return GSON.toJson(list);
+
+    }
 }
