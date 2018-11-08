@@ -24,8 +24,7 @@ public class Information {
 	
 	private String costPayMethod;
 	private String costPayMoney;
-
-	private String backTimes;
+	
 	
 	public String getStayDays() {
 		return stayDays;
@@ -144,17 +143,11 @@ public class Information {
 				+ gmtBack + ", stayDays=" + stayDays + ", Persons=" + Persons + ", backMethod=" + backMethod
 				+ ", payMethods=" + payMethods + ", payMoney=" + payMoney + ", cityName=" + cityName + ", cityCode="
 				+ cityCode + ", standard=" + standard + ", costPayMethod=" + costPayMethod + ", costPayMoney="
-				+ costPayMoney + ", backTimes=" + backTimes + "]";
+				+ costPayMoney + "]";
 	}
-
-
-	public void setBackTimes(String backTimes) {
-		this.backTimes = backTimes;
-	}
-
-	public String getBackTimes() {
-		return backTimes;
-	}
+	
+	
+	
 }
 
 

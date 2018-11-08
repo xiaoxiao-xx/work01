@@ -3,17 +3,9 @@ package com.wh.service;
 import com.wh.pojo.TravelInfoT;
 import com.wh.pojo.TravelUserT;
 import com.wh.pojo.UserT;
-import com.wh.vo.Page;
-import com.wh.vo.Result;
 
 import java.util.List;
 
-public interface TravelUserService {
-
+public interface AddService {
 	void addTravelUsers(TravelInfoT travelInfoT, List<TravelUserT> listTravelUserT, List<UserT> listUserT);
-
-	void editBackTravel(List<TravelUserT> travelUserList, List<UserT> userList);
-
-	Result findUsersByPage(Page page) throws Exception;
-
 }

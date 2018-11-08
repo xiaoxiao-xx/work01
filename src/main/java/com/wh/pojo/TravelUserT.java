@@ -143,24 +143,4 @@ public class TravelUserT {
     public void setStayBookingType(String stayBookingType) {
         this.stayBookingType = stayBookingType;
     }
-
-    @Override
-    public String toString() {
-        return "TravelUserT{" +
-                "id=" + id +
-                ", travelNum='" + travelNum + '\'' +
-                ", userNum='" + userNum + '\'' +
-                ", userName='" + userName + '\'' +
-                ", gmtGo=" + gmtGo +
-                ", gmtBack=" + gmtBack +
-                ", trasportationBack='" + trasportationBack + '\'' +
-                ", trasportationGo='" + trasportationGo + '\'' +
-                ", costGo=" + costGo +
-                ", costBack=" + costBack +
-                ", cosStay=" + cosStay +
-                ", bookingTypeBack='" + bookingTypeBack + '\'' +
-                ", bookingTypeGo='" + bookingTypeGo + '\'' +
-                ", stayBookingType='" + stayBookingType + '\'' +
-                '}';
-    }
 }
