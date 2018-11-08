@@ -24,4 +24,6 @@ public interface TravelMapper {
     int countGetAll();
 
     List<Business> selectByPage(Map<String, Object> map);
+
+    List<Business> selectExcel(String value);
 }
