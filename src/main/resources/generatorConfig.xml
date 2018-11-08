@@ -29,7 +29,7 @@
 		<!-- 这一部分写你要把哪张表生成Bean，参数名浅显易懂，下面可以写多个table -->
 		<!-- 后面那一大串false的意思是是否生成增删改查的例子，一般来说可以生成 -->
 
-		<table tableName="user_t" domainObjectName="UserT"
+		<table tableName="travel_user_t" domainObjectName="TravelUserT"
 			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
 			selectByExampleQueryId="false"></table>

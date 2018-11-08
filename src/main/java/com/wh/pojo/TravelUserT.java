@@ -32,6 +32,8 @@ public class TravelUserT {
 
     private String stayBookingType;
 
+    private String stayDays;
+
     public Long getId() {
         return id;
     }
@@ -144,23 +146,11 @@ public class TravelUserT {
         this.stayBookingType = stayBookingType;
     }
 
-    @Override
-    public String toString() {
-        return "TravelUserT{" +
-                "id=" + id +
-                ", travelNum='" + travelNum + '\'' +
-                ", userNum='" + userNum + '\'' +
-                ", userName='" + userName + '\'' +
-                ", gmtGo=" + gmtGo +
-                ", gmtBack=" + gmtBack +
-                ", trasportationBack='" + trasportationBack + '\'' +
-                ", trasportationGo='" + trasportationGo + '\'' +
-                ", costGo=" + costGo +
-                ", costBack=" + costBack +
-                ", cosStay=" + cosStay +
-                ", bookingTypeBack='" + bookingTypeBack + '\'' +
-                ", bookingTypeGo='" + bookingTypeGo + '\'' +
-                ", stayBookingType='" + stayBookingType + '\'' +
-                '}';
+    public String getStayDays() {
+        return stayDays;
+    }
+
+    public void setStayDays(String stayDays) {
+        this.stayDays = stayDays;
     }
 }

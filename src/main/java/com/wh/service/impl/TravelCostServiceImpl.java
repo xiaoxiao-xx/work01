@@ -23,8 +23,8 @@ import java.util.*;
 @Service
 public class TravelCostServiceImpl implements TravelCostService {
     private static final Integer NUM_OF_ONE_PAGE = 10;
-    private static final String TRANSPORTATION_TYPE_COMP = "0";
-    private static final String TRANSPORTATION_TYPE_OTHER = "1";
+    private static final String TRANSPORTATION_TYPE_COMP = "1";
+    private static final String TRANSPORTATION_TYPE_OTHER = "2";
     private static final String STAY_TYPE_COMP = "0";
     private static final String TITEL_START = "微核及中粒";
     private static final String TITEL_END = "差旅费明细表";

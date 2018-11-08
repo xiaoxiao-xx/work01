@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wh.dao.TravelUserMapper">
+
+    <resultMap type="com.wh.pojo.Information" id="informationMap">
+        <result property="state" column="state" jdbcType="VARCHAR"/>
+        <result property="userNum" column="user_num" jdbcType="VARCHAR"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="destination" column="destination" jdbcType="VARCHAR"/>
+        <result property="gmtGo" column="gmt_go" jdbcType="TIMESTAMP"/>
+        <result property="gmtBack" column="gmt_back" jdbcType="TIMESTAMP"/>
+        <result property="travelNum" column="travel_num" jdbcType="VARCHAR"/>
+        <result property="stayDays" column="stay_days" jdbcType="VARCHAR"/>
+    </resultMap>
+	<resultMap id="BaseResultMap" type="com.wh.pojo.TravelUserT">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="travel_num" jdbcType="VARCHAR" property="travelNum" />
+		<result column="user_num" jdbcType="VARCHAR" property="userNum" />
+		<result column="user_name" jdbcType="VARCHAR" property="userName" />
+		<result column="gmt_go" jdbcType="TIMESTAMP" property="gmtGo" />
+		<result column="gmt_back" jdbcType="TIMESTAMP" property="gmtBack" />
+		<result column="trasportation_back" jdbcType="VARCHAR" property="trasportationBack" />
+		<result column="trasportation_go" jdbcType="VARCHAR" property="trasportationGo" />
+		<result column="cost_go" jdbcType="DECIMAL" property="costGo" />
+		<result column="cost_back" jdbcType="DECIMAL" property="costBack" />
+		<result column="cos_stay" jdbcType="DECIMAL" property="cosStay" />
+		<result column="booking_type_back" jdbcType="VARCHAR" property="bookingTypeBack" />
+		<result column="booking_type_go" jdbcType="VARCHAR" property="bookingTypeGo" />
+		<result column="stay_booking_type" jdbcType="VARCHAR" property="stayBookingType" />
+		<result column="stay_days" jdbcType="VARCHAR" property="stayDays" />
+	</resultMap>
+
+    <!--添加出差人员-->
+    <insert id="addTravelInfoT" parameterType="com.wh.pojo.TravelInfoT">
+		INSERT INTO `travel_info_t`
+				(travel_num,origin,destination,cause,gmt_create)
+				VALUES
+				(#{travelNum},#{origin}, #{destination}, #{cause}, #{gmtCreate});
+	</insert>
+    <insert id="addTravelUsers" parameterType="java.util.List" useGeneratedKeys="false">
+        INSERT INTO `travel_user_t`
+        (travel_num,user_num,user_name,gmt_go,trasportation_go,cost_go,booking_type_go)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.travelNum},
+            #{item.userNum},
+            #{item.userName},
+            #{item.gmtGo},
+            #{item.trasportationGo},
+            #{item.costGo},
+            #{item.bookingTypeGo}
+            )
+        </foreach>
+    </insert>
+    <select id="selectUser" parameterType="com.wh.pojo.UserT" resultType="java.lang.String">
+		select state from user_t where user_num = #{userNum}
+	</select>
+    <update id="updateState" parameterType="com.wh.pojo.UserT">
+		update user_t set state = #{state} where user_num = #{userNum}
+	</update>
+    <insert id="addUser" parameterType="com.wh.pojo.UserT">
+		insert into user_t (user_num,user_name,state) values(#{userNum},#{userName},#{state})
+	</insert>
+    <!--添加出差人员结束-->
+
+    <!--编辑返回人员信息-->
+    <update id="updateTravelUserT" parameterType="com.wh.pojo.Information">
+		UPDATE
+			travel_user_t
+		SET
+			gmt_back = #{gmtBack},
+			trasportation_back = #{backMethod},
+			cost_back = #{payMoney},
+			booking_type_back = #{payMethods}
+			stay_days = #{stayDays}
+		WHERE
+			travel_num = #{travelNum}
+	</update>
+    <update id="updateUserT" parameterType="java.lang.String">
+		UPDATE
+			user_t
+		SET
+			state = '0'
+		WHERE
+			user_num = #{userNum}
+	</update>
+    <update id="updateTravelUser" parameterType="com.wh.pojo.TravelUserT">
+		UPDATE
+			travel_user_t
+		SET
+			gmt_back = #{gmtBack},
+			trasportation_back = #{trasportationBack},
+			booking_type_back = #{bookingTypeBack},
+			cost_back = #{costBack},
+			stay_booking_type = #{stayBookingType},
+			cos_stay = #{cosStay},
+			stay_days = #{stayDays}
+		WHERE
+			travel_num = #{travelNum} and user_num = #{userNum}
+	</update>
+    <update id="updateUser" parameterType="com.wh.pojo.UserT">
+		UPDATE
+			user_t
+		SET
+			state = '0'
+		WHERE
+			user_num = #{userNum}
+	</update>
+    <!--编辑返回人员信息-->
+
+    <!-- 查询出差人员信息 -->
+    <!-- 用户的分页+模糊(全部数据) -->
+    <select id="getCount"
+            parameterType="com.wh.vo.Page"
+            resultType="java.lang.Integer">
+	    SELECT
+			count(*) as geshu
+		FROM(
+			SELECT
+				COUNT(*)
+			FROM
+				travel_user_t
+			where user_name like #{userKeyword}
+			GROUP BY travel_num) n
+	</select>
+    <select id="getUsers"
+            parameterType="com.wh.vo.Page"
+            resultMap="informationMap">
+	       SELECT
+				travel_info_t.cause,travel_user_t.travel_num,user_t.state,travel_user_t.user_num,travel_user_t.user_name,travel_user_t.gmt_go,travel_user_t.gmt_back,travel_info_t.destination
+			FROM
+				travel_info_t
+			INNER JOIN travel_user_t ON travel_info_t.travel_num = travel_user_t.travel_num
+			INNER JOIN user_t ON travel_user_t.user_num = user_t.user_num
+			INNER JOIN
+					(select travel_user_t.travel_num as num from travel_user_t
+					where travel_user_t.user_name like #{userKeyword}
+					group by travel_user_t.travel_num
+					LIMIT #{begin},#{pageSize})n
+				ON n.num = travel_user_t.travel_num
+	</select>
+
+    <!-- 分页+模糊(指定角色名称) -->
+    <select id="getCountByGo"
+            parameterType="com.wh.vo.Page"
+            resultType="java.lang.Integer">
+			SELECT
+				count(*) as geshu
+			FROM(
+				SELECT
+					COUNT(*)
+				FROM
+				travel_user_t
+				where travel_user_t.gmt_back is null and  travel_user_t.user_name like #{userKeyword}
+				GROUP BY travel_user_t.travel_num) n
+	</select>
+    <select id="getUsersByGo"
+            parameterType="com.wh.vo.Page"
+            resultMap="informationMap">
+			SELECT
+				travel_info_t.cause,travel_user_t.travel_num,user_t.state,travel_user_t.user_num,travel_user_t.user_name,travel_user_t.gmt_go,travel_user_t.gmt_back,travel_info_t.destination
+			FROM
+				travel_info_t
+			INNER JOIN travel_user_t ON travel_info_t.travel_num = travel_user_t.travel_num
+			INNER JOIN
+				user_t
+			ON user_t.user_num = travel_user_t.user_num
+			INNER JOIN
+				(select travel_user_t.travel_num as num from travel_user_t
+				where travel_user_t.gmt_back is null and travel_user_t.user_name like #{userKeyword}
+				group by travel_user_t.travel_num
+				LIMIT #{begin},#{pageSize})n
+			ON n.num = travel_user_t.travel_num
+	</select>
+
+    <!-- 分页+模糊(指定角色名称) -->
+    <select id="getCountByBack"
+            parameterType="com.wh.vo.Page"
+            resultType="java.lang.Integer">
+			SELECT
+				count(*) as geshu
+			FROM(
+				SELECT
+					COUNT(*)
+				FROM
+				travel_user_t
+				where travel_user_t.gmt_back is not null and  travel_user_t.user_name like #{userKeyword}
+				GROUP BY travel_user_t.travel_num) n
+	</select>
+
+    <select id="getUsersByBack"
+            parameterType="com.wh.vo.Page"
+            resultMap="informationMap">
+	        SELECT
+				travel_info_t.cause,travel_user_t.travel_num,user_t.state,travel_user_t.user_num,travel_user_t.user_name,travel_user_t.gmt_go,travel_user_t.gmt_back,travel_info_t.destination
+			FROM
+				travel_info_t
+			INNER JOIN travel_user_t ON travel_info_t.travel_num = travel_user_t.travel_num
+			INNER JOIN
+				user_t
+			ON user_t.user_num = travel_user_t.user_num
+			INNER JOIN
+				(select travel_user_t.travel_num as num from travel_user_t
+				where travel_user_t.gmt_back is not null and travel_user_t.user_name like #{userKeyword}
+				group by travel_user_t.travel_num
+				LIMIT #{begin},#{pageSize})n
+			ON n.num = travel_user_t.travel_num
+	</select>
+    <!-- 查询出差人员信息结束 -->
+
+    <select id="getBackedTravelUserInfo" resultMap="BaseResultMap">
+		SELECT
+		travel_user_t.user_num,
+		travel_user_t.user_name,
+		travel_user_t.gmt_back,
+		travel_user_t.trasportation_back,
+		travel_user_t.cost_back,
+		travel_user_t.cos_stay,
+		travel_user_t.stay_days,
+		travel_user_t.booking_type_back,
+		travel_user_t.stay_booking_type
+		FROM
+		travel_user_t
+		WHERE travel_num= #{travelNum,jdbcType=VARCHAR} and gmt_back is not NULL
+	</select>
+</mapper>
