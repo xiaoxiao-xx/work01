@@ -7,4 +7,5 @@ public interface GetAllService {
 
 	String listTravel(HttpServletRequest request);
 
+	String selectExcel(HttpServletRequest request);
 }
