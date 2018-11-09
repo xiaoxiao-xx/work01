@@ -74,7 +74,7 @@
 			gmt_back = #{gmtBack},
 			trasportation_back = #{backMethod},
 			cost_back = #{payMoney},
-			booking_type_back = #{payMethods}
+			booking_type_back = #{payMethods},
 			stay_days = #{stayDays}
 		WHERE
 			travel_num = #{travelNum}
@@ -96,7 +96,8 @@
 			booking_type_back = #{bookingTypeBack},
 			cost_back = #{costBack},
 			stay_booking_type = #{stayBookingType},
-			cos_stay = #{cosStay}
+			cos_stay = #{cosStay},
+			stay_days = #{stayDays}
 		WHERE
 			travel_num = #{travelNum} and user_num = #{userNum}
 	</update>
