@@ -380,7 +380,9 @@
  </select>
   <select id="selectExcel" resultType="com.wh.pojo.Business" parameterType="string">
 
-   SELECT * FROM business WHERE NAME LIKE #{value,jdbcType=VARCHAR}
+   SELECT * FROM business WHERE NAME LIKE #{value,jdbcType=VARCHAR} OR department LIKE #{value,jdbcType=VARCHAR}
+   OR purpose LIKE #{value,jdbcType=VARCHAR} OR  stafflevel  LIKE #{value,jdbcType=VARCHAR} OR  startdate LIKE #{value,jdbcType=VARCHAR}
+   OR  enddate LIKE #{value,jdbcType=VARCHAR}
 
 
   </select>

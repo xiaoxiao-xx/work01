@@ -24,7 +24,7 @@ public class GetALLServiceImpl implements GetAllService {
     private static final Gson GSON = new Gson();
     private static PageVO page = new PageVO();
     @Resource
-    private TravelMapper  travelMapper;
+    private TravelMapper travelMapper;
 
     @Override
     public String getPage(HttpServletRequest request) {

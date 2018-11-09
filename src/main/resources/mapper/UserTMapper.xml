@@ -21,7 +21,11 @@
     from user_t
     where user_num = #{userNum,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <select id="selectNum" resultType="java.lang.String">
+
+SELECT user_num FROM user_t WHERE user_name = #{name}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from user_t
     where user_num = #{userNum,jdbcType=VARCHAR}
   </delete>

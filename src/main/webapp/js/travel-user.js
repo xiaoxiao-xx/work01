@@ -4,7 +4,8 @@ var timestamp = (new Date()).valueOf();
 var roleType = "all";
 var x = 0;
 var y = 0;
-
+var rownum=1;
+var  rowname=99;
 $(function () {
     $(".form_datetime").datetimepicker({
         format: 'yyyy-mm-dd hh:00',//显示格式
@@ -388,9 +389,11 @@ function addUser() {
     $(addButton).click(function (e) {
         if (fieldCount < maxInputs) {
             fieldCount++;
+            rowname--;
+            rownum++;
             var result = '<tr>' +
-                '<td class="text-center"><input type="test" id="addName" class="form-control" name="addName"></td>' +
-                '<td class="text-center"><input type="test" id="addJobNumber" class="form-control" name="addJobNumber"></td>' +
+                '<td class="text-center"><input type="test" id='+rowname+' class="form-control" name="addName" onchange="getNum()"></td>'+
+                '<td class="text-center"><select id='+rownum+' class="form-control" name="addJogbNumber"><option value="1">选择工号</option></select></td>'+
                 '<td class="text-center"><select class="form-control" id="addTransportation" name="addTransportation"><option value="1">飞机</option><option value="2">高铁</option><option value="3">汽车</option><option value="4">其他</option></select></td>' +
                 '<td class="text-center"><select id="addPayMethod" class="form-control" name="addPayMethod"><option value="1">公司</option><option value="2">个人</option></select></td>' +
                 '<td class="text-center"><input type="text" id="addMoney" class="form-control" name="addMoney"></td>' +
@@ -716,6 +719,32 @@ Date.prototype.format = function (fmt) { //author: meizz
 }
 
 
+/**
+ * 获取工号
+ */
+function getNum() {
 
+    var name = $("#"+rowname).val();
+
+    $.ajax({
+        url : '/selectNum.ajax',
+        type : 'post',
+        data :{name:name} ,
+        dataType:'json',
+        success : function(result){
+            $.each(result,function (n,l) {
+                console.log(l);
+                $("#"+rownum).append('<option value="'+l+'">'+l+'</option>');
+            });
+
+        },
+        error:function(){
+            alert("查询失败，请重试！")
+
+        }
+
+    });
+
+}
 
 
