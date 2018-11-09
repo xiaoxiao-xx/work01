@@ -1,6 +1,8 @@
 var fieldCount = 0;
 var timestamp = (new Date()).valueOf();
 //分割-------------------------------
+var editBackgmtGo = '';
+var editBackStanard = '';
 var roleType = "all";
 var x = 0;
 var y = 0;
@@ -224,10 +226,6 @@ function findUsers(currentPage) {
                 //清空分页内容
                 $("#user_page").html("");
                 var users = result.data.data;
-                var arr = '';
-//				$(users).each(function(n,value){
-//					if(value.travelNum)
-//				});
                 if (roleType == "all") {
                     $("#user_table").html('');
                     var news = '<thead>' +
@@ -509,8 +507,9 @@ function editBackByTravelNum(editName, destination, gmtGo, cause, travelNum, edi
     $("#detailPanel #backUserNum").val(editNum);
     $("#detailPanel #backStandard").val(standard);
 
-
-    addBackUser(editName, editNum, gmtGo, standard);
+    editBackgmtGo = gmtGo;
+    editBackStanard = standard;
+    addBackUser(editName, editNum);
     getBackedUser(travelNum);
 
     $("#detailPanel form").submit(function () {
@@ -533,7 +532,7 @@ function editBackByTravelNum(editName, destination, gmtGo, cause, travelNum, edi
 }
 
 //添加返程员工
-function addBackUser(editName, editNum, gmtGo, standard) {
+function addBackUser(editName, editNum) {
 
     var maxInputs = editNum.split(",").length; //maximum input boxes allowed
     var backTbody = $("#backTbody"); //Input boxes wrapper ID
@@ -558,7 +557,7 @@ function addBackUser(editName, editNum, gmtGo, standard) {
                 '<td class="text-center"><select id="backTrasportation_payMethod_' + y + '" class="form-control" name="backTrasportation_payMethod"><option value="1">公司</option><option value="2">个人</option></select></td>' +
                 '<td class="text-center"><input type="text" id="backTrasportation_payMoney_' + y + '" class="form-control" name="backTrasportation_payMoney"></td>' +
                 '<td class="text-center"><select id="backCost_payMethod_' + y + '" class="form-control" name="backCost_payMethod"><option value="1">公司</option><option value="2">个人</option></select></td>' +
-                '<td class="text-center"><input type="text" id="backCost_payMoney_' + y + '" class="form-control" name="backCost_payMoney" ></td>' +
+                '<td class="text-center"><input type="text" id="backCost_payMoney_' + y + '" class="form-control" name="backCost_payMoney" onchange="payFunction(this)"></td>' +
                 '<td class="text-center"><input type="text" id="stay_days_' + y + '" class="form-control" name="stay_days"></td>';
             //add input box
             $(backTbody).append(result + del);
@@ -572,53 +571,14 @@ function addBackUser(editName, editNum, gmtGo, standard) {
             });
 
             $('.form_datetime').datetimepicker().on('changeDate', function (ev) {
-                // if (ev.date.valueOf() < date-start-display.valueOf()){}
-                // alert(ev.date.valueOf());
-                var goT = new Date(new Date(gmtGo).format("yyyy-MM-dd")).valueOf();
+                var goT = new Date(new Date(editBackgmtGo).format("yyyy-MM-dd")).valueOf();
                 var backT = new Date(ev.date.format("yyyy-MM-dd")).valueOf();
                 if ((backT - goT) / (1000 * 60 * 60 * 24) - 1 < 0) {
                     alert("返回日期小于等于出发时间");
                 }
             });
             $("#backCost_payMoney_" + y).change(function () {
-                // // var back = new Date($('#backTime_'+(y-1)).val().split(" ")[1]).valueOf()
-                // var back = new Date($('#backTime_'+(y-1)).val()+":00:00").format("hh")
-                // var goTimeDay = new Date(new Date(gmtGo).format("yyyy-MM-dd")).valueOf();
-                // // var backTimeDay = new Date(ev.date.format("yyyy-MM-dd")).valueOf();
-                // // var backTimeDay = new Date(ev.date.format("yyyy-MM-dd")).valueOf();
-                // // alert($("#backTime_"+(y-1)).valueOf())
-                // alert(back)
 
-                var goTimeDay = new Date(new Date(gmtGo).format("yyyy-MM-dd")).valueOf();
-                var backTimeDay = new Date($('#backTime_' + (y - 1)).val().split(" ")[0]).valueOf();
-                var day = (backTimeDay - goTimeDay) / (1000 * 60 * 60 * 24) - 1;
-                if ((backTimeDay - goTimeDay) / (1000 * 60 * 60 * 24) - 1 > 0) {
-                    if (new Date(gmtGo).format("hh") >= 12) {
-                        day += 0.5;
-                    } else {
-                        day += 1;
-                    }
-                    if (new Date($('#backTime_' + (y - 1)).val() + ":00:00").format("hh") >= 12) {
-                        day += 1;
-                    } else {
-                        day += 0.5;
-                    }
-                } else if ((backTimeDay - goTimeDay) / (1000 * 60 * 60 * 24) - 1 == 0) {
-                    if (new Date(gmtGo).format("hh") >= 12) {
-                        day += 0.5;
-                    } else {
-                        day += 1;
-                    }
-                    if (new Date($('#backTime_' + (y - 1)).val() + ":00:00").format("hh") >= 12) {
-                        day += 1;
-                    } else {
-                        day += 0.5;
-                    }
-                }
-                if (this.value > standard * day) {
-                    this.value = '';
-                    alert("报销上限为" + standard * day + " 已超出");
-                }
             });
 
             x++; //text box increment
@@ -635,6 +595,7 @@ var back = '<td class="text-center"><button type="button" class="btn btn-default
 
 //返回详情中删除已添加的人员
 function deleteRow(r) {
+
     var i = r.parentNode.parentNode.rowIndex;
     document.getElementById('backTable').deleteRow(i);
     x--;
@@ -646,7 +607,39 @@ function deleteUserRow(r) {
     document.getElementById('addTable').deleteRow(i);
     fieldCount--;
     $("#numb").val(fieldCount);
-    x
+}
+function payFunction(r){
+    var editBackgmtBack = $(r.parentNode.parentNode.childNodes[1].childNodes[0]).val();
+    var goTimeDay = new Date(new Date(editBackgmtGo).format("yyyy-MM-dd")).valueOf();
+    var backTimeDay = new Date(editBackgmtBack.split(" ")[0]).valueOf();
+    var day = (backTimeDay - goTimeDay) / (1000 * 60 * 60 * 24) - 1;
+    if ((backTimeDay - goTimeDay) / (1000 * 60 * 60 * 24) - 1 > 0) {
+        if (new Date(editBackgmtGo).format("hh") >= 12) {
+            day += 0.5;
+        } else {
+            day += 1;
+        }
+        if (new Date(editBackgmtBack + ":00:00").format("hh") >= 12) {
+            day += 1;
+        } else {
+            day += 0.5;
+        }
+    } else if ((backTimeDay - goTimeDay) / (1000 * 60 * 60 * 24) - 1 == 0) {
+        if (new Date(editBackgmtGo).format("hh") >= 12) {
+            day += 0.5;
+        } else {
+            day += 1;
+        }
+        if (new Date(editBackgmtBack + ":00:00").format("hh") >= 12) {
+            day += 1;
+        } else {
+            day += 0.5;
+        }
+    }
+    if ($(r).val() > editBackStanard * day) {
+        $(r).val("");
+        alert("报销上限为" + editBackStanard * day + " 已超出");
+    }
 }
 
 
