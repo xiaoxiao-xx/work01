@@ -24,12 +24,11 @@ public class GetAllController {
 	@ResponseBody
 	public String getPage(HttpServletRequest request){
 
-
 		return getAllService.getPage(request);
 	}
 
+
 	/**
-	 *
 	 */
 	@RequestMapping(value = "/listTravel.ajax",produces = "text/html;charset=utf-8")
 	@ResponseBody
