@@ -1,5 +1,4 @@
 var fieldCount = 0;
-var timestamp = (new Date()).valueOf();
 //分割-------------------------------
 var editBackgmtGo = '';
 var editBackStanard = '';
@@ -18,7 +17,6 @@ $(function () {
         autoclose: 1//选择后自动关闭
     });
     $("#numb").val(1);
-    $("#travel_number").val(timestamp);
     addUser();
 
     //给新增角色表单添加submit事件
@@ -474,7 +472,7 @@ function editBackByTravelNum(editName, destination, gmtGo, cause, travelNum, edi
         '<thead>' +
         '<tr>' +
         '<th class="col-md-1 text-center">姓名</th>' +
-        '<th class="col-md-1 text-center">返回时间</th>' +
+        '<th class="col-md-2 text-center">返回时间</th>' +
         '<th class="col-md-1 text-center">交通工具</th>' +
         '<th class="col-md-1 text-center">交通支付方式</th>' +
         '<th class="col-md-1 text-center">交通费用</th>' +
@@ -756,4 +754,10 @@ function getNum() {
 
 }
 
+function getTimeNum() {
+    var a =Math.floor( Math.random()*10000);
+    var time=$("#time").val();
+    time = time.replace(/-/g,"").replace(/ /g,"").replace(/:/g,"");
+    $("#travel_number").val(time+""+a);
 
+}
