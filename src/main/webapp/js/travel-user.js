@@ -6,7 +6,14 @@ var x = 0;
 var y = 0;
 
 $(function () {
-
+    $(".form_datetime").datetimepicker({
+        format: 'yyyy-mm-dd hh:00',//显示格式
+        todayHighlight: 1,//今天高亮
+        minView: 1,
+        startView: 2,
+        showMeridian: 0,
+        autoclose: 1//选择后自动关闭
+    });
     $("#numb").val(1);
     $("#travel_number").val(timestamp);
     addUser();
@@ -548,12 +555,12 @@ function addBackUser(editName, editNum, gmtGo, standard) {
                 '<td class="text-center"><select id="backTrasportation_payMethod_' + y + '" class="form-control" name="backTrasportation_payMethod"><option value="1">公司</option><option value="2">个人</option></select></td>' +
                 '<td class="text-center"><input type="text" id="backTrasportation_payMoney_' + y + '" class="form-control" name="backTrasportation_payMoney"></td>' +
                 '<td class="text-center"><select id="backCost_payMethod_' + y + '" class="form-control" name="backCost_payMethod"><option value="1">公司</option><option value="2">个人</option></select></td>' +
-                '<td class="text-center"><input type="text" id="backCost_payMoney_' + y + '" class="form-control" name="backCost_payMoney"></td>' +
+                '<td class="text-center"><input type="text" id="backCost_payMoney_' + y + '" class="form-control" name="backCost_payMoney" ></td>' +
                 '<td class="text-center"><input type="text" id="stay_days_' + y + '" class="form-control" name="stay_days"></td>';
             //add input box
             $(backTbody).append(result + del);
             $(".form_datetime").datetimepicker({
-                format: 'yyyy-mm-dd hh:ii',//显示格式
+                format: 'yyyy-mm-dd hh:00',//显示格式
                 todayHighlight: 1,//今天高亮
                 minView: 1,//设置只显示到月份
                 startView: 2,
