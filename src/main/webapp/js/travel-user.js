@@ -479,7 +479,7 @@ function editBackByTravelNum(editName, destination, gmtGo, cause, travelNum, edi
         '<th class="col-md-1 text-center">交通费用</th>' +
         '<th class="col-md-1 text-center">住宿支付方式</th>' +
         '<th class="col-md-1 text-center">住宿支付费用</th>' +
-        '<th class="col-md-1 text-center">天数</th>' +
+        '<th class="col-md-1 text-center">住宿天数</th>' +
         '<th class="col-md-1 text-center">编辑</th>' +
         '</tr>' +
         '</thead>' +
@@ -628,7 +628,7 @@ function addBackUser(editName, editNum, gmtGo, standard) {
 
 
 var del = '<td class="text-center"><button type="button" class="btn btn-danger" onclick="deleteRow(this)">删除</button></td></tr>';
-var back = '<td class="text-center"><button type="button" class="btn btn-default">已回</button></td></tr>';
+var back = '<td class="text-center"><button type="button" class="btn btn-default">已返回</button></td></tr>';
 
 //返回详情中删除已添加的人员
 function deleteRow(r) {
