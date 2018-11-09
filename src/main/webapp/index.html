@@ -8,7 +8,7 @@
     <meta name="author" content="Robin Liu">
     <meta http-equiv="Cache-Control" content="max-age=0">
 
-    <title>出差管理平台1</title>
+    <title>出差管理平台</title>
 
     <link rel="icon" href="../../favicon.ico">
     <!-- Bootstrap core CSS -->
@@ -41,17 +41,33 @@
 <!-- 工具栏 -->
 <nav class="navbar navbar-inverse navbar-fixed-top" id="header">
     <!-- 远程加载header.html至此 -->
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#"><strong>出差管理系统</strong></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> 首页</a></li>
+                <li><a href="/logout"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> 退出</a></li>
+            </ul>
+        </div>
+    </div>
+
 </nav>
 
 <div class="container-fluid">
     <div class="row">
         <!-- 导航栏 -->
         <div class="col-sm-3 col-md-2 sidebar" id="siderbar">
-            <!-- 远程加载nav.html至此 -->
+            <ul class="nav nav-sidebar">
+                <li><a href="#" name="page/travel-user.html"><span class="glyphicon glyphicon-user btn-lg" aria-hidden="true"></span>差旅信息管理</a></li>
+                <li><a href="#" name="page/travel-cost.html"><span class="glyphicon glyphicon-education btn-lg" aria-hidden="true"></span>差旅费明细</a></li>
+                <li><a href="#" name="page/importExcel.html"><span class="glyphicon glyphicon-education btn-lg" aria-hidden="true"></span>Excel文件导入</a></li>
+            </ul>
         </div>
         <!--  正文 -->
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="main">
-            <!-- 远程加载main.html至此 -->
+
         </div>
     </div>
 </div>

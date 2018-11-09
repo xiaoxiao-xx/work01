@@ -32,6 +32,8 @@ public class TravelUserT {
 
     private String stayBookingType;
 
+    private String stayDays;
+
     public Long getId() {
         return id;
     }
@@ -142,5 +144,13 @@ public class TravelUserT {
 
     public void setStayBookingType(String stayBookingType) {
         this.stayBookingType = stayBookingType;
+    }
+
+    public String getStayDays() {
+        return stayDays;
+    }
+
+    public void setStayDays(String stayDays) {
+        this.stayDays = stayDays;
     }
 }

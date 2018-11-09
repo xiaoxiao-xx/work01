@@ -24,8 +24,16 @@ public class Information {
 	
 	private String costPayMethod;
 	private String costPayMoney;
-	
-	
+	private String backTimes;
+
+	public String getBackTimes() {
+		return backTimes;
+	}
+
+	public void setBackTimes(String backTimes) {
+		this.backTimes = backTimes;
+	}
+
 	public String getStayDays() {
 		return stayDays;
 	}
