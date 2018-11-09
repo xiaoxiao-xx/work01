@@ -391,10 +391,10 @@ function addUser() {
             rownum++;
             var result = '<tr>' +
                 '<td class="text-center"><input type="test" id='+rowname+' class="form-control" name="addName" onchange="getNum()"></td>'+
-                '<td class="text-center"><select id='+rownum+' class="form-control" name="addJogbNumber"><option value="1">选择工号</option></select></td>'+
+                '<td class="text-center"><select id='+rownum+' class="form-control" name="addJobNumber"><option value="1">选择工号</option></select></td>'+
                 '<td class="text-center"><select class="form-control" id="addTransportation" name="addTransportation"><option value="1">飞机</option><option value="2">高铁</option><option value="3">汽车</option><option value="4">其他</option></select></td>' +
                 '<td class="text-center"><select id="addPayMethod" class="form-control" name="addPayMethod"><option value="1">公司</option><option value="2">个人</option></select></td>' +
-                '<td class="text-center"><input type="text" id="addMoney" class="form-control" name="addMoney"></td>' +
+                '<td class="text-center"><input type="number" min="0" max="99999" step="0.01" id="addMoney" class="form-control" name="addMoney"></td>' +
                 '<td class="text-center"><button class="btn btn-danger" type="button" onclick="deleteUserRow(this)">删除</button></td>' +
                 '</tr>';
             $(addTbody).append(result);
@@ -474,7 +474,7 @@ function editBackByTravelNum(editName, destination, gmtGo, cause, travelNum, edi
         '<thead>' +
         '<tr>' +
         '<th class="col-md-1 text-center">姓名</th>' +
-        '<th class="col-md-1 text-center">返回时间</th>' +
+        '<th class="col-md-2 text-center">返回时间</th>' +
         '<th class="col-md-1 text-center">交通工具</th>' +
         '<th class="col-md-1 text-center">交通支付方式</th>' +
         '<th class="col-md-1 text-center">交通费用</th>' +
@@ -555,9 +555,9 @@ function addBackUser(editName, editNum) {
                 '<td class="text-center"><input autocomplete="off" type="text" id="backTime_' + y + '" class="form-control form_datetime" name="backTime"></td>' +
                 '<td class="text-center"><select class="form-control" id="backTrasportation_' + y + '" name="backTrasportation"><option value="1">飞机</option><option value="2">高铁</option><option value="3">汽车</option><option value="4">其他</option></select></td>' +
                 '<td class="text-center"><select id="backTrasportation_payMethod_' + y + '" class="form-control" name="backTrasportation_payMethod"><option value="1">公司</option><option value="2">个人</option></select></td>' +
-                '<td class="text-center"><input type="text" id="backTrasportation_payMoney_' + y + '" class="form-control" name="backTrasportation_payMoney"></td>' +
+                '<td class="text-center"><input type="number" min="0" max="99999" step="0.01" id="backTrasportation_payMoney_' + y + '" class="form-control" name="backTrasportation_payMoney"></td>' +
                 '<td class="text-center"><select id="backCost_payMethod_' + y + '" class="form-control" name="backCost_payMethod"><option value="1">公司</option><option value="2">个人</option></select></td>' +
-                '<td class="text-center"><input type="text" id="backCost_payMoney_' + y + '" class="form-control" name="backCost_payMoney" onchange="payFunction(this)"></td>' +
+                '<td class="text-center"><input type="number" min="0" max="99999" step="0.01" id="backCost_payMoney_' + y + '" class="form-control" name="backCost_payMoney" onchange="payFunction(this)"></td>' +
                 '<td class="text-center"><input type="text" id="stay_days_' + y + '" class="form-control" name="stay_days"></td>';
             //add input box
             $(backTbody).append(result + del);
