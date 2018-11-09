@@ -1,13 +1,7 @@
-//@ sourceURL=role.js
-var roleId;
-var roleName;
-var fieldCount=1;
+var fieldCount=0;
 var timestamp = (new Date()).valueOf();
 //分割-------------------------------
-var userId;
-var userHead;
 var roleType="all";
-
 var x = 0;
 var y = 0;
 
@@ -73,12 +67,15 @@ $(function(){
 		roleType=$(this).html();
 		if("全部"==roleType){
 			roleType="all";
+            // $("#user_table").html('');
 		}
 		if("出差中"==roleType){
 			roleType="go";
+            // $("#user_table").html('');
 		}
 		if("已返回"==roleType){
 			roleType="back";
+            // $("#user_table").html('');
 		}
 		$(this).siblings("button").removeClass("active");
 		$(this).addClass("active");
@@ -223,55 +220,118 @@ function findUsers(currentPage){
 //				$(users).each(function(n,value){
 //					if(value.travelNum)
 //				});
+				if(roleType=="all"){
+                    $("#user_table").html('');
+                    var news = '<thead>'+
+                        '<tr>'+
+                        '<th class="text-center" style="width: 5%">#</th>'+
+                        '<th class="text-center" style="width: 11% ">姓名</th>'+
+                        '<th class="text-center" style="width: 11% ">工号</th>'+
+                        '<th class="col-md-1 text-center">目的地</th>'+
+                        '<th class="text-center" style="width: 20%">出差日期</th>'+
+                        '</tr>'+
+                        '</thead>'+
+                        '<tbody></tbody>';
+                    $("#user_table").append(news);
+				}else if(roleType=="go"){
+                    $("#user_table ").html('');
+                    var news = '<thead>'+
+                        '<tr>'+
+                        '<th class="text-center" style="width: 5%">#</th>'+
+                    '<th class="col-md-1 text-center">状态</th>'+
+                    '<th class="text-center" style="width: 11% ">姓名</th>'+
+                    '<th class="text-center" style="width: 11% ">工号</th>'+
+                    '<th class="col-md-1 text-center">目的地</th>'+
+                    '<th class="text-center" style="width: 20%">出差日期</th>'+
+                    '<th class="text-center" style="width: 20%">返回日期</th>'+
+                    '<th class="text-center" style="width: 11%">编辑</th>'+
+                    '</tr>'+
+                    '</thead><tbody></tbody>';
+                    $("#user_table").append(news);
+				}else if(roleType=="back"){
+                    $("#user_table").html('');
+                    var news = '<thead>'+
+                        '<tr>'+
+                        '<th class="text-center" style="width: 5%">#</th>'+
+                        '<th class="col-md-1 text-center">状态</th>'+
+                        '<th class="text-center" style="width: 11% ">姓名</th>'+
+                        '<th class="text-center" style="width: 11% ">工号</th>'+
+                        '<th class="col-md-1 text-center">目的地</th>'+
+                        '<th class="text-center" style="width: 20%">出差日期</th>'+
+                        '<th class="text-center" style="width: 20%">返回日期</th>'+
+                        '</tr>'+
+                        '</thead><tbody></tbody>';
+                    $("#user_table").append(news);
+				}
 				$(users).each(function(n,value){
-					var states = '';
-//					if(value.state==0){
-//						states="已返回";
-//					}else{
-//						states="出差中";
-//					}
-					if(value.gmtBack!=null){
-						states="已返回";
-					}else{
-						states="出差中";
+					if(roleType=="go"){
+						var states = "出差中";
+                        var gmtBack = '/';
+                        if(value.gmtBack!=null){
+                            gmtBack = new Date(value.gmtBack).toLocaleString();
+                        }
+                        var editName = value.userName;
+                        var editNum = value.userNum;
+                        editName = editName.replace(/,<\/br>/g,"\,");
+                        editNum = editNum.replace(/,<\/br>/g,"\,");
+                        // var selectUserName = selectEditName(editName,value.travelNum);
+                        // var selectUserNum = selectEditNum(editNum,value.travelNum);
+                        var gmtTime = new Date(value.gmtGo).toLocaleString().replace("/","-").replace("/","-");
+                        var begin = '<tr>'+
+                            '<td class="text-center">'+(n+1)+'</td>'+
+                            '<td class="text-center" >'+states+'</td>'+
+                            '<td class="text-center" style=" white-space:nowrap;overflow:hidden;text-overflow: ellipsis;">'+editName+'</td>'+
+                            '<td class="text-center" style=" white-space:nowrap;overflow:hidden;text-overflow: ellipsis;">'+editNum+'</td>'+
+                            '<td class="text-center" style=" white-space:nowrap;overflow:hidden;text-overflow: ellipsis;">'+value.destination+'</td>'+
+                            '<td class="text-center" style=" white-space:nowrap;overflow:hidden;text-overflow: ellipsis;">'+gmtTime+'</td>'+
+                            '<td class="text-center" style=" white-space:nowrap;overflow:hidden;text-overflow: ellipsis;">'+gmtBack+'</td>';
+                        var end='<td class="text-center">'+
+							'<a href=javascript:editBackByTravelNum("'+editName+'","'+value.destination+'","'+value.gmtGo+'","'+value.cause+'","'+value.travelNum+'","'+editNum+'","'+value.standard+'") id="update'+value.userNum+'" ><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>编辑返回</a>'+
+							'</td>'+
+							'</tr>';
+                        $("#user_table tbody").append(begin+end);
+					}else if(roleType=="back"){
+                        var states = "已返回";
+                        var gmtBack = '/';
+                        if(value.gmtBack!=null){
+                            gmtBack = new Date(value.gmtBack).toLocaleString();
+                        }
+                        var editName = value.userName;
+                        var editNum = value.userNum;
+                        editName = editName.replace(/,<\/br>/g,"\,");
+                        editNum = editNum.replace(/,<\/br>/g,"\,");
+                        // var selectUserName = selectEditName(editName,value.travelNum);
+                        // var selectUserNum = selectEditNum(editNum,value.travelNum);
+                        var gmtTime = new Date(value.gmtGo).toLocaleString().replace("/","-").replace("/","-");
+                        var begin = '<tr>'+
+                            '<td class="text-center" >'+(n+1)+'</td>'+
+                            '<td class="text-center">'+states+'</td>'+
+                            '<td class="text-center" title="'+editName+'" style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis;">'+editName+'</td>'+
+                            '<td class="text-center" title="'+editNum+'" style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis;">'+editNum+'</td>'+
+                            '<td class="text-center" title="'+value.destination+'" style=" white-space:nowrap;overflow:hidden;text-overflow: ellipsis;">'+value.destination+'</td>'+
+                            '<td class="text-center" title="'+gmtTime+'" style=" white-space:nowrap;overflow:hidden;text-overflow: ellipsis;">'+gmtTime+'</td>'+
+                            '<td class="text-center" title="'+value.backTimes+'" style=" white-space:nowrap;overflow:hidden;text-overflow: ellipsis;">'+value.backTimes+'</td>'+
+                        	'</tr>';
+                        $("#user_table tbody").append(begin);
+					}else if(roleType=="all"){
+
+                        var editName = value.userName;
+                        var editNum = value.userNum;
+                        editName = editName.replace(/,<\/br>/g,"\,");
+                        editNum = editNum.replace(/,<\/br>/g,"\,");
+                        // var selectUserName = selectEditName(editName,value.travelNum);
+                        // var selectUserNum = selectEditNum(editNum,value.travelNum);
+                        var gmtTime = new Date(value.gmtGo).toLocaleString().replace("/","-").replace("/","-");
+                        var begin = '<tr>'+
+                            '<td class="text-center">'+(n+1)+'</td>'+
+                            '<td class="text-center" style=" white-space:nowrap;overflow:hidden;text-overflow: ellipsis;">'+editName+'</td>'+
+                            '<td class="text-center" style=" white-space:nowrap;overflow:hidden;text-overflow: ellipsis;">'+editNum+'</td>'+
+                            '<td class="text-center">'+value.destination+'</td>'+
+                            '<td class="text-center" style=" white-space:nowrap;overflow:hidden;text-overflow: ellipsis;">'+gmtTime+'</td></tr>';
+
+                        $("#user_table tbody").append(begin);
 					}
-					var gmtBack = '/';
-					if(value.gmtBack!=null){
-						gmtBack = new Date(value.gmtBack).toLocaleString();
-					}
-					
-					var editName = value.userName;
-					var editNum = value.userNum;
-					editName = editName.replace(/,<\/br>/g,"\,");
-					editNum = editNum.replace(/,<\/br>/g,"\,");
-					var selectUserName = selectEditName(editName,value.travelNum);
-					var selectUserNum = selectEditNum(editNum,value.travelNum);
-//					alert(new Date(value.gmtGo).toLocaleString());
-					var gmtTime = new Date(value.gmtGo).toLocaleString().replace("/","-").replace("/","-");
-					var begin = '<tr>'+
-						'<td class="text-center">'+(n+1)+'</td>'+
-						'<td class="text-center">'+states+'</td>'+
-						'<td class="text-center">'+selectUserName+'</td>'+
-						'<td class="text-center">'+selectUserNum+'</td>'+
-						'<td class="text-center">'+value.destination+'</td>'+
-						'<td class="text-center">'+gmtTime+'</td>'+
-						'<td class="text-center">'+gmtBack+'</td>';
-					
-					var end = '';
-					
-					if(value.gmtBack==null){
-						end='<td class="text-center">'+
-						'<a href=javascript:editBackByTravelNum("'+editName+'","'+value.destination+'","'+value.gmtGo+'","'+value.cause+'","'+value.travelNum+'","'+editNum+'") id="update'+value.userNum+'" ><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>编辑返回</a>'+
-						'</td>'+
-						'</tr>';
-					}else{
-						end='<td class="text-center">'+
-						'<a href="" onclick=updateCostClick("'+editName+'","'+value.destination+'","'+value.stayDays+'","'+value.cause+'","'+value.travelNum+'","'+editNum+'") id="cost'+value.userNum+'" data-toggle="modal" data-target="#editCost"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>编辑住宿</a>'+
-						'</td>'+
-						'</tr>';
-					}
-					
-					$("#user_table tbody").append(begin+end);
+
 				});
 				//处理分页条
 				var page=result.data;
@@ -314,30 +374,30 @@ function findUsers(currentPage){
 //分割-----------------------------
 //添加出差人员
 function addUser() {
-	var MaxInputs    = 20; //maximum input boxes allowed
-	var InputsWrapper  = $("#InputsWrapper"); //Input boxes wrapper ID
-	var AddButton    = $("#AddMoreFileBox"); //Add button ID
-	var x = InputsWrapper.length; //initlal text box count
-	 //to keep track of text box added
-	$(AddButton).click(function (e) //on add input button click
-	{
-	    if(x <= MaxInputs) //max input box allowed
-	    {
-	      fieldCount++; //text box added increment
-	      //add input box
-	      $(InputsWrapper).append('<div class="form-group"><label class="col-md-1 control-label" for="name_'+fieldCount+'">员工姓名</label><div class="col-md-2 "><input type="text" id="name_'+fieldCount+'"  class="form-control" name="name_'+fieldCount+'"></div><label class="col-md-1 control-label" for="job_number_'+fieldCount+'">工号</label><div class="col-md-2 "><input type="text" id="job_number_'+fieldCount+'"  class="form-control" name="job_number_'+fieldCount+'"></div><strong>交通工具</strong>	<div class="btn-group" ><select class="form-control" id="transportation_'+fieldCount+'" name="transportation_'+fieldCount+'"><option value="1">飞机</option><option value="2">高铁</option><option value="3">汽车</option><option value="4">其他</option></select></div><strong>支付方式</strong>	<div class="btn-group" ><select class="form-control" id="methods_'+fieldCount+'" name="methods_'+fieldCount+'"><option value="1">公司</option><option value="2">个人</option></select></div><strong>金额</strong><div class="btn-group" style="width:80px"><input type="number" id="money_'+fieldCount+'"  class="form-control" name="money_'+fieldCount+'"></div></div>');
-	      $("#numb").val(fieldCount);
-	      x++; //text box increment
-	    }
-	return false;
-	});
-	$("body").on("click",".removeclass", function(e){ //user click on remove text
-	    if( x > 0 ) {
-	        $(this).parent('div').remove(); //remove text box
-	        x--; //decrement textbox
-	    }
-	return false;
-	})
+
+    var maxInputs    = 10;
+    var addTbody  = $("#addTbody");
+    var addButton    = $("#addUser");
+    $(addButton).click(function (e)
+    {
+        if(fieldCount < maxInputs)
+        {
+            fieldCount++;
+            var result = '<tr>'+
+                '<td class="text-center"><input type="test" id="addName" class="form-control" name="addName"></td>'+
+                '<td class="text-center"><input type="test" id="addJobNumber" class="form-control" name="addJobNumber"></td>'+
+                '<td class="text-center"><select class="form-control" id="addTransportation" name="addTransportation"><option value="1">飞机</option><option value="2">高铁</option><option value="3">汽车</option><option value="4">其他</option></select></td>'+
+                '<td class="text-center"><select id="addPayMethod" class="form-control" name="addPayMethod"><option value="1">公司</option><option value="2">个人</option></select></td>'+
+                '<td class="text-center"><input type="text" id="addMoney" class="form-control" name="addMoney"></td>'+
+                '<td class="text-center"><button class="btn btn-danger" type="button" onclick="deleteUserRow(this)">删除</button></td>'+
+                '</tr>';
+            $(addTbody).append(result);
+
+            $("#numb").val(fieldCount);
+
+        }
+        return false;
+    });
 };
 
 //通过传来的姓名，生成下拉选择框
@@ -362,7 +422,7 @@ function selectEditNum(editNum,travelNum){
 };
 
 //通过差旅编号编辑返回信息
-function editBackByTravelNum(editName,destination,gmtGo,cause,travelNum,editNum){
+function editBackByTravelNum(editName,destination,gmtGo,cause,travelNum,editNum,standard){
 	x = 0;
 	y = 0;
 	$('#user_tab li:eq(1) a').tab('show');
@@ -437,8 +497,10 @@ function editBackByTravelNum(editName,destination,gmtGo,cause,travelNum,editNum)
 	$("#detailPanel #backCause").val(cause);
 	$("#detailPanel #backTravelNum").val(travelNum);
 	$("#detailPanel #backUserNum").val(editNum);
+    $("#detailPanel #backStandard").val(standard);
+
 	
-	addBackUser(editName,editNum);
+	addBackUser(editName,editNum,gmtGo,standard);
 
 
     $("#detailPanel form").submit(function(){
@@ -459,75 +521,10 @@ function editBackByTravelNum(editName,destination,gmtGo,cause,travelNum,editNum)
 		});
         return false;
     });
-
-//	$.ajax({
-//		url:"/edit/back/"+travelNum,
-//		type:"get",
-//		dataType:"json",
-//		success:function(result){
-//			if(result.status==0){
-//				$("#detailPanel .editBack").html("");
-//				var user=result.data;
-//				
-//				var roleString='';
-//				$(user.roles).each(function(n1,value1){
-//					roleString+=value1.name+",";
-//				});
-//				if(roleString.length==0){
-//					roleString="无角色信息";
-//				}else{
-//					roleString=roleString.substr(0,roleString.length-1);
-//				}
-				
-//				var backDetail='<div class="media-left">'+
-//					              '<a href="#">'+
-//					                '<img class="media-object img-circle" src="head/'+user.head+'" alt="头像">'+
-//					              '</a>'+
-//					            '</div>'+
-//					            '<div class="media-body">'+
-//					              '<h1 class="media-heading">'+user.loginName+'</h1>'+
-//					              '<br/>'+
-//					              '<p>账号类型：<span>'+user.loginType+'</span></p>'+
-//					              '<p>昵称：<span>'+user.nickName+'</span></p>'+
-//					              '<p>性别：<span>'+user.sex+'</span></p>'+
-//					              '<p>年龄：<span>'+user.age+'</span></p>'+
-//					              '<p>积分：<span>'+user.score+'</span></p>'+
-//					              '<p>注册日期：<span>'+new Date(user.regDate).toLocaleDateString().replace("/","-").replace("/","-")+'</span></p>'+
-//					              '<p>锁定：<span>'+user.isLock+'</span></p>'+
-//					              '<p>角色：<span>'+roleString+'</span></p>'+
-//					            '</div>';
-//				var backDetail='<form role="form">'+
-//				  				'<div class="form-group">'+
-//				  					'<label for="backUsers">出差人员:</label>'+
-//				  					'<input type="text" class="form-control" id="backUsers" >'+
-//				  				'</div>'+
-//				  				'<div class="form-group">'+
-//				  					'<label for="backDestination">目的地:</label>'+
-//				  					'<input type="file" id="backDestination">'+
-//				  				'</div>'+
-//				  				'<div class="form-group">'+
-//				  					'<label for="backGmtGo">出差时间:</label>'+
-//				  					'<input type="file" id="backGmtGo">'+
-//				  				'</div>'+
-//				  				'<div class="form-group">'+
-//				  					'<label for="backCause">出差目的:</label>'+
-//				  					'<input type="file" id="backCause">'+
-//				  				'</div>'+
-//				  				'<button type="submit" class="btn btn-default">提交</button>'+
-//				  				'</form>';
-//				$("#detailPanel .back").append(backDetail);
-//			}
-			
-//		},
-//		error:function(){
-//			alert("请求失败!");
-//		}
-		
-//	});
 }
 
 //添加返程员工
-function addBackUser(editName,editNum) {
+function addBackUser(editName,editNum,gmtGo,standard) {
 
 	var maxInputs    = editNum.split(",").length; //maximum input boxes allowed
 	var backTbody  = $("#backTbody"); //Input boxes wrapper ID
@@ -547,17 +544,15 @@ function addBackUser(editName,editNum) {
 
             var result = '<tr>'+
                 '<td class="text-center">'+backName+'</td>'+
-                '<td class="text-center"><input type="datetime-local" id="backTime_'+y+'" class="form-control" name="backTime"></td>'+
+                '<td class="text-center"><input type="text" id="backTime_'+y+'" class="form-control form_datetime" name="backTime"></td>'+
                 '<td class="text-center"><select class="form-control" id="backTrasportation_'+y+'" name="backTrasportation"><option value="1">飞机</option><option value="2">高铁</option><option value="3">汽车</option><option value="4">其他</option></select></td>'+
                 '<td class="text-center"><select id="backTrasportation_payMethod_'+y+'" class="form-control" name="backTrasportation_payMethod"><option value="1">公司</option><option value="2">个人</option></select></td>'+
                 '<td class="text-center"><input type="text" id="backTrasportation_payMoney_'+y+'" class="form-control" name="backTrasportation_payMoney"></td>'+
                 '<td class="text-center"><select id="backCost_payMethod_'+y+'" class="form-control" name="backCost_payMethod"><option value="1">公司</option><option value="2">个人</option></select></td>'+
                 '<td class="text-center"><input type="text" id="backCost_payMoney_'+y+'" class="form-control" name="backCost_payMoney"></td>'+
-                '<td class="text-center"><input type="button" value="删除" onclick="deleteRow(this)"></td>'+
-                '</tr>';
-
+                '<td class="text-center"><input type="text" id="stay_days_'+y+'" class="form-control" name="stay_days"></td>';
 	      //add input box
-	      $(backTbody).append(result);
+	      $(backTbody).append(result+del);
 	      x++; //text box increment
 		  y++;
 	      $("#backNumb").val(x);
@@ -566,6 +561,10 @@ function addBackUser(editName,editNum) {
 	return false;
 	});
 };
+
+
+var del = '<td class="text-center"><button type="button" class="btn btn-danger" onclick="deleteRow(this)">删除</button></td></tr>';
+var back = '<td class="text-center"><button type="button" class="btn btn-default">已回</button></td></tr>';
 
 //返回详情中删除已添加的人员
 function deleteRow(r){
@@ -576,6 +575,53 @@ function deleteRow(r){
 }
 
 
+function getBackedUser(travelNum) {
+    $.getJSON('edit/back/userInfo.ajax',{travelNum:travelNum},function (re) {
+        $.each(re,function (n,l) {
+        	var transport = wrapTransportation(l.trasportationBack);
+        	var bookingTypeBack = wrapBookingType(l.bookingTypeBack);
+        	var stayBookingType = wrapBookingType(l.stayBookingType);
+        	var gmtBack = wrapTime(l.gmtBack);
+        $("#backTbody").append('<tr>'+
+            '<td class="text-center"><input readonly value="'+l.userName+'" type="text"class="form-control"></td>'+
+            '<td class="text-center"><input readonly value="'+gmtBack+'" type="text"class="form-control"></td>'+
+            '<td class="text-center"><input readonly value="'+transport+'" type="text"class="form-control"></td>'+
+            '<td class="text-center"><input readonly value="'+bookingTypeBack+'" type="text"class="form-control"></td>'+
+            '<td class="text-center"><input readonly value="'+l.costBack+'" type="text"class="form-control"></td>'+
+            '<td class="text-center"><input readonly value="'+stayBookingType+'" type="text"class="form-control"></td>'+
+            '<td class="text-center"><input readonly value="'+l.cosStay+'" type="text"class="form-control"></td>'+
+            '<td class="text-center"><input readonly value="'+l.stayDays+'" type="text"class="form-control"></td>'+back);
+        });
+    })
+}
+function wrapTransportation(str) {
+	switch (str) {
+		case '1':
+			return "飞机";
+		case '2':
+			return "高铁";
+		case '3':
+			return "汽车";
+		case '4':
+			return "其他";
+        default:
+            break;
+    }
+}
+
+function wrapBookingType(str) {
+	switch (str) {
+		case '1':
+			return "公司";
+		case '2':
+			return "个人";
+		default:
+			break;
+    }
+}
+function wrapTime(time){
+    return new Date(time).toLocaleString().replace("/","-").replace("/","-");
+}
 
 
 

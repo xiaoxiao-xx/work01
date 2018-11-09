@@ -92,4 +92,19 @@ public class UserT {
     public void setDepartment(String department) {
         this.department = department;
     }
+
+    @Override
+    public String toString() {
+        return "UserT{" +
+                "userNum='" + userNum + '\'' +
+                ", userName='" + userName + '\'' +
+                ", passwd='" + passwd + '\'' +
+                ", sex='" + sex + '\'' +
+                ", userTel='" + userTel + '\'' +
+                ", userLevel='" + userLevel + '\'' +
+                ", createTime=" + createTime +
+                ", state='" + state + '\'' +
+                ", department='" + department + '\'' +
+                '}';
+    }
 }

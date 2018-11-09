@@ -1,5 +1,6 @@
 package com.wh.pojo;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Information {
@@ -16,24 +17,18 @@ public class Information {
 	private String Persons;
 	private String backMethod;
 	private String payMethods;
-	private Double payMoney;
+	private BigDecimal payMoney;
 	
 	private String cityName;
 	private String cityCode;
-	private Double standard;
+	private BigDecimal standard;
 	
 	private String costPayMethod;
-	private String costPayMoney;
+	private BigDecimal costPayMoney;
+
 	private String backTimes;
 
-	public String getBackTimes() {
-		return backTimes;
-	}
-
-	public void setBackTimes(String backTimes) {
-		this.backTimes = backTimes;
-	}
-
+	
 	public String getStayDays() {
 		return stayDays;
 	}
@@ -58,13 +53,6 @@ public class Information {
 	}
 	public void setPersons(String persons) {
 		Persons = persons;
-	}
-	
-	public Double getPayMoney() {
-		return payMoney;
-	}
-	public void setPayMoney(Double payMoney) {
-		this.payMoney = payMoney;
 	}
 	public String getCause() {
 		return cause;
@@ -126,36 +114,67 @@ public class Information {
 	public void setPayMethods(String payMethods) {
 		this.payMethods = payMethods;
 	}
-	public Double getStandard() {
-		return standard;
-	}
-	public void setStandard(Double standard) {
-		this.standard = standard;
-	}
 	public String getCostPayMethod() {
 		return costPayMethod;
 	}
 	public void setCostPayMethod(String costPayMethod) {
 		this.costPayMethod = costPayMethod;
 	}
-	public String getCostPayMoney() {
+	public void setBackTimes(String backTimes) {
+		this.backTimes = backTimes;
+	}
+	public String getBackTimes() {
+		return backTimes;
+	}
+
+	public BigDecimal getPayMoney() {
+		return payMoney;
+	}
+
+	public void setPayMoney(BigDecimal payMoney) {
+		this.payMoney = payMoney;
+	}
+
+	public BigDecimal getStandard() {
+		return standard;
+	}
+
+	public void setStandard(BigDecimal standard) {
+		this.standard = standard;
+	}
+
+	public BigDecimal getCostPayMoney() {
 		return costPayMoney;
 	}
-	public void setCostPayMoney(String costPayMoney) {
+
+	public void setCostPayMoney(BigDecimal costPayMoney) {
 		this.costPayMoney = costPayMoney;
 	}
+
 	@Override
 	public String toString() {
-		return "Information [state=" + state + ", travelNum=" + travelNum + ", userName=" + userName + ", userNum="
-				+ userNum + ", destination=" + destination + ", cause=" + cause + ", gmtGo=" + gmtGo + ", gmtBack="
-				+ gmtBack + ", stayDays=" + stayDays + ", Persons=" + Persons + ", backMethod=" + backMethod
-				+ ", payMethods=" + payMethods + ", payMoney=" + payMoney + ", cityName=" + cityName + ", cityCode="
-				+ cityCode + ", standard=" + standard + ", costPayMethod=" + costPayMethod + ", costPayMoney="
-				+ costPayMoney + "]";
+		return "Information{" +
+				"state='" + state + '\'' +
+				", travelNum='" + travelNum + '\'' +
+				", userName='" + userName + '\'' +
+				", userNum='" + userNum + '\'' +
+				", destination='" + destination + '\'' +
+				", cause='" + cause + '\'' +
+				", gmtGo=" + gmtGo +
+				", gmtBack=" + gmtBack +
+				", stayDays='" + stayDays + '\'' +
+				", Persons='" + Persons + '\'' +
+				", backMethod='" + backMethod + '\'' +
+				", payMethods='" + payMethods + '\'' +
+				", payMoney=" + payMoney +
+				", cityName='" + cityName + '\'' +
+				", cityCode='" + cityCode + '\'' +
+				", standard=" + standard +
+				", costPayMethod='" + costPayMethod + '\'' +
+				", costPayMoney=" + costPayMoney +
+				", backTimes='" + backTimes + '\'' +
+				'}';
 	}
-	
-	
-	
 }
 
 

@@ -62,4 +62,10 @@ public class TravelInfoT {
     public void setGmtCreate(Date gmtCreate) {
         this.gmtCreate = gmtCreate;
     }
+
+    @Override
+    public String toString() {
+        return "Information [origin=" + origin + ", travelNum=" + travelNum + ", destination=" + destination + ", cause="
+                + cause + ", destination=" + destination + ", cause=" + cause + ", gmtCreate=" + gmtCreate + "]";
+    }
 }

@@ -7,6 +7,7 @@ import com.wh.pojo.UserT;
 import com.wh.vo.Page;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 @Mapper
 public interface TravelUserMapper {
@@ -36,4 +37,6 @@ public interface TravelUserMapper {
 
 
 	List<TravelUserT> getBackedTravelUserInfo(String travelNum);
+
+	BigDecimal selectStandard(String destination);
 }

@@ -17,6 +17,5 @@ public interface TravelUserService {
 
 	Result findUsersByPage(Page page) throws Exception;
 
-	String getBackedTravelUserInfo(HttpServletRequest request);
+    String getBackedTravelUserInfo(HttpServletRequest request);
 }
-

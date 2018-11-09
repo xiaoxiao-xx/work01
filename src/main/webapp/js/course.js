@@ -1,1 +1,0 @@
-//@ sourceURL=course.js
