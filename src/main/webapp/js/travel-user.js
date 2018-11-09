@@ -393,7 +393,7 @@ function addUser() {
             rownum++;
             var result = '<tr>' +
                 '<td class="text-center"><input type="test" id='+rowname+' class="form-control" name="addName" onchange="getNum()"></td>'+
-                '<td class="text-center"><select id='+rownum+' class="form-control" name="addJogbNumber"><option value="1">选择工号</option></select></td>'+
+                '<td class="text-center"><select id='+rownum+' class="form-control" name="addJobNumber"></select></td>'+
                 '<td class="text-center"><select class="form-control" id="addTransportation" name="addTransportation"><option value="1">飞机</option><option value="2">高铁</option><option value="3">汽车</option><option value="4">其他</option></select></td>' +
                 '<td class="text-center"><select id="addPayMethod" class="form-control" name="addPayMethod"><option value="1">公司</option><option value="2">个人</option></select></td>' +
                 '<td class="text-center"><input type="text" id="addMoney" class="form-control" name="addMoney"></td>' +
@@ -732,10 +732,26 @@ function getNum() {
         data :{name:name} ,
         dataType:'json',
         success : function(result){
-            $.each(result,function (n,l) {
+            $("#"+rownum).html('');
+            if (result.toString().split(",").length>1){
+                $("#" + rownum).append(' <option>请选择工号</option>');
+                $.each(result,function (n,l) {
+                    $("#" + rownum).append('<option value="' + l + '">' + l + '</option>');
+                })
+
+            } else {
+                $.each(result,function (n,l) {
+                    $("#" + rownum).append(' <option value="' + l + '">' + l + '</option>');
+                })
+            }
+            /*$.each(result,function (n,l) {
                 console.log(l);
-                $("#"+rownum).append('<option value="'+l+'">'+l+'</option>');
-            });
+                if(n>0) {
+                    $("#" + rownum).append('<option>请选择工号</option> <option value="' + l + '">' + l + '</option>');
+                }else{
+                    $("#" + rownum).append(' <option value="' + l + '">' + l + '</option>');
+                }
+            });*/
 
         },
         error:function(){
