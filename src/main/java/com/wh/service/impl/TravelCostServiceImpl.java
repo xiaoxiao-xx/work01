@@ -86,7 +86,7 @@ public class TravelCostServiceImpl implements TravelCostService {
             BigDecimal trasportationOther = computedTransportOther(tcvo.getCostGo(), tcvo.getCostBack(), tcvo.getBookingTypeGo(), tcvo.getBookingTypeBack());
             tcvo.setTrasportationOther(trasportationOther);
             //住宿标准
-            tcvo.setStayStandard(tcvo.getStayOneDay().multiply(new BigDecimal(tcvo.getStayDays())));
+            tcvo.setStayStandard(tcvo.getStayOneDay().multiply(stayDays(tcvo.getStayDays())));
             //住宿公司或其他订购费
             if (STAY_TYPE_COMP.equals(tcvo.getStayBookingType())) {
                 tcvo.setStayComp(tcvo.getCostStay());
@@ -113,6 +113,13 @@ public class TravelCostServiceImpl implements TravelCostService {
             tcvo.setSubTotal(CostStandardConfig.DEFALUT_REAL_MONEY);
         }
         return listTravelCost;
+    }
+
+    private BigDecimal stayDays(String stayDays) {
+        if (stayDays == null || "".equals(stayDays)) {
+            return BigDecimal.ZERO;
+        }
+        return new BigDecimal(stayDays);
     }
 
     /**

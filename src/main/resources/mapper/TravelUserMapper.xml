@@ -39,9 +39,9 @@
 	<!--添加出差人员-->
 	<insert id="addTravelInfoT" parameterType="com.wh.pojo.TravelInfoT" >
 		INSERT INTO `travel_info_t`
-				(travel_num,destination,cause,gmt_create)
+				(travel_num,origin,destination,cause,gmt_create)
 				VALUES
-				(#{travelNum}, #{destination}, #{cause}, #{gmtCreate});
+				(#{travelNum},#{origin}, #{destination}, #{cause}, #{gmtCreate});
 	</insert>
 	<insert id="addTravelUsers" parameterType="java.util.List" useGeneratedKeys="false" >
 		INSERT INTO `travel_user_t`
