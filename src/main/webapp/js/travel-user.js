@@ -8,6 +8,20 @@ var y = 0;
 var rownum=1;
 var  rowname=99;
 $(function () {
+    $.getJSON('get/city/cityCostStandard_t.ajax', function (re) {
+        var result = '<select class="form-control"  name="destination">';
+        var middle = '';
+        if(re.status==0){
+            $.each(re.data, function (n, l) {
+                middle += '<option value="' + l.cityName + '">'+ l.cityName +'</option>';
+            });
+        }else if(re.status==1){
+            alert(re.message);
+        }
+        $("#addUserPanel #destination").html("");
+        $("#addUserPanel #destination").append(result+middle+'</select>');
+    });
+
     $(".form_datetime").datetimepicker({
         format: 'yyyy-mm-dd hh:00',//显示格式
         todayHighlight: 1,//今天高亮
@@ -29,8 +43,12 @@ $(function () {
             data: $("#addUserPanel form").serialize(),
             dataType: "json",
             success: function (result) {
-//            	alert(result.message);
-                location.reload(true);
+           	    if(result.status==0){
+           	        alert(result.message);
+           	        location.reload(true);
+           	    }else if(result.status==1){
+           	        alert(result.message);
+           	    }
             },
             error: function () {
                 alert("请求失败~");
@@ -388,11 +406,11 @@ function addUser() {
             rowname--;
             rownum++;
             var result = '<tr>' +
-                '<td class="text-center"><input type="test" id='+rowname+' class="form-control" name="addName" onchange="getNum()"></td>'+
-                '<td class="text-center"><select id='+rownum+' class="form-control" name="addJobNumber"></select></td>'+
+                '<td class="text-center"><input type="test" id='+rowname+' class="form-control" name="addName" onchange="getNum(this)" required="required"></td>'+
+                '<td class="text-center"><select id='+rownum+' class="form-control" name="addJobNumber" required="required"></select></td>'+
                 '<td class="text-center"><select class="form-control" id="addTransportation" name="addTransportation"><option value="1">飞机</option><option value="2">高铁</option><option value="3">汽车</option><option value="4">其他</option></select></td>' +
                 '<td class="text-center"><select id="addPayMethod" class="form-control" name="addPayMethod"><option value="1">公司</option><option value="2">个人</option></select></td>' +
-                '<td class="text-center"><input type="text" id="addMoney" class="form-control" name="addMoney"></td>' +
+                '<td class="text-center"><input type="number" min="0" max="99999" step="0.01" id="addMoney" class="form-control" name="addMoney" required="required"></td>' +
                 '<td class="text-center"><button class="btn btn-danger" type="button" onclick="deleteUserRow(this)">删除</button></td>' +
                 '</tr>';
             $(addTbody).append(result);
@@ -518,8 +536,12 @@ function editBackByTravelNum(editName, destination, gmtGo, cause, travelNum, edi
             data: $("#detailPanel form").serialize(),
             dataType: "json",
             success: function (result) {
-                alert(result.message);
-                location.reload(true);
+                if(result.status==0){
+                    alert(result.message);
+                    location.reload(true);
+                }else if(result.status==1){
+                    alert(result.message);
+                }
             },
             error: function () {
                 alert("请求失败!");
@@ -550,13 +572,13 @@ function addBackUser(editName, editNum) {
 
             var result = '<tr>' +
                 '<td class="text-center">' + backName + '</td>' +
-                '<td class="text-center"><input autocomplete="off" type="text" id="backTime_' + y + '" class="form-control form_datetime" name="backTime"></td>' +
+                '<td class="text-center"><input autocomplete="off" type="text" id="backTime_' + y + '" class="form-control form_datetime" name="backTime" required="required"></td>' +
                 '<td class="text-center"><select class="form-control" id="backTrasportation_' + y + '" name="backTrasportation"><option value="1">飞机</option><option value="2">高铁</option><option value="3">汽车</option><option value="4">其他</option></select></td>' +
                 '<td class="text-center"><select id="backTrasportation_payMethod_' + y + '" class="form-control" name="backTrasportation_payMethod"><option value="1">公司</option><option value="2">个人</option></select></td>' +
-                '<td class="text-center"><input type="text" id="backTrasportation_payMoney_' + y + '" class="form-control" name="backTrasportation_payMoney"></td>' +
+                '<td class="text-center"><input type="number" min="0" max="99999" step="0.01" id="backTrasportation_payMoney_' + y + '" class="form-control" name="backTrasportation_payMoney" required="required"></td>' +
                 '<td class="text-center"><select id="backCost_payMethod_' + y + '" class="form-control" name="backCost_payMethod"><option value="1">公司</option><option value="2">个人</option></select></td>' +
-                '<td class="text-center"><input type="text" id="backCost_payMoney_' + y + '" class="form-control" name="backCost_payMoney" onchange="payFunction(this)"></td>' +
-                '<td class="text-center"><input type="text" id="stay_days_' + y + '" class="form-control" name="stay_days"></td>';
+                '<td class="text-center"><input type="number" min="0" max="99999" step="0.01" id="backCost_payMoney_' + y + '" class="form-control" name="backCost_payMoney" onchange="payFunction(this)" required="required"></td>' +
+                '<td class="text-center"><input type="number" min="0" max="99999" step="0.1" id="stay_days_' + y + '" class="form-control" name="stay_days" required="required"></td>';
             //add input box
             $(backTbody).append(result + del);
             $(".form_datetime").datetimepicker({
@@ -713,26 +735,26 @@ Date.prototype.format = function (fmt) { //author: meizz
 /**
  * 获取工号
  */
-function getNum() {
-
-    var name = $("#"+rowname).val();
-
+function getNum(r) {
+    var name = $(r).val();
+    // var name = $("#"+rowname).val();
+// .parentNode.parentNode.childNodes[1].childNodes[0])
     $.ajax({
         url : '/selectNum.ajax',
         type : 'post',
         data :{name:name} ,
         dataType:'json',
         success : function(result){
-            $("#"+rownum).html('');
+            $(r.parentNode.parentNode.childNodes[1].childNodes[0]).html('');
             if (result.toString().split(",").length>1){
-                $("#" + rownum).append(' <option>请选择工号</option>');
+                $(r.parentNode.parentNode.childNodes[1].childNodes[0]).append(' <option>请选择工号</option>');
                 $.each(result,function (n,l) {
-                    $("#" + rownum).append('<option value="' + l + '">' + l + '</option>');
+                    $(r.parentNode.parentNode.childNodes[1].childNodes[0]).append('<option value="' + l + '">' + l + '</option>');
                 })
 
             } else {
                 $.each(result,function (n,l) {
-                    $("#" + rownum).append(' <option value="' + l + '">' + l + '</option>');
+                    $(r.parentNode.parentNode.childNodes[1].childNodes[0]).append(' <option value="' + l + '">' + l + '</option>');
                 })
             }
             /*$.each(result,function (n,l) {

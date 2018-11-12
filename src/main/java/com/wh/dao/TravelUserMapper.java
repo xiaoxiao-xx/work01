@@ -1,9 +1,6 @@
 package com.wh.dao;
 
-import com.wh.pojo.Information;
-import com.wh.pojo.TravelInfoT;
-import com.wh.pojo.TravelUserT;
-import com.wh.pojo.UserT;
+import com.wh.pojo.*;
 import com.wh.vo.Page;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -39,4 +36,6 @@ public interface TravelUserMapper {
 	List<TravelUserT> getBackedTravelUserInfo(String travelNum);
 
 	BigDecimal selectStandard(String destination);
+
+    List<CityCostStandardT> getCity();
 }

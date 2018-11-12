@@ -2,10 +2,7 @@ package com.wh.service.impl;
 
 import com.google.gson.Gson;
 import com.wh.dao.TravelUserMapper;
-import com.wh.pojo.Information;
-import com.wh.pojo.TravelInfoT;
-import com.wh.pojo.TravelUserT;
-import com.wh.pojo.UserT;
+import com.wh.pojo.*;
 import com.wh.service.TravelUserService;
 import com.wh.util.PageUtil;
 import com.wh.vo.Page;
@@ -221,6 +218,22 @@ public class TravelUserServiceImpl implements TravelUserService {
 		String travelNum = request.getParameter("travelNum");
 		List<TravelUserT> list = travelUserMapper.getBackedTravelUserInfo(travelNum);
 		return gs.toJson(list);
+	}
+
+	@Override
+	public String getCity() {
+		Gson gs = new Gson();
+		Result result = new Result();
+		List<CityCostStandardT> list= travelUserMapper.getCity();
+		if(list!=null){
+			result.setStatus(0);
+			result.setData(list);
+			result.setMessage("查新城市成功~");
+		}else{
+			result.setStatus(1);
+			result.setMessage("查新城市失败~请稍后再试~");
+		}
+		return gs.toJson(result);
 	}
 
 }
