@@ -60,7 +60,7 @@
 		</foreach>
 	</insert>
 	<select id="selectUser" parameterType="com.wh.pojo.UserT" resultType="java.lang.String">
-		select state from user_t where user_num = #{userNum}
+		select user_num from user_t where user_num = #{userNum}
 	</select>
 	<update id="updateState" parameterType="com.wh.pojo.UserT">
 		update user_t set state = #{state} where user_num = #{userNum}
