@@ -1,6 +1,14 @@
 function importExp() {
     var formData = new FormData();
-    var name = $("#upfile").val();
+    //获取文件后缀
+    var upFileName  = $("#upfile").val();
+    var index1=upFileName.lastIndexOf(".");
+    var index2=upFileName.length;
+    var suffix=upFileName.substring(index1+1,index2);//后缀名
+    if (suffix!="xlsx"){
+        alert("文件格式不对")
+        return false;
+    }
     formData.append("file",$("#upfile")[0].files[0]);
     formData.append("name",name);
    // alert(formData)
