@@ -17,12 +17,16 @@
     <result column="employment_status" jdbcType="INTEGER" property="employmentStatus" />
     <result column="person_status" jdbcType="INTEGER" property="personStatus" />
     <result column="travel_status" jdbcType="INTEGER" property="travelStatus" />
-    <result column="gmt_entry" jdbcType="TIMESTAMP" property="gmtEntry" />
+    <result column="gmt_entry" jdbcType="DATE" property="gmtEntry" />
+    <result column="id_card" jdbcType="VARCHAR" property="idCard" />
+    <result column="gmt_bitrh" jdbcType="DATE" property="gmtBitrh" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="education" jdbcType="VARCHAR" property="education" />
   </resultMap>
   <sql id="Base_Column_List">
     employee_no, name, department, tech_direc, tech_lev, position, super_no, super_name, 
     hobby, tel, email, employee_rank, employment_status, person_status, travel_status, 
-    gmt_entry
+    gmt_entry, id_card, gmt_bitrh, sex, education
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -30,7 +34,7 @@
     from employee_info_t
     where employee_no = #{employeeNo,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from employee_info_t
     where employee_no = #{employeeNo,jdbcType=VARCHAR}
   </delete>
@@ -40,13 +44,15 @@
       super_no, super_name, hobby, 
       tel, email, employee_rank, 
       employment_status, person_status, travel_status, 
-      gmt_entry)
+      gmt_entry, id_card, gmt_bitrh, 
+      sex, education)
     values (#{employeeNo,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{department,jdbcType=INTEGER}, 
       #{techDirec,jdbcType=VARCHAR}, #{techLev,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR}, 
       #{superNo,jdbcType=VARCHAR}, #{superName,jdbcType=VARCHAR}, #{hobby,jdbcType=VARCHAR}, 
       #{tel,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{employeeRank,jdbcType=INTEGER}, 
       #{employmentStatus,jdbcType=INTEGER}, #{personStatus,jdbcType=INTEGER}, #{travelStatus,jdbcType=INTEGER}, 
-      #{gmtEntry,jdbcType=TIMESTAMP})
+      #{gmtEntry,jdbcType=DATE}, #{idCard,jdbcType=VARCHAR}, #{gmtBitrh,jdbcType=DATE}, 
+      #{sex,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wh.pojo.EmployeeInfoT">
     insert into employee_info_t
@@ -99,6 +105,18 @@
       <if test="gmtEntry != null">
         gmt_entry,
       </if>
+      <if test="idCard != null">
+        id_card,
+      </if>
+      <if test="gmtBitrh != null">
+        gmt_bitrh,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="education != null">
+        education,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="employeeNo != null">
@@ -147,7 +165,19 @@
         #{travelStatus,jdbcType=INTEGER},
       </if>
       <if test="gmtEntry != null">
-        #{gmtEntry,jdbcType=TIMESTAMP},
+        #{gmtEntry,jdbcType=DATE},
+      </if>
+      <if test="idCard != null">
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtBitrh != null">
+        #{gmtBitrh,jdbcType=DATE},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null">
+        #{education,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -197,7 +227,19 @@
         travel_status = #{travelStatus,jdbcType=INTEGER},
       </if>
       <if test="gmtEntry != null">
-        gmt_entry = #{gmtEntry,jdbcType=TIMESTAMP},
+        gmt_entry = #{gmtEntry,jdbcType=DATE},
+      </if>
+      <if test="idCard != null">
+        id_card = #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtBitrh != null">
+        gmt_bitrh = #{gmtBitrh,jdbcType=DATE},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null">
+        education = #{education,jdbcType=VARCHAR},
       </if>
     </set>
     where employee_no = #{employeeNo,jdbcType=VARCHAR}
@@ -218,7 +260,20 @@
       employment_status = #{employmentStatus,jdbcType=INTEGER},
       person_status = #{personStatus,jdbcType=INTEGER},
       travel_status = #{travelStatus,jdbcType=INTEGER},
-      gmt_entry = #{gmtEntry,jdbcType=TIMESTAMP}
+      gmt_entry = #{gmtEntry,jdbcType=DATE},
+      id_card = #{idCard,jdbcType=VARCHAR},
+      gmt_bitrh = #{gmtBitrh,jdbcType=DATE},
+      sex = #{sex,jdbcType=VARCHAR},
+      education = #{education,jdbcType=VARCHAR}
     where employee_no = #{employeeNo,jdbcType=VARCHAR}
   </update>
+
+  <select id="countEmployeeInfo" resultType="java.lang.Integer" parameterType="hashmap">
+
+  </select>
+
+  <select id="listEmployeeInfo" resultType="com.wh.pojo.EmployeeInfoT" parameterType="hashmap">
+
+  </select>
+
 </mapper>

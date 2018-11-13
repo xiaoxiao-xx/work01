@@ -2,6 +2,9 @@ package com.wh.dao;
 
 import com.wh.pojo.EmployeeInfoT;
 
+import java.util.HashMap;
+import java.util.List;
+
 public interface EmployeeInfoTMapper {
     int deleteByPrimaryKey(String employeeNo);
 
@@ -14,4 +17,8 @@ public interface EmployeeInfoTMapper {
     int updateByPrimaryKeySelective(EmployeeInfoT record);
 
     int updateByPrimaryKey(EmployeeInfoT record);
+
+    int countEmployeeInfo(HashMap<String, Object> map);
+
+    List<EmployeeInfoT> listEmployeeInfo(HashMap<String, Object> map);
 }

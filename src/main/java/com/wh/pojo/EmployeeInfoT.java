@@ -35,6 +35,14 @@ public class EmployeeInfoT {
 
     private Date gmtEntry;
 
+    private String idCard;
+
+    private Date gmtBitrh;
+
+    private String sex;
+
+    private String education;
+
     public String getEmployeeNo() {
         return employeeNo;
     }
@@ -161,5 +169,37 @@ public class EmployeeInfoT {
 
     public void setGmtEntry(Date gmtEntry) {
         this.gmtEntry = gmtEntry;
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
+    }
+
+    public Date getGmtBitrh() {
+        return gmtBitrh;
+    }
+
+    public void setGmtBitrh(Date gmtBitrh) {
+        this.gmtBitrh = gmtBitrh;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getEducation() {
+        return education;
+    }
+
+    public void setEducation(String education) {
+        this.education = education;
     }
 }

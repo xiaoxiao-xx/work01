@@ -50,7 +50,7 @@ public class EmployeeController {
     }
 
     @RequestMapping("/exportEmployeeInfo.do")
-    public void exportInfo(HttpServletRequest request, HttpServletResponse response){
+    public void exportEmployeeInfo(HttpServletRequest request, HttpServletResponse response){
         emps.exportInfo(request,response);
     }
 
