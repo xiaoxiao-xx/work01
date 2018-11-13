@@ -34,6 +34,7 @@ public class TravelUserController {
 	@RequestMapping(value="user/adds",method=RequestMethod.POST)
 	@ResponseBody
 	public Result addUser(HttpServletRequest request) throws Exception{
+		Result result = new Result();
 		//差旅信息表
 		TravelInfoT travelInfoT = new TravelInfoT();
 		Integer number = Integer.parseInt(request.getParameter("number"));
@@ -55,8 +56,18 @@ public class TravelUserController {
 		String[] addMonies = request.getParameterValues("addMoney");
 		//差旅人员表
 
+		if(addNames==null){
+			result.setStatus(1);
+			result.setMessage("出差人员为空，请添加");
+			return result;
+		}
 		List<TravelUserT> listTravelUserT = new ArrayList<>();
 		for(int i=0;i<number;i++){
+			if(addJobNumbers[i].equals("请选择工号")){
+				result.setStatus(1);
+				result.setMessage("请选择工号");
+				return result;
+			}
 			TravelUserT travelUserT = new TravelUserT();
 			travelUserT.setTravelNum(travel_number);
 			travelUserT.setUserName(addNames[i]);
@@ -78,7 +89,7 @@ public class TravelUserController {
 			listUserT.add(usert);
 		}
 		System.out.println(listUserT);
-		Result result = new Result();
+
 		result.setStatus(0);
 		result.setMessage("添加成功~");
 		try {
@@ -101,7 +112,7 @@ public class TravelUserController {
 	@RequestMapping("edit/back/travel")
 	@ResponseBody
 	public Result editBackTravel(HttpServletRequest request) throws Exception{
-
+		Result result = new Result();
 		Integer backNumb = Integer.parseInt(request.getParameter("backNumb"));
 		String backTravelNum = request.getParameter("backTravelNum");
 
@@ -116,6 +127,21 @@ public class TravelUserController {
 		String[] stayDays = request.getParameterValues("stay_days" );
 		List<TravelUserT> travelUserList = new ArrayList<>();
 		List<UserT> userList = new ArrayList<>();
+		if(backTime==null){
+			result.setStatus(1);
+			result.setMessage("返回人员为空，请添加");
+			return result;
+		}
+		for (int i=0;i<backUserNum.length-1;i++){
+			for (int j=i+1;j<backUserNum.length;j++){
+				if(backUserNum[i].equals(backUserNum[j])){
+					result.setStatus(1);
+					result.setMessage("返回人员重复，请修改后提交");
+					return result;
+				}
+			}
+		}
+
 		for(int i=0;i<backNumb;i++){
 			TravelUserT travelUserT = new TravelUserT();
 			travelUserT.setTravelNum(backTravelNum);
@@ -133,7 +159,7 @@ public class TravelUserController {
 			userT.setUserNum(backUserNum[i]);
 			userList.add(userT);
 		}
-		Result result = new Result();
+
 		result.setStatus(0);
 		result.setMessage("编辑成功~");
 		try{
@@ -181,5 +207,22 @@ public class TravelUserController {
 	@ResponseBody
 	public String userInfo(HttpServletRequest request){
 		return travelUserService.getBackedTravelUserInfo(request);
+	}
+
+	/**
+	 * 获取城市信息
+	 * @return
+	 */
+	@RequestMapping(value = "get/city/cityCostStandard_t.ajax",produces = "text/html;charset=utf-8")
+	@ResponseBody
+	public String getCity(){
+		String str = null;
+		try{
+			str = travelUserService.getCity();
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+
+		return str;
 	}
 }
