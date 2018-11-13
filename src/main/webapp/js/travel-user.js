@@ -8,6 +8,7 @@ var y = 0;
 var rownum=1;
 var  rowname=99;
 var arr = [];
+var arrUser = [];
 $(function () {
 
     $.getJSON('get/city/cityCostStandard_t.ajax', function (re) {
@@ -31,6 +32,14 @@ $(function () {
         format: 'yyyy-mm-dd hh:00',//显示格式
         todayHighlight: 1,//今天高亮
         minView: 1,
+        startView: 2,
+        showMeridian: 0,
+        autoclose: 1//选择后自动关闭
+    });
+    $(".form_datetime_select").datetimepicker({
+        format: 'yyyy-mm-dd',//显示格式
+        todayHighlight: 1,//今天高亮
+        minView: 2,
         startView: 2,
         showMeridian: 0,
         autoclose: 1//选择后自动关闭
@@ -233,11 +242,16 @@ $(function () {
 //带分页查询
 function findUsers(currentPage) {
     var userKeyword = $("#user_search").val();
+    var selectTime = $("#selectTime").val();
     if (userKeyword == "") {
         userKeyword = "undefined";
     }
+    if(selectTime == ""){
+        selectTime = "undefined";
+    }
+    // alert(selectTime);
     $.ajax({
-        url: "page/" + currentPage + "/" + userKeyword + "/" + roleType,
+        url: "page/" + currentPage + "/" + userKeyword + "/" + roleType + "/" + selectTime,
         type: "get",
         dataType: "json",
         success: function (result) {
@@ -412,7 +426,7 @@ function addUser() {
             rownum++;
             var result = '<tr>' +
                 '<td class="text-center"><input type="test" id='+rowname+' class="form-control" name="addName" onchange="getNum(this)" required="required"></td>'+
-                '<td class="text-center"><select id='+rownum+' class="form-control" name="addJobNumber" required="required"></select></td>'+
+                '<td class="text-center"><select id='+rownum+' class="form-control" name="addJobNumber" required="required" onchange="getState(this)"></select></td>'+
                 '<td class="text-center"><select class="form-control" id="addTransportation" name="addTransportation"><option value="1">飞机</option><option value="2">高铁</option><option value="3">汽车</option><option value="4">其他</option></select></td>' +
                 '<td class="text-center"><select id="addPayMethod" class="form-control" name="addPayMethod"><option value="1">公司</option><option value="2">个人</option></select></td>' +
                 '<td class="text-center"><input type="number" min="0" max="99999" step="0.01" id="addMoney" class="form-control" name="addMoney" required="required"></td>' +
@@ -526,7 +540,12 @@ function editBackByTravelNum(editName, destination, gmtGo, cause, travelNum, edi
     $("#detailPanel #backCause").val(cause);
     $("#detailPanel #backTravelNum").val(travelNum);
     $("#detailPanel #backUserNum").val(editNum);
-    $("#detailPanel #backStandard").val(standard);
+    if(standard=='null'){
+        $("#detailPanel #backStandard").val("");
+    }else{
+        $("#detailPanel #backStandard").val(standard);
+    }
+
 
     editBackgmtGo = gmtGo;
     editBackStanard = standard;
@@ -577,7 +596,7 @@ function addBackUser(editName, editNum) {
 
             var result = '<tr>' +
                 '<td class="text-center">' + backName + '</td>' +
-                '<td class="text-center"><input autocomplete="off" type="text" id="backTime_' + y + '" class="form-control form_datetime" name="backTime" required="required"></td>' +
+                '<td class="text-center"><input autocomplete="off" type="text" id="backTime_' + y + '" class="form-control form_datetime_back" name="backTime" required="required"></td>' +
                 '<td class="text-center"><select class="form-control" id="backTrasportation_' + y + '" name="backTrasportation"><option value="1">飞机</option><option value="2">高铁</option><option value="3">汽车</option><option value="4">其他</option></select></td>' +
                 '<td class="text-center"><select id="backTrasportation_payMethod_' + y + '" class="form-control" name="backTrasportation_payMethod"><option value="1">公司</option><option value="2">个人</option></select></td>' +
                 '<td class="text-center"><input type="number" min="0" max="99999" step="0.01" id="backTrasportation_payMoney_' + y + '" class="form-control" name="backTrasportation_payMoney" required="required"></td>' +
@@ -586,7 +605,7 @@ function addBackUser(editName, editNum) {
                 '<td class="text-center"><input type="number" min="0" max="99999" step="0.1" id="stay_days_' + y + '" class="form-control" name="stay_days" required="required"></td>';
             //add input box
             $(backTbody).append(result + del);
-            $(".form_datetime").datetimepicker({
+            $(".form_datetime_back").datetimepicker({
                 format: 'yyyy-mm-dd hh:00',//显示格式
                 todayHighlight: 1,//今天高亮
                 minView: 1,//设置只显示到月份
@@ -595,7 +614,7 @@ function addBackUser(editName, editNum) {
                 autoclose: 1//选择后自动关闭
             });
 
-            $('.form_datetime').datetimepicker().on('changeDate', function (ev) {
+            $('.form_datetime_back').datetimepicker().on('changeDate', function (ev) {
                 var goT = new Date(new Date(editBackgmtGo).format("yyyy-MM-dd")).valueOf();
                 var backT = new Date(ev.date.format("yyyy-MM-dd")).valueOf();
                 if ((backT - goT) / (1000 * 60 * 60 * 24) - 1 < 0) {
@@ -788,6 +807,11 @@ function getTimeNum() {
     $("#travel_number").val(time+""+a);
 
 }
+
+/**
+ * 根据输入自动联想城市
+ * @param obj
+ */
 function search(obj){
     $("#mylist").empty();
     var city=obj.value;
@@ -797,6 +821,30 @@ function search(obj){
         {
             var option="<option>"+ arr[i] +"</option>";
             $("#mylist").append(option);
+        }
+    }
+}
+
+/**
+ * 根据员工是否出差判定能否编辑
+ * @param r
+ */
+function getState(r) {
+    var getNum = $(r).val();
+    $.getJSON('get/state/user_t.ajax', {getNum: getNum}, function (re) {
+        if(re.status==0){
+            alert(re.message);
+            $(r).val("");
+        }else if(re.status==1){
+            alert(re.message);
+        }
+    });
+    for(var i = 0; i < arrUser.length; ++i)
+    {
+        if(getNum != "" && arrUser[i].match(getNum) != null)
+        {
+            alert("该员工正处于出差状态，无法再次编辑出差");
+            r.val("");
         }
     }
 }

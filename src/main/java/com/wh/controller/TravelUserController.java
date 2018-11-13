@@ -62,6 +62,15 @@ public class TravelUserController {
 			return result;
 		}
 		List<TravelUserT> listTravelUserT = new ArrayList<>();
+		for (int i=0;i<addJobNumbers.length-1;i++){
+			for (int j=i+1;j<addJobNumbers.length;j++){
+				if(addJobNumbers[i].equals(addJobNumbers[j])){
+					result.setStatus(1);
+					result.setMessage("新增人员重复，请修改后提交");
+					return result;
+				}
+			}
+		}
 		for(int i=0;i<number;i++){
 			if(addJobNumbers[i].equals("请选择工号")){
 				result.setStatus(1);
@@ -181,15 +190,18 @@ public class TravelUserController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/page/{currentPage}/{userKeyword}/{roleType}",method=RequestMethod.GET)
+	@RequestMapping(value="/page/{currentPage}/{userKeyword}/{roleType}/{selectTime}",method=RequestMethod.GET)
 	@ResponseBody
 	public Result findUserByPage(@PathVariable("currentPage") int currentPage,
 								 @PathVariable("userKeyword") String userKeyword,
-								 @PathVariable("roleType") String roleType) throws Exception{
+								 @PathVariable("roleType") String roleType,
+								 @PathVariable("selectTime") String selectTime) throws Exception{
 		Result result=null;
 		Page page=new Page();
 		page.setCurrentPage(currentPage);
 		page.setUserKeyword("undefined".equals(userKeyword) ? "%%" :"%"+userKeyword+"%");
+		String selectTime2 = selectTime.replaceAll("-","");
+		page.setSelectTime("undefined".equals(selectTime) ? "none" : selectTime2);
 		page.setRoleType(roleType);
 
 		result=travelUserService.findUsersByPage(page);
@@ -222,7 +234,23 @@ public class TravelUserController {
 		}catch (Exception e){
 			e.printStackTrace();
 		}
+		return str;
+	}
 
+	/**
+	 * 获取已出差人员
+	 * @return
+	 */
+	@RequestMapping(value = "get/state/user_t.ajax",produces = "text/html;charset=utf-8")
+	@ResponseBody
+	public String getState(HttpServletRequest request){
+		String getNum = request.getParameter("getNum");
+		String str = null;
+		try{
+			str = travelUserService.getState(getNum);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 		return str;
 	}
 }

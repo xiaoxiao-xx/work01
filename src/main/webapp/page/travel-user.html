@@ -22,10 +22,14 @@
 							<button type="button" class="btn btn-default">已返回</button>
 							<button type="button" class="btn btn-default active">全部</button>
 						</div>
+                        &nbsp;&nbsp;
+						<div class="input-group">
+							<input type="text" placeholder="日期选择..." autocomplete="off" id="selectTime" class="form-control form_datetime_select" name="selectTime" onchange="findUsers(1)">
+						</div>
 						&nbsp;&nbsp;
 						<div class="input-group">
 							<input id="user_search" type="text" class="form-control"
-								placeholder="Search for..."> <span
+								placeholder="姓名搜索..."> <span
 								class="input-group-btn">
 								<button id="user_search_btn" class="btn btn-primary"
 									type="button">搜索</button>
@@ -160,7 +164,7 @@
 						<div class="form-group">
 							<label class="col-md-2 control-label" for="destination">目的地</label>
 							<div class="col-md-3" >
-								<input type="text" id="destination" class="form-control" name="destination" value="" autocomplete="on" list="mylist" onkeyup="search(this)">
+								<input type="text" id="destination" class="form-control" name="destination"  required="required" value="" autocomplete="on" list="mylist" onkeyup="search(this)">
 								<datalist id="mylist"></datalist>
 							</div>
 							<label class="col-md-2 control-label" for="travel_number">差旅编号</label>
