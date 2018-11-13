@@ -28,7 +28,9 @@ public class GetALLServiceImpl implements GetAllService {
 
     @Override
     public String getPage(HttpServletRequest request) {
-        int totalRecords = travelMapper.countGetAll();
+        String value =request.getParameter("keyword");
+        value="%"+value+"%";
+        int totalRecords = travelMapper.countGetAll(value);
         int total = totalRecords / NUM_OF_ONE_PAGE;
         total = totalRecords % NUM_OF_ONE_PAGE == 0 ? total : total + 1;
         page = new PageVO(total + "", totalRecords + "", NUM_OF_ONE_PAGE + "");
@@ -38,11 +40,13 @@ public class GetALLServiceImpl implements GetAllService {
 
     @Override
     public String listTravel(HttpServletRequest request) {
-
+        String value =request.getParameter("keyword");
+        value="%"+value+"%";
         String pn = request.getParameter("pn");
         int offst = (Integer.parseInt(pn) - 1) * NUM_OF_ONE_PAGE;
         int size = NUM_OF_ONE_PAGE;
         Map<String, Object> map = new HashMap<>();
+        map.put("value",value);
         map.put("offst", offst);
         map.put("size", size);
         List<Business> list = travelMapper.selectByPage(map);
