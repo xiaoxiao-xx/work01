@@ -7,19 +7,24 @@ var x = 0;
 var y = 0;
 var rownum=1;
 var  rowname=99;
+var arr = [];
 $(function () {
+
     $.getJSON('get/city/cityCostStandard_t.ajax', function (re) {
-        var result = '<select class="form-control"  name="destination">';
-        var middle = '';
+        // var result = '<input type="text" class="form-control" id="selectCityInput" name="destination"/><div class="input-group-btn"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">下拉菜单<span class="caret"></span></button>';
+        // var middle = '<ul class="dropdown-menu pull-right">';
         if(re.status==0){
+            // alert(re.data);
+            // console.log(re.data);
             $.each(re.data, function (n, l) {
-                middle += '<option value="' + l.cityName + '">'+ l.cityName +'</option>';
+                // middle += '<li><a href="javascript:void(0);" onclick="selectCity2(this)"value="' + l.cityName + '">'+ l.cityName +'</a></li>';
+                arr.push(l.cityName);
             });
         }else if(re.status==1){
             alert(re.message);
         }
-        $("#addUserPanel #destination").html("");
-        $("#addUserPanel #destination").append(result+middle+'</select>');
+        // $("#addUserPanel #destination").html("");
+        // $("#addUserPanel #destination").append(result+middle+'</ul>');
     });
 
     $(".form_datetime").datetimepicker({
@@ -782,4 +787,16 @@ function getTimeNum() {
     time = time.replace(/-/g,"").replace(/ /g,"").replace(/:/g,"");
     $("#travel_number").val(time+""+a);
 
+}
+function search(obj){
+    $("#mylist").empty();
+    var city=obj.value;
+    for(var i = 0; i < arr.length; ++i)
+    {
+        if(city != "" && arr[i].match(city + ".*") != null)
+        {
+            var option="<option>"+ arr[i] +"</option>";
+            $("#mylist").append(option);
+        }
+    }
 }

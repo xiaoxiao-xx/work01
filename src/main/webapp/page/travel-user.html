@@ -1,9 +1,5 @@
 <div role="tabpanel">
-	<!-- 导出 -->
-	<button id="export_btn" type="button" class="close"
-		data-dismiss="alert" aria-label="Close">
-		<span class="glyphicon glyphicon-export" aria-hidden="true">导出</span>
-	</button>
+
 	<!-- 页签导航 -->
 	<ul id="user_tab" class="nav nav-tabs " role="tablist">
 		<li role="presentation" class="active"><a href="#userPanel"
@@ -163,8 +159,9 @@
 						<!-- inputs -->
 						<div class="form-group">
 							<label class="col-md-2 control-label" for="destination">目的地</label>
-							<div class="col-md-3" id="destination">
-
+							<div class="col-md-3" >
+								<input type="text" id="destination" class="form-control" name="destination" value="" autocomplete="on" list="mylist" onkeyup="search(this)">
+								<datalist id="mylist"></datalist>
 							</div>
 							<label class="col-md-2 control-label" for="travel_number">差旅编号</label>
 							<div class="col-md-3">
@@ -408,5 +405,3 @@
 		</div>
 	</div>
 </div>
-
-
