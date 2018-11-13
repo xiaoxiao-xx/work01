@@ -1,6 +1,6 @@
 /*ajax获取分页数据*/
 var pn = 1;
-
+var keyword= "";
 $(function () {
     getPage1();
     showpage1(pn);
@@ -10,6 +10,9 @@ function getPage1() {
     $.ajax({
         url: 'getALL/getPage.ajax',
         type: 'get',
+        data:{
+            keyword:keyword
+        },
         success: function (res) {
             var page = JSON.parse(res);
             console.log(page)
@@ -47,7 +50,8 @@ function getPage1() {
 //显示分页记录
  function showpage1(pn) {
     var data = {
-        pn: pn
+        pn: pn,
+        keyword:keyword
     };
     $.getJSON('getALL/listTravel.ajax', data, function (re) {
         console.log(re);
@@ -91,5 +95,11 @@ function getPage1() {
 
 function wrapId(id, pn) {
    return (pn-1)*10+id;
+}
+function select() {
+    keyword= $("#select").val();
+    getPage1();
+    showpage1(1);
+    $("#select").val('');
 }
 

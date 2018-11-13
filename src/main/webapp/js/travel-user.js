@@ -56,7 +56,7 @@ $(function () {
            	    }
             },
             error: function () {
-                alert("请求失败~");
+                alert("请完善员工出差信息");
             }
         })
         return false;
@@ -762,14 +762,14 @@ function getNum(r) {
                     $(r.parentNode.parentNode.childNodes[1].childNodes[0]).append(' <option value="' + l + '">' + l + '</option>');
                 })
             }
-            /*$.each(result,function (n,l) {
-                console.log(l);
-                if(n>0) {
-                    $("#" + rownum).append('<option>请选择工号</option> <option value="' + l + '">' + l + '</option>');
-                }else{
-                    $("#" + rownum).append(' <option value="' + l + '">' + l + '</option>');
-                }
-            });*/
+                    /*$.each(result,function (n,l) {
+                        console.log(l);
+                        if(n>0) {
+                            $("#" + rownum).append('<option>请选择工号</option> <option value="' + l + '">' + l + '</option>');
+                        }else{
+                            $("#" + rownum).append(' <option value="' + l + '">' + l + '</option>');
+                        }
+                    });*/
 
         },
         error:function(){

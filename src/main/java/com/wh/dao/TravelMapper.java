@@ -21,7 +21,7 @@ public interface TravelMapper {
     int  select(String filename);
     void delete(String filename);
 
-    int countGetAll();
+    int countGetAll(String value);
 
     List<Business> selectByPage(Map<String, Object> map);
 

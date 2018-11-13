@@ -23,7 +23,6 @@ public class GetAllController {
 	@RequestMapping("/getPage.ajax")
 	@ResponseBody
 	public String getPage(HttpServletRequest request){
-
 		return getAllService.getPage(request);
 	}
 
@@ -35,6 +34,8 @@ public class GetAllController {
 	public String listTravel_cost(HttpServletRequest request){
 
 		return getAllService.listTravel(request);
+
+
 	}
 
 /**

@@ -22,8 +22,20 @@
         background-color: #337ab7;
         color: white;
     }
-    
-  /*  .div-right{float:right;margin-top:40px;position:relative; left:-200px;} */
+    input[type='file'] {
+        opacity: 0;
+    }
+    #file-a {
+        position: relative;
+        width: 88px;
+        height: 34px;
+    }
+    #file-a input {
+        position: absolute;
+        top: 4px;
+        left: -193px;
+    }
+
 </style>
 
 <body>
@@ -32,9 +44,12 @@
     <div class="container" style="margin-left: -45px">
         <label >选择Excel1文件 格式：.xlsx</label>
         <div class="form-inline" id="import">
-            <div class="form-group">
-                <input class="form-control" type="file" name="file" id="upfile" />
-            </div>
+            <!--<div class="form-group" >-->
+            <!--</div>-->
+            <a id="file-a" href="javascript:;" class="btn btn-primary">选择文件
+                <input  type="file" name="file" id="upfile" onchange="changeFile(this)"/>
+            </a>
+            <input type="text" class="form-control showFileName">
             <button class="btn btn-primary" onclick="importExp()">上传</button>
             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
@@ -100,4 +115,10 @@
         </div>
     </div>
 </body>
-
+<script>
+    function changeFile(el){
+        var fileName = el.value;
+        fileName = fileName.substr(fileName.lastIndexOf("\\")+1);
+        $('.showFileName').val(fileName);
+    }
+</script>

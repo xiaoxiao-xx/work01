@@ -374,9 +374,16 @@
 
   <select id="countGetAll" resultType="java.lang.Integer">
    select count(*) from business
+   WHERE NAME LIKE #{value,jdbcType=VARCHAR} OR department LIKE #{value,jdbcType=VARCHAR}
+   OR purpose LIKE #{value,jdbcType=VARCHAR} OR  stafflevel  LIKE #{value,jdbcType=VARCHAR} OR  startdate LIKE #{value,jdbcType=VARCHAR}
+   OR  enddate LIKE #{value,jdbcType=VARCHAR}
   </select>
   <select id="selectByPage" resultType="com.wh.pojo.Business" parameterType="hashmap">
-  select * from business limit #{offst,jdbcType=VARCHAR},#{size,jdbcType=VARCHAR}
+  select * from business
+   WHERE NAME LIKE #{value,jdbcType=VARCHAR} OR department LIKE #{value,jdbcType=VARCHAR}
+   OR purpose LIKE #{value,jdbcType=VARCHAR} OR  stafflevel  LIKE #{value,jdbcType=VARCHAR} OR  startdate LIKE #{value,jdbcType=VARCHAR}
+   OR  enddate LIKE #{value,jdbcType=VARCHAR}
+   limit #{offst,jdbcType=VARCHAR},#{size,jdbcType=VARCHAR}
  </select>
   <select id="selectExcel" resultType="com.wh.pojo.Business" parameterType="string">
 

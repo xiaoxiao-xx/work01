@@ -237,6 +237,7 @@
 
     <select id="countTravelInfo" resultType="java.lang.Integer">
         select count(*) from travel_user_t a,travel_info_t b where a.travel_num=b.travel_num
+        and gmt_back is not null
         <if test="_parameter != 'none'">
             and CONCAT(YEAR(gmt_back),'年',MONTH(gmt_back),'月') = #{time,jdbcType=VARCHAR}
         </if>
@@ -267,6 +268,7 @@
         INNER JOIN travel_info_t ON travel_info_t.travel_num = travel_user_t.travel_num
         INNER JOIN city_cost_standard_t ON city_cost_standard_t.city_name = travel_info_t.destination
         INNER JOIN user_t ON travel_user_t.user_num = user_t.user_num
+        and gmt_back is not null
         <if test="time != 'none'">
             and CONCAT(YEAR(gmt_back),'年',IF(MONTH(gmt_back) &lt; 10,CONCAT('0',MONTH(gmt_back)),MONTH(gmt_back)),'月') = #{time,jdbcType=VARCHAR}
         </if>
@@ -298,6 +300,7 @@
         INNER JOIN travel_info_t ON travel_info_t.travel_num = travel_user_t.travel_num
         INNER JOIN city_cost_standard_t ON city_cost_standard_t.city_name = travel_info_t.destination
         INNER JOIN user_t ON travel_user_t.user_num = user_t.user_num
+        and gmt_back is not null
         and CONCAT(YEAR(gmt_back),'年',IF(MONTH(gmt_back) &lt; 10,CONCAT('0',MONTH(gmt_back)),MONTH(gmt_back)),'月') = #{time,jdbcType=VARCHAR}
     </select>
 </mapper>
