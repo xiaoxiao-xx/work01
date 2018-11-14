@@ -29,7 +29,7 @@ public class CostStandardConfig {
     /**
      * 默认实报金额
      */
-    public static final BigDecimal DEFALUT_REAL_MONEY = new BigDecimal("0.00");
+    public static final BigDecimal DEFALUT_REAL_MONEY = BigDecimal.ZERO;
 
     /**
      * 根据人员级别计算生活补贴标准/天

@@ -23,6 +23,26 @@
     <result column="sex" jdbcType="VARCHAR" property="sex" />
     <result column="education" jdbcType="VARCHAR" property="education" />
   </resultMap>
+  <resultMap id="EmployeeInfoVOResultMap" type="com.wh.pojo.vo.EmployeeInfoVO">
+    <result column="employee_no" jdbcType="VARCHAR" property="employeeNo"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="sex" jdbcType="VARCHAR" property="sex"/>
+    <result column="id_card" jdbcType="VARCHAR" property="idCard"/>
+    <result column="education" jdbcType="VARCHAR" property="education"/>
+    <result column="tel" jdbcType="VARCHAR" property="tel"/>
+    <result column="email" jdbcType="VARCHAR" property="email"/>
+    <result column="department" jdbcType="VARCHAR" property="department"/>
+    <result column="super_name" jdbcType="VARCHAR" property="superName"/>
+    <result column="position" jdbcType="VARCHAR" property="position"/>
+    <result column="tech_direc" jdbcType="VARCHAR" property="techDirec"/>
+    <result column="tech_lev" jdbcType="VARCHAR" property="techLev"/>
+    <result column="gmt_bitrh" jdbcType="TIMESTAMP" property="gmtBitrh"/>
+    <result column="gmt_entry" jdbcType="TIMESTAMP" property="gmtEntry"/>
+    <result column="hobby" jdbcType="VARCHAR" property="hobby"/>
+    <result column="employee_rank" jdbcType="VARCHAR" property="employeeRank"/>
+    <result column="employment_status" jdbcType="VARCHAR" property="employmentStatus"/>
+    <result column="person_status" jdbcType="VARCHAR" property="personStatus"/>
+  </resultMap>
   <sql id="Base_Column_List">
     employee_no, name, department, tech_direc, tech_lev, position, super_no, super_name, 
     hobby, tel, email, employee_rank, employment_status, person_status, travel_status, 
@@ -269,11 +289,73 @@
   </update>
 
   <select id="countEmployeeInfo" resultType="java.lang.Integer" parameterType="hashmap">
-
+    SELECT count(*)
+    from employee_info_t where name like #{keyword,jdbcType=VARCHAR}
+    <if test="person_status != 'none' ">and person_status = #{personStatus,jdbcType=VARCHAR} </if>
+    <if test="dep != 'none' ">and department = #{department,jdbcType=VARCHAR} </if>
+    <if test="techDirec != 'none' ">and tech_direc = #{techDirec,jdbcType=VARCHAR} </if>
+    <if test="techLev != 'none' ">and tech_lev = #{techLev,jdbcType=VARCHAR} </if>
+    <if test="rank != 'none' ">and employee_rank = #{rank,jdbcType=VARCHAR} </if>
+    <if test="empStatus != 'none' ">and employment_status = #{empStatus,jdbcType=VARCHAR} </if>
   </select>
 
-  <select id="listEmployeeInfo" resultType="com.wh.pojo.EmployeeInfoT" parameterType="hashmap">
+  <select id="listEmployeeInfo" resultMap="BaseResultMap" parameterType="hashmap">
+SELECT
+    employee_info_t.employee_no,
+    employee_info_t.`name`,
+    employee_info_t.department,
+    employee_info_t.tech_direc,
+    employee_info_t.tech_lev,
+    employee_info_t.position,
+    employee_info_t.super_no,
+    employee_info_t.super_name,
+    employee_info_t.hobby,
+    employee_info_t.tel,
+    employee_info_t.email,
+    employee_info_t.employee_rank,
+    employee_info_t.employment_status,
+    employee_info_t.person_status,
+    employee_info_t.travel_status,
+    employee_info_t.gmt_entry,
+    employee_info_t.id_card,
+    employee_info_t.gmt_bitrh,
+    employee_info_t.sex,
+    employee_info_t.education
+    from employee_info_t where name like #{keyword,jdbcType=VARCHAR}
+    <if test="personStatus != 'none' ">and person_status = #{personStatus,jdbcType=VARCHAR} </if>
+    <if test="dep != 'none' ">and department = #{dep,jdbcType=VARCHAR} </if>
+    <if test="techDirec != 'none' ">and tech_direc = #{techDirec,jdbcType=VARCHAR} </if>
+    <if test="techLev != 'none' ">and tech_lev = #{techLev,jdbcType=VARCHAR} </if>
+    <if test="rank != 'none' ">and employee_rank = #{rank,jdbcType=VARCHAR} </if>
+    <if test="empStatus != 'none' ">and employment_status = #{empStatus,jdbcType=VARCHAR} </if>
+    order by gmt_entry desc
+    limit #{offset,jdbcType=VARCHAR},#{size,jdbcType=VARCHAR}
+  </select>
 
+  <select id="selectAllEmployee" resultMap="EmployeeInfoVOResultMap">
+      SELECT
+        employee_info_t.employee_no,
+        employee_info_t.`name`,
+        employee_info_t.department,
+        employee_info_t.tech_direc,
+        employee_info_t.tech_lev,
+        employee_info_t.position,
+        employee_info_t.super_no,
+        employee_info_t.super_name,
+        employee_info_t.hobby,
+        employee_info_t.tel,
+        employee_info_t.email,
+        employee_info_t.employee_rank,
+        employee_info_t.employment_status,
+        employee_info_t.person_status,
+        employee_info_t.travel_status,
+        employee_info_t.gmt_entry,
+        employee_info_t.id_card,
+        employee_info_t.gmt_bitrh,
+        employee_info_t.sex,
+        employee_info_t.education
+        from employee_info_t
+        order by employee_info_t.gmt_entry desc
   </select>
 
 

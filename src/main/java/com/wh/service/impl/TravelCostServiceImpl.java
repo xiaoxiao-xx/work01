@@ -23,8 +23,8 @@ import java.util.*;
 @Service
 public class TravelCostServiceImpl implements TravelCostService {
     private static final Integer NUM_OF_ONE_PAGE = 10;
-    private static final String TRANSPORTATION_TYPE_COMP = "0";
-    private static final String TRANSPORTATION_TYPE_OTHER = "1";
+    private static final String TRANSPORTATION_TYPE_COMP = "1";
+    private static final String TRANSPORTATION_TYPE_OTHER = "2";
     private static final String STAY_TYPE_COMP = "0";
     private static final String TITEL_START = "微核及中粒";
     private static final String TITEL_END = "差旅费明细表";
@@ -68,11 +68,11 @@ public class TravelCostServiceImpl implements TravelCostService {
      * @return
      */
     private List<TravelCostVO> wrapTravelCostVO(List<TravelCostVO> listTravelCost) {
-        int id = 1;
+        int id = 0;
         for (int i = 0; i < listTravelCost.size(); i++) {
             TravelCostVO tcvo = listTravelCost.get(i);
             //序号设置
-            id += i;
+            id += 1;
             tcvo.setId(String.valueOf(id));
             //设置费用部门
             tcvo.setCostDep(tcvo.getUserLevel());
@@ -98,14 +98,14 @@ public class TravelCostServiceImpl implements TravelCostService {
             //交通补贴标准/天
             tcvo.setTrafficAllowanceOneDay(CostStandardConfig.TRAFFIC_ALLOWANCE_ONE_DAY);
             //交通补贴标准
-            tcvo.setTrafficAllowanceStandard(CostStandardConfig.TRAFFIC_ALLOWANCE_ONE_DAY.multiply(days));
+            tcvo.setTrafficAllowanceStandard(CostStandardConfig.TRAFFIC_ALLOWANCE_ONE_DAY.multiply(days).setScale(2, BigDecimal.ROUND_HALF_UP));
             //交通补贴实报
             tcvo.setTrafficAllowanceReal(CostStandardConfig.DEFALUT_REAL_MONEY);
             //生活补贴标准/天
             BigDecimal lifeAllowanceOneDay = cs.computedLifeAllowanceOneDay(tcvo.getUserLevel());
             tcvo.setLifeAllowanceOneDay(lifeAllowanceOneDay);
             //生活补贴标准
-            tcvo.setLifeAllowanceStandard(lifeAllowanceOneDay.multiply(days));
+            tcvo.setLifeAllowanceStandard(lifeAllowanceOneDay.multiply(days).setScale(2, BigDecimal.ROUND_HALF_UP));
             //生活补贴实报
             tcvo.setLifeAllowanceReal(CostStandardConfig.DEFALUT_REAL_MONEY);
 
@@ -132,7 +132,7 @@ public class TravelCostServiceImpl implements TravelCostService {
      * @return
      */
     private BigDecimal computedTransportComp(BigDecimal costGo, BigDecimal costBack, String bookingTypeGo, String bookingTypeBack) {
-        BigDecimal money = new BigDecimal(0);
+        BigDecimal money = BigDecimal.ZERO;
         if (TRANSPORTATION_TYPE_COMP.equals(bookingTypeGo)) {
             money = money.add(costGo);
         }
@@ -152,7 +152,7 @@ public class TravelCostServiceImpl implements TravelCostService {
      * @return
      */
     private BigDecimal computedTransportOther(BigDecimal costGo, BigDecimal costBack, String bookingTypeGo, String bookingTypeBack) {
-        BigDecimal money = new BigDecimal(0);
+        BigDecimal money = BigDecimal.ZERO;
         if (TRANSPORTATION_TYPE_OTHER.equals(bookingTypeGo)) {
             money = money.add(costGo);
         }
@@ -245,6 +245,7 @@ public class TravelCostServiceImpl implements TravelCostService {
             try {
                 WriteExcel excel = new WriteExcel(filePath);
                 excel.setFirtRow(title);
+                excel.setLast(true);
                 excel.writeExcel(travelInfos, 3);
                 downLoadFile(time,filePath, response);
             } catch (IOException e) {

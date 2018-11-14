@@ -3,14 +3,18 @@ package com.wh.service.impl;
 import com.google.gson.Gson;
 import com.wh.dao.EmployeeInfoTMapper;
 import com.wh.pojo.EmployeeInfoT;
+import com.wh.pojo.vo.EmployeeInfoVO;
 import com.wh.pojo.vo.PageVO;
 import com.wh.service.EmployeeService;
 import com.wh.vo.Result;
+import com.wh.util.WriteExcel;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 
@@ -50,7 +54,32 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void exportInfo(HttpServletRequest request, HttpServletResponse response) {
+        List<EmployeeInfoVO> list = eit.selectAllEmployee();
+        String path = request.getSession().getServletContext().getRealPath("/file");
+        String filePath = path + "\\"+"employeeInfo.xlsx";
+        try {
+            WriteExcel excel = new WriteExcel(filePath);
+            excel.writeExcel(list, 2);
+            downLoadFile(filePath, response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    private void downLoadFile(String strUrl, HttpServletResponse response) throws IOException {
+        InputStream bis = new BufferedInputStream(new FileInputStream(new File(strUrl)));
+        String filename = "微核科技人员信息";
+        filename = URLEncoder.encode(filename, "UTF-8");
+        response.addHeader("Content-Disposition", "attachment;filename=" + filename);
+        response.setContentType("multipart/form-data");
+        BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
+        byte[] buffer = new byte[1024];
+        int len;
+        while ((len = bis.read(buffer)) != -1) {
+            out.write(buffer,0,len);
+        }
+        bis.close();
+        out.close();
     }
 
     /**

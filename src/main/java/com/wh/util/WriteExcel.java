@@ -26,6 +26,7 @@ public class WriteExcel<T> {
     private Workbook workbook;
     private Sheet sheet;
     private File file;
+    private Boolean last;
     private String path;
 
     public WriteExcel() {
@@ -36,6 +37,11 @@ public class WriteExcel<T> {
         this.file = new File(path);
         this.workbook = getWorkbook(file);
         this.sheet = workbook.getSheetAt(0);
+        this.last = false;
+    }
+
+    public void setLast(Boolean last) {
+        this.last = last;
     }
 
     /**
@@ -68,7 +74,9 @@ public class WriteExcel<T> {
                     }
                 }
             }
-            setlastRow(list.size(),len, space, lastRowStyle);
+            if (last){
+                setlastRow(list.size(),len, space, lastRowStyle);
+            }
             flushWorkBook();
         } catch (Exception e) {
             e.printStackTrace();

@@ -272,6 +272,7 @@
         <if test="time != 'none'">
             and CONCAT(YEAR(gmt_back),'年',IF(MONTH(gmt_back) &lt; 10,CONCAT('0',MONTH(gmt_back)),MONTH(gmt_back)),'月') = #{time,jdbcType=VARCHAR}
         </if>
+        order by travel_user_t.gmt_back desc
         limit #{offset,jdbcType=VARCHAR},#{size,jdbcType=VARCHAR}
     </select>
     <select id="listTravelInfoOneMonth" resultMap="TravelResultMap">

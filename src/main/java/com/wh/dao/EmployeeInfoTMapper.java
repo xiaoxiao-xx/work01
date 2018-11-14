@@ -1,6 +1,8 @@
 package com.wh.dao;
 
 import com.wh.pojo.EmployeeInfoT;
+import com.wh.pojo.vo.EmployeeInfoVO;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,4 +22,6 @@ public interface EmployeeInfoTMapper {
     int countEmployeeInfo(HashMap<String, Object> map);
 
     List<EmployeeInfoT> listEmployeeInfo(HashMap<String, Object> map);
+
+    List<EmployeeInfoVO> selectAllEmployee();
 }
