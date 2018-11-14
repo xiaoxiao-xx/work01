@@ -1,5 +1,8 @@
 package com.wh.service;
 
+import com.wh.pojo.EmployeeInfoT;
+import com.wh.vo.Result;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,4 +16,6 @@ public interface EmployeeService {
     String listEmployeeInfo(HttpServletRequest request);
 
     void exportInfo(HttpServletRequest request, HttpServletResponse response);
+
+    Result addExportEmployeeInfo(EmployeeInfoT employeeInfoT);
 }

@@ -1,6 +1,8 @@
 package com.wh.controller;
 
+import com.wh.pojo.EmployeeInfoT;
 import com.wh.service.EmployeeService;
+import com.wh.vo.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -52,6 +54,19 @@ public class EmployeeController {
     @RequestMapping("/exportEmployeeInfo.do")
     public void exportEmployeeInfo(HttpServletRequest request, HttpServletResponse response){
         emps.exportInfo(request,response);
+    }
+
+    /**
+     *  新增员工
+     * @return 新增的反馈信息
+     */
+    @RequestMapping("/add/exportEmployeeInfo.ajax")
+    @ResponseBody
+    public Result addExportEmployeeInfo(){
+        Result result = null;
+        EmployeeInfoT employeeInfoT = new EmployeeInfoT();
+        result = emps.addExportEmployeeInfo(employeeInfoT);
+        return result;
     }
 
 }

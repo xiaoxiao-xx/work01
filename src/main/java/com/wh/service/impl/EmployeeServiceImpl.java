@@ -5,6 +5,7 @@ import com.wh.dao.EmployeeInfoTMapper;
 import com.wh.pojo.EmployeeInfoT;
 import com.wh.pojo.vo.PageVO;
 import com.wh.service.EmployeeService;
+import com.wh.vo.Result;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -50,6 +51,26 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void exportInfo(HttpServletRequest request, HttpServletResponse response) {
 
+    }
+
+    /**
+     * 新增员工
+     * @param employeeInfoT
+     * @return
+     */
+    @Override
+    public Result addExportEmployeeInfo(EmployeeInfoT employeeInfoT) {
+        Result result = new Result();
+        try{
+            eit.insert(employeeInfoT);
+            result.setStatus(0);
+            result.setMessage("新增员工成功");
+        }catch (Exception e){
+            result.setStatus(1);
+            result.setMessage("新增员工失败，请稍后再试");
+            e.printStackTrace();
+        }
+        return result;
     }
 
     /**
