@@ -53,7 +53,7 @@
                 <div class="form-group">
                     <label  class="col-md-2 control-label" for="entrytime">入职时间</label>
                     <div class="col-md-4">
-                        <input type="date" required="required" name="txt_departmentname" class="form-control pull-right"
+                        <input type="date" required="required" name="entrytime" class="form-control pull-right"
                                id="entrytime"
                                placeholder="入职时间">
                     </div>
@@ -86,11 +86,11 @@
                                placeholder="直属上级">
                     </div>
 
-                    <label  class="col-md-2 control-label" for="department">部门</label>
+                    <label  class="col-md-2 control-label" for="superNo">上级工号</label>
                     <div class="col-md-4 ">
-                        <input type="text" required="required" name="department" class="form-control pull-right"
-                               id="department"
-                               placeholder="部门">
+                        <input type="number" min="0" max="99999" required="required" name="superNo" class="form-control pull-right"
+                               id="superNo"
+                                placeholder="上级工号">
                     </div>
                 </div>
                 <div class="form-group">
@@ -135,7 +135,22 @@
                       </div>
                   </div>
                   <div class="form-group">
-                      <div class="col-md-4 col-md-offset-6">
+                      <label class="col-md-2 control-label" for="directlysuperior">直属上级</label>
+                      <div class="col-md-4">
+                          <input type="text" required="required" name="superName" class="form-control pull-right"
+                                 id="superName"
+                                 placeholder="直属上级">
+                      </div>
+
+                      <label  class="col-md-2 control-label" for="employmentStatus">雇佣状态</label>
+                      <div class="col-md-4 ">
+                          <select type="text" required="required" name="employmentStatus" class="form-control pull-right"
+                                  id="employmentStatus"
+                                  placeholder="雇佣状态"><option value="0">正编</option><option value="1">外协</option><option value="2">实习</option></select>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <div class="col-md-4 col-md-offset-0 " style="right: -450px">
                           <button type="submit" class="btn btn-primary">确认</button>
                           <input type="reset" class="btn btn-primary" data-dismiss="modal"
                                  value="取 消">
