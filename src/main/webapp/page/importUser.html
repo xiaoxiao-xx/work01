@@ -1,0 +1,171 @@
+<style>
+    .form-group {
+        /*margin-bottom: 46px;*/
+        padding-bottom: 36px;
+    }
+    .form-group label {
+        line-height: 34px;
+    }
+</style>
+<button id="btn_add" type="button" class="btn btn-primary">增加人员</button>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">新增</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="col-sm-6 form-inline">
+                        <label for="name">姓名</label>
+                        <input type="text" name="txt_departmentname" class="form-control pull-right"
+                               id="name"
+                               placeholder="姓名">
+                    </div>
+                    <div class="col-sm-6 form-inline">
+                        <label for="sex">性别</label>
+                        <input type="text" name="txt_parentdepartment" class="form-control pull-right"
+                               id="sex"
+                               placeholder="性别">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-6 form-inline">
+                        <label for="education">学历</label>
+                        <input type="text" name="txt_departmentname" class="form-control pull-right"
+                               id="education"
+                               placeholder="学历">
+                    </div>
+                    <div class="col-sm-6 form-inline">
+                        <label for="birthday">出生年月</label>
+                        <input type="text" name="txt_parentdepartment1" class="form-control pull-right"
+                               id="birthday"
+                               placeholder="出生年月">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-6 form-inline">
+                        <label for="entrytime">入职时间</label>
+                        <input type="text" name="txt_departmentname" class="form-control pull-right"
+                               id="entrytime"
+                               placeholder="入职时间">
+                    </div>
+                    <div class="col-sm-6 form-inline">
+                        <label for="languagedirection">语言方向</label>
+                        <input type="text" name="txt_parentdepartment1" class="form-control pull-right"
+                               id="languagedirection"
+                               placeholder="语言方向">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-6 form-inline">
+                        <label for="technicalgrade">技术等级</label>
+                        <input type="text" name="txt_departmentname" class="form-control pull-right"
+                               id="technicalgrade"
+                               placeholder="技术等级">
+                    </div>
+                    <div class="col-sm-6 form-inline">
+                        <label for="job">岗位</label>
+                        <input type="text" name="txt_parentdepartment1" class="form-control pull-right"
+                               id="job"
+                               placeholder="岗位">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-6 form-inline">
+                        <label for="directlysuperior">直属上级</label>
+                        <input type="text" name="txt_departmentname" class="form-control pull-right"
+                               id="directlysuperior"
+                               placeholder="直属上级">
+                    </div>
+                    <div class="col-sm-6 form-inline">
+                        <label for="department">部门</label>
+                        <input type="text" name="txt_parentdepartment1" class="form-control pull-right"
+                               id="department"
+                               placeholder="部门">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-6 form-inline">
+                        <label for="tel">联系方式</label>
+                        <input type="text" name="txt_departmentname" class="form-control pull-right"
+                               id="tel"  onkeyup = "value=value.replace(/[^\d]/g,'')"
+                               placeholder="联系方式">
+                    </div>
+                    <div class="col-sm-6 form-inline">
+                        <label for="email">邮箱地址</label>
+                        <input type="text" name="txt_parentdepartment1" class="form-control pull-right"
+                               id="email"
+                               placeholder="邮箱地址">
+                    </div>
+                </div><div class="form-group">
+                <div class="col-sm-6 form-inline">
+                    <label for="idnum">身份证号</label>
+                    <input type="text" name="txt_departmentname" class="form-control pull-right"
+                           id="idnum" onkeyup = "value=value.replace(/[^\d]/g,'')"
+                           placeholder="身份证号">
+                </div>
+                <div class="col-sm-6 form-inline">
+                    <label for="num">工号</label>
+                    <input type="text" name="txt_parentdepartment1" class="form-control pull-right"
+                           id="num" onkeyup = "value=value.replace(/[^\d]/g,'')"
+                           placeholder="工号">
+                </div>
+            </div>
+
+                <div class="form-group">
+                    <label for="txt_statu">兴趣爱好</label>
+                    <textarea class="form-control" id="txt_statu" rows="3"></textarea>
+                    <!--<input type="text" name="txt_statu" class="form-control" id="txt_statu" placeholder="部门">-->
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                    class="glyphicon glyphicon-remove"
+                    aria-hidden="true"></span>关闭
+            </button>
+            <button type="button" id="btn_submit" class="btn btn-primary" data-dismiss="modal"><span
+                    class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存
+            </button>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<!-- 页签面板-->
+<table class="table table-condensed">
+    <thead>
+    <tr>
+        <th>姓名</th>
+        <th>工号</th>
+        <th>性别</th>
+        <th>学历</th>
+        <th>出生年月</th>
+        <th>入职时间</th>
+        <th>语言方向</th>
+        <th>技术等级</th>
+        <th>岗位</th>
+        <th>直属上级</th>
+        <th>部门</th>
+        <th>联系方式</th>
+        <th>邮箱地址</th>
+        <th>身份证</th>
+        <th>兴趣爱好</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+<!-- end -->
+<!-- 分页 -->
+<div id="kkpager">
+</div>
+
+<script src="../js/importUser.js"></script>
