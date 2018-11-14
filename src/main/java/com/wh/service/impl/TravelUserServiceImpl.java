@@ -236,4 +236,19 @@ public class TravelUserServiceImpl implements TravelUserService {
 		return gs.toJson(result);
 	}
 
+	@Override
+	public String getState(String getNum) {
+		Gson gs = new Gson();
+		Result result = new Result();
+		UserT userT= travelUserMapper.getState(getNum);
+		if(userT!=null&&userT.getState()!=null){
+			result.setStatus(0);
+			result.setMessage("该员工已处于出差状态");
+		}else{
+			result.setStatus(1);
+			result.setMessage("查询人员失败~请稍后再试~");
+		}
+		return gs.toJson(result);
+	}
+
 }

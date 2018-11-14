@@ -1,5 +1,6 @@
 package com.wh.vo;
 
+import java.util.Date;
 import java.util.List;
 
 public class Page {
@@ -17,7 +18,9 @@ public class Page {
 	private String roleKeyword;
 	
 	private String userKeyword;
-	
+
+	private String selectTime;
+
 	private List data;
 	
 	private String roleType;//用户管理中的角色类型,讲师,学员,管理员
@@ -120,7 +123,12 @@ public class Page {
 	public void setRoleType(String roleType) {
 		this.roleType = roleType;
 	}
-	
-	
-	
+
+	public String getSelectTime() {
+		return selectTime;
+	}
+
+	public void setSelectTime(String selectTime) {
+		this.selectTime = selectTime;
+	}
 }

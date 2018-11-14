@@ -38,4 +38,6 @@ public interface TravelUserMapper {
 	BigDecimal selectStandard(String destination);
 
     List<CityCostStandardT> getCity();
+
+	UserT getState(String getNum);
 }

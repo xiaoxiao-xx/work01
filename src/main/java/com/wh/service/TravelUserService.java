@@ -20,4 +20,6 @@ public interface TravelUserService {
     String getBackedTravelUserInfo(HttpServletRequest request);
 
     String getCity();
+
+    String getState(String getNum);
 }

@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wh.dao.TravelUserMapper">
+	<resultMap id="UserTMap" type="com.wh.pojo.UserT">
+		<result column="user_num" property="userNum" jdbcType="VARCHAR"/>
+		<result column="user_name" property="userName" jdbcType="VARCHAR"/>
+		<result column="user_level" property="userLevel" jdbcType="VARCHAR"/>
+		<result column="state" property="state" jdbcType="VARCHAR"/>
+	</resultMap>
 	<resultMap id="CityCostStandardTMap" type="com.wh.pojo.CityCostStandardT">
 		<result column="city_code" property="cityCode" jdbcType="VARCHAR"/>
 		<result column="city_name" property="cityName" jdbcType="VARCHAR"/>
@@ -128,6 +134,9 @@
 			FROM
 				travel_user_t
 			where user_name like #{userKeyword}
+				<if test="selectTime != 'none'">
+					and DATE_FORMAT(gmt_go,'%Y%m%d') = #{selectTime}
+				</if>
 			GROUP BY travel_num) n
 	</select>
 	<select id="getUsers"
@@ -142,9 +151,14 @@
 			INNER JOIN
 					(select travel_user_t.travel_num as num from travel_user_t
 					where travel_user_t.user_name like #{userKeyword}
+						<if test="selectTime != 'none'">
+							and DATE_FORMAT(gmt_go,'%Y%m%d') = #{selectTime}
+						</if>
 					group by travel_user_t.travel_num
+					order by gmt_go desc
 					LIMIT #{begin},#{pageSize})n
 				ON n.num = travel_user_t.travel_num
+				order by travel_user_t.gmt_go desc
 	</select>
 
 	<!-- 分页+模糊(指定角色名称) -->
@@ -159,6 +173,9 @@
 				FROM
 				travel_user_t
 				where travel_user_t.gmt_back is null and  travel_user_t.user_name like #{userKeyword}
+					<if test="selectTime != 'none'">
+						and DATE_FORMAT(gmt_go,'%Y%m%d') = #{selectTime}
+					</if>
 				GROUP BY travel_user_t.travel_num) n
 	</select>
 	<select id="getUsersByGo"
@@ -175,9 +192,14 @@
 			INNER JOIN
 				(select travel_user_t.travel_num as num from travel_user_t
 				where travel_user_t.gmt_back is null and travel_user_t.user_name like #{userKeyword}
+					<if test="selectTime != 'none'">
+						and DATE_FORMAT(gmt_go,'%Y%m%d') = #{selectTime}
+					</if>
 				group by travel_user_t.travel_num
+				order by gmt_go desc
 				LIMIT #{begin},#{pageSize})n
 			ON n.num = travel_user_t.travel_num
+			order by travel_user_t.gmt_go desc
 	</select>
 	<select id="selectStandard" parameterType="java.lang.String" resultType="java.math.BigDecimal" >
 		SELECT
@@ -200,6 +222,9 @@
 				FROM
 				travel_user_t
 				where travel_user_t.gmt_back is not null and  travel_user_t.user_name like #{userKeyword}
+					<if test="selectTime != 'none'">
+						and DATE_FORMAT(gmt_go,'%Y%m%d') = #{selectTime}
+					</if>
 				GROUP BY travel_user_t.travel_num) n
 	</select>
 
@@ -217,9 +242,14 @@
 			INNER JOIN
 				(select travel_user_t.travel_num as num from travel_user_t
 				where travel_user_t.gmt_back is not null and travel_user_t.user_name like #{userKeyword}
+					<if test="selectTime != 'none'">
+						and DATE_FORMAT(gmt_go,'%Y%m%d') = #{selectTime}
+					</if>
 				group by travel_user_t.travel_num
+				order by gmt_go desc
 				LIMIT #{begin},#{pageSize})n
 			ON n.num = travel_user_t.travel_num
+			order by travel_user_t.gmt_go desc
 	</select>
 	<!-- 查询出差人员信息结束 -->
 	<select id="getBackedTravelUserInfo" resultMap="BaseResultMap">
@@ -250,4 +280,17 @@
 			city_name
 	</select>
 	<!-- 查询城市结束 -->
+
+	<!-- 查询已出差人员开始 -->
+	<select id="getState" resultType="com.wh.pojo.UserT" parameterType="java.lang.String">
+		SELECT
+			state
+		FROM
+			user_t
+		WHERE
+			user_num = #{getNum}
+	</select>
+	<!-- 查询已出差人员开始 -->
+
+
 </mapper>

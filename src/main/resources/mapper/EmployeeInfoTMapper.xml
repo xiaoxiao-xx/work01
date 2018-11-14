@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wh.dao.EmployeeInfoTMapper">
+  <resultMap id="BaseResultMap" type="com.wh.pojo.EmployeeInfoT">
+    <id column="employee_no" jdbcType="VARCHAR" property="employeeNo" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="department" jdbcType="INTEGER" property="department" />
+    <result column="tech_direc" jdbcType="VARCHAR" property="techDirec" />
+    <result column="tech_lev" jdbcType="INTEGER" property="techLev" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="super_no" jdbcType="VARCHAR" property="superNo" />
+    <result column="super_name" jdbcType="VARCHAR" property="superName" />
+    <result column="hobby" jdbcType="VARCHAR" property="hobby" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="employee_rank" jdbcType="INTEGER" property="employeeRank" />
+    <result column="employment_status" jdbcType="INTEGER" property="employmentStatus" />
+    <result column="person_status" jdbcType="INTEGER" property="personStatus" />
+    <result column="travel_status" jdbcType="INTEGER" property="travelStatus" />
+    <result column="gmt_entry" jdbcType="DATE" property="gmtEntry" />
+    <result column="id_card" jdbcType="VARCHAR" property="idCard" />
+    <result column="gmt_bitrh" jdbcType="DATE" property="gmtBitrh" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="education" jdbcType="VARCHAR" property="education" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    employee_no, name, department, tech_direc, tech_lev, position, super_no, super_name, 
+    hobby, tel, email, employee_rank, employment_status, person_status, travel_status, 
+    gmt_entry, id_card, gmt_bitrh, sex, education
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from employee_info_t
+    where employee_no = #{employeeNo,jdbcType=VARCHAR}
+  </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from employee_info_t
+    where employee_no = #{employeeNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.wh.pojo.EmployeeInfoT">
+    insert into employee_info_t (employee_no, name, department, 
+      tech_direc, tech_lev, position, 
+      super_no, super_name, hobby, 
+      tel, email, employee_rank, 
+      employment_status, person_status, travel_status, 
+      gmt_entry, id_card, gmt_bitrh, 
+      sex, education)
+    values (#{employeeNo,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{department,jdbcType=INTEGER}, 
+      #{techDirec,jdbcType=VARCHAR}, #{techLev,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR}, 
+      #{superNo,jdbcType=VARCHAR}, #{superName,jdbcType=VARCHAR}, #{hobby,jdbcType=VARCHAR}, 
+      #{tel,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{employeeRank,jdbcType=INTEGER}, 
+      #{employmentStatus,jdbcType=INTEGER}, #{personStatus,jdbcType=INTEGER}, #{travelStatus,jdbcType=INTEGER}, 
+      #{gmtEntry,jdbcType=DATE}, #{idCard,jdbcType=VARCHAR}, #{gmtBitrh,jdbcType=DATE}, 
+      #{sex,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wh.pojo.EmployeeInfoT">
+    insert into employee_info_t
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="employeeNo != null">
+        employee_no,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="department != null">
+        department,
+      </if>
+      <if test="techDirec != null">
+        tech_direc,
+      </if>
+      <if test="techLev != null">
+        tech_lev,
+      </if>
+      <if test="position != null">
+        position,
+      </if>
+      <if test="superNo != null">
+        super_no,
+      </if>
+      <if test="superName != null">
+        super_name,
+      </if>
+      <if test="hobby != null">
+        hobby,
+      </if>
+      <if test="tel != null">
+        tel,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="employeeRank != null">
+        employee_rank,
+      </if>
+      <if test="employmentStatus != null">
+        employment_status,
+      </if>
+      <if test="personStatus != null">
+        person_status,
+      </if>
+      <if test="travelStatus != null">
+        travel_status,
+      </if>
+      <if test="gmtEntry != null">
+        gmt_entry,
+      </if>
+      <if test="idCard != null">
+        id_card,
+      </if>
+      <if test="gmtBitrh != null">
+        gmt_bitrh,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="education != null">
+        education,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="employeeNo != null">
+        #{employeeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null">
+        #{department,jdbcType=INTEGER},
+      </if>
+      <if test="techDirec != null">
+        #{techDirec,jdbcType=VARCHAR},
+      </if>
+      <if test="techLev != null">
+        #{techLev,jdbcType=INTEGER},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="superNo != null">
+        #{superNo,jdbcType=VARCHAR},
+      </if>
+      <if test="superName != null">
+        #{superName,jdbcType=VARCHAR},
+      </if>
+      <if test="hobby != null">
+        #{hobby,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeRank != null">
+        #{employeeRank,jdbcType=INTEGER},
+      </if>
+      <if test="employmentStatus != null">
+        #{employmentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="personStatus != null">
+        #{personStatus,jdbcType=INTEGER},
+      </if>
+      <if test="travelStatus != null">
+        #{travelStatus,jdbcType=INTEGER},
+      </if>
+      <if test="gmtEntry != null">
+        #{gmtEntry,jdbcType=DATE},
+      </if>
+      <if test="idCard != null">
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtBitrh != null">
+        #{gmtBitrh,jdbcType=DATE},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null">
+        #{education,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wh.pojo.EmployeeInfoT">
+    update employee_info_t
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null">
+        department = #{department,jdbcType=INTEGER},
+      </if>
+      <if test="techDirec != null">
+        tech_direc = #{techDirec,jdbcType=VARCHAR},
+      </if>
+      <if test="techLev != null">
+        tech_lev = #{techLev,jdbcType=INTEGER},
+      </if>
+      <if test="position != null">
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="superNo != null">
+        super_no = #{superNo,jdbcType=VARCHAR},
+      </if>
+      <if test="superName != null">
+        super_name = #{superName,jdbcType=VARCHAR},
+      </if>
+      <if test="hobby != null">
+        hobby = #{hobby,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeRank != null">
+        employee_rank = #{employeeRank,jdbcType=INTEGER},
+      </if>
+      <if test="employmentStatus != null">
+        employment_status = #{employmentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="personStatus != null">
+        person_status = #{personStatus,jdbcType=INTEGER},
+      </if>
+      <if test="travelStatus != null">
+        travel_status = #{travelStatus,jdbcType=INTEGER},
+      </if>
+      <if test="gmtEntry != null">
+        gmt_entry = #{gmtEntry,jdbcType=DATE},
+      </if>
+      <if test="idCard != null">
+        id_card = #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtBitrh != null">
+        gmt_bitrh = #{gmtBitrh,jdbcType=DATE},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null">
+        education = #{education,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where employee_no = #{employeeNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wh.pojo.EmployeeInfoT">
+    update employee_info_t
+    set name = #{name,jdbcType=VARCHAR},
+      department = #{department,jdbcType=INTEGER},
+      tech_direc = #{techDirec,jdbcType=VARCHAR},
+      tech_lev = #{techLev,jdbcType=INTEGER},
+      position = #{position,jdbcType=VARCHAR},
+      super_no = #{superNo,jdbcType=VARCHAR},
+      super_name = #{superName,jdbcType=VARCHAR},
+      hobby = #{hobby,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      employee_rank = #{employeeRank,jdbcType=INTEGER},
+      employment_status = #{employmentStatus,jdbcType=INTEGER},
+      person_status = #{personStatus,jdbcType=INTEGER},
+      travel_status = #{travelStatus,jdbcType=INTEGER},
+      gmt_entry = #{gmtEntry,jdbcType=DATE},
+      id_card = #{idCard,jdbcType=VARCHAR},
+      gmt_bitrh = #{gmtBitrh,jdbcType=DATE},
+      sex = #{sex,jdbcType=VARCHAR},
+      education = #{education,jdbcType=VARCHAR}
+    where employee_no = #{employeeNo,jdbcType=VARCHAR}
+  </update>
+
+  <select id="countEmployeeInfo" resultType="java.lang.Integer" parameterType="hashmap">
+
+  </select>
+
+  <select id="listEmployeeInfo" resultType="com.wh.pojo.EmployeeInfoT" parameterType="hashmap">
+
+  </select>
+
+</mapper>
