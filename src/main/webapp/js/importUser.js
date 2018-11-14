@@ -1,9 +1,8 @@
 $("#btn_add").click(function () {
-    $("#myModalLabel").text("新增");
     $('#myModal').modal();
 });
 
-$("#btn_submit").click(function () {
+$("#myModal form").submit(function() {
     alert("ssss")
    /* $.ajax({
         url: '/importUser.ajax',
