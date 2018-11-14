@@ -14,9 +14,9 @@ public class EmployeeInfoTUtil {
         employeeInfoT.setEmail(request.getParameter("email"));
         employeeInfoT.setEmployeeNo(request.getParameter("employeeNo"));
         employeeInfoT.setEmployeeRank(Integer.parseInt(request.getParameter("employeeRank")));
-        employeeInfoT.setEmploymentStatus(Integer.parseInt(request.getParameter("")));
+        employeeInfoT.setEmploymentStatus(Integer.parseInt(request.getParameter("employmentStatus")));
         employeeInfoT.setGmtBitrh(new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("gmtBitrh")));
-        employeeInfoT.setGmtEntry(new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("txt_departmentname")));
+        employeeInfoT.setGmtEntry(new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("entrytime")));
         employeeInfoT.setHobby(request.getParameter("hoby"));
         employeeInfoT.setIdCard(request.getParameter("idCard"));
         employeeInfoT.setName(request.getParameter("name"));
@@ -28,6 +28,7 @@ public class EmployeeInfoTUtil {
         employeeInfoT.setTechDirec(request.getParameter("techDirec"));
         employeeInfoT.setTechLev(Integer.parseInt(request.getParameter("techLev")));
         employeeInfoT.setTel(request.getParameter("tel"));
+        employeeInfoT.setTravelStatus(0);
         return employeeInfoT;
     }
 }

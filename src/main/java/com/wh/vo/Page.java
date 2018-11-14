@@ -10,6 +10,7 @@ public class Page {
 	private int nextPage;
 	private int totalCount;
 	private int totalPage;
+
 	
 	private int begin;
 	

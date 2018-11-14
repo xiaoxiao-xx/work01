@@ -17,13 +17,12 @@ $("#myModal form").submit(function() {
         dataType: "json",
         success: function (result) {
             if (result.status == 0) {
-                alert("000000");
+                alert(result.message);
                 location.reload(true);
             } else if (result.status == 1) {
-                alert("1111111");
+                alert(result.message);
             }
         },
-
         error: function () {
             alert("请求失败!");
         }

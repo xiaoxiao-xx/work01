@@ -69,7 +69,7 @@ public class EmployeeController {
     public Result addExportEmployeeInfo(HttpServletRequest request) throws Exception{
         EmployeeInfoT employeeInfoT = new EmployeeInfoTUtil().getEmployeeInfoT(request);
         Result result = null;
-        emps.addExportEmployeeInfo(employeeInfoT);
+        result = emps.addExportEmployeeInfo(employeeInfoT);
         return result;
     }
 
