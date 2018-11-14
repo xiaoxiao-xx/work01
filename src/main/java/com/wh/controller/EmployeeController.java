@@ -2,6 +2,7 @@ package com.wh.controller;
 
 import com.wh.pojo.EmployeeInfoT;
 import com.wh.service.EmployeeService;
+import com.wh.util.EmployeeInfoTUtil;
 import com.wh.vo.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -64,13 +66,10 @@ public class EmployeeController {
      */
     @RequestMapping("/add/exportEmployeeInfo.ajax")
     @ResponseBody
-    public Result addExportEmployeeInfo(HttpServletRequest request){
-        String name=request.getParameter("name");
-        String sex=request.getParameter("sex");
-        String date=request.getParameter("gmtBitrh");
-        System.err.println("+++++++++++++++++++++++"+name+sex+date);
-        Result result = new Result();
-       result.setStatus(0);
+    public Result addExportEmployeeInfo(HttpServletRequest request) throws Exception{
+        EmployeeInfoT employeeInfoT = new EmployeeInfoTUtil().getEmployeeInfoT(request);
+        Result result = null;
+        emps.addExportEmployeeInfo(employeeInfoT);
         return result;
     }
 
