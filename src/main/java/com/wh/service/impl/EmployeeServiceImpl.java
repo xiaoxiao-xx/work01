@@ -55,6 +55,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void exportInfo(HttpServletRequest request, HttpServletResponse response) {
         List<EmployeeInfoVO> list = eit.selectAllEmployee();
+        list.forEach(li->{
+            String s = li.getPersonStatus();
+            s = "0".equals(s)?"在职":"离职";
+            li.setPersonStatus(s);
+        });
         String path = request.getSession().getServletContext().getRealPath("/file");
         String filePath = path + "\\"+"employeeInfo.xlsx";
         try {
@@ -68,7 +73,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private void downLoadFile(String strUrl, HttpServletResponse response) throws IOException {
         InputStream bis = new BufferedInputStream(new FileInputStream(new File(strUrl)));
-        String filename = "微核科技人员信息";
+        String filename = "微核科技人员信息.xlsx";
         filename = URLEncoder.encode(filename, "UTF-8");
         response.addHeader("Content-Disposition", "attachment;filename=" + filename);
         response.setContentType("multipart/form-data");
@@ -89,6 +94,8 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public Result addExportEmployeeInfo(EmployeeInfoT employeeInfoT) {
+        employeeInfoT.setTravelStatus("0");
+        employeeInfoT.setPersonStatus("0");
         Result result = new Result();
         try{
             eit.insert(employeeInfoT);
@@ -111,12 +118,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         HashMap<String,Object> map = new HashMap<>();
         String keyword = request.getParameter("keyword");
         keyword = "%" + keyword + "%";
-        String personStatus = request.getParameter("person_status");
+        String personStatus = request.getParameter("personStatus");
         String dep = request.getParameter("dep");
-        String techDirec = request.getParameter("tech_direc");
-        String techLev = request.getParameter("tech_lev");
+        String techDirec = request.getParameter("techDirec");
+        String techLev = request.getParameter("techLev");
         String rank = request.getParameter("rank");
-        String empStatus = request.getParameter("emp_status");
+        String empStatus = request.getParameter("empStatus");
         map.put("keyword",keyword);
         map.put("personStatus",personStatus);
         map.put("dep",dep);

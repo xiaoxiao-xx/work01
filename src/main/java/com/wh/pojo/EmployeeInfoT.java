@@ -7,11 +7,11 @@ public class EmployeeInfoT {
 
     private String name;
 
-    private Integer department;
+    private String department;
 
     private String techDirec;
 
-    private Integer techLev;
+    private String techLev;
 
     private String position;
 
@@ -25,13 +25,13 @@ public class EmployeeInfoT {
 
     private String email;
 
-    private Integer employeeRank;
+    private String employeeRank;
 
-    private Integer employmentStatus;
+    private String employmentStatus;
 
-    private Integer personStatus;
+    private String personStatus;
 
-    private Integer travelStatus;
+    private String travelStatus;
 
     private Date gmtEntry;
 
@@ -59,11 +59,11 @@ public class EmployeeInfoT {
         this.name = name;
     }
 
-    public Integer getDepartment() {
+    public String getDepartment() {
         return department;
     }
 
-    public void setDepartment(Integer department) {
+    public void setDepartment(String department) {
         this.department = department;
     }
 
@@ -75,11 +75,11 @@ public class EmployeeInfoT {
         this.techDirec = techDirec;
     }
 
-    public Integer getTechLev() {
+    public String getTechLev() {
         return techLev;
     }
 
-    public void setTechLev(Integer techLev) {
+    public void setTechLev(String techLev) {
         this.techLev = techLev;
     }
 
@@ -131,35 +131,35 @@ public class EmployeeInfoT {
         this.email = email;
     }
 
-    public Integer getEmployeeRank() {
+    public String getEmployeeRank() {
         return employeeRank;
     }
 
-    public void setEmployeeRank(Integer employeeRank) {
+    public void setEmployeeRank(String employeeRank) {
         this.employeeRank = employeeRank;
     }
 
-    public Integer getEmploymentStatus() {
+    public String getEmploymentStatus() {
         return employmentStatus;
     }
 
-    public void setEmploymentStatus(Integer employmentStatus) {
+    public void setEmploymentStatus(String employmentStatus) {
         this.employmentStatus = employmentStatus;
     }
 
-    public Integer getPersonStatus() {
+    public String getPersonStatus() {
         return personStatus;
     }
 
-    public void setPersonStatus(Integer personStatus) {
+    public void setPersonStatus(String personStatus) {
         this.personStatus = personStatus;
     }
 
-    public Integer getTravelStatus() {
+    public String getTravelStatus() {
         return travelStatus;
     }
 
-    public void setTravelStatus(Integer travelStatus) {
+    public void setTravelStatus(String travelStatus) {
         this.travelStatus = travelStatus;
     }
 

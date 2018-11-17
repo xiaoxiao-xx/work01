@@ -1,141 +1,197 @@
 <!--<style>-->
-    <!--.form-group {-->
-        <!--/*margin-bottom: 46px;*/-->
-        <!--padding-bottom: 36px;-->
-    <!--}-->
-    <!--.form-group label {-->
-        <!--line-height: 34px;-->
-    <!--}-->
+<!--.form-group {-->
+<!--/*margin-bottom: 46px;*/-->
+<!--padding-bottom: 36px;-->
+<!--}-->
+<!--.form-group label {-->
+<!--line-height: 34px;-->
+<!--}-->
 <!--</style>-->
-<button id="btn_add" type="button" class="btn btn-primary">增加人员</button>
+<style>
+    table {
+        table-layout: fixed; /*使水平布局不受单元格的内容的影响*/
+        border: 1px;
+    }
+
+    td {
+        width: 50%;
+        overflow: hidden; /*文本超出时隐藏*/
+        white-space: nowrap; /*规定表格单元格中的内容不换行。*/
+    }
+
+    td, th {
+        text-align: center;
+    }
+
+    thead tr {
+        background-color: #337ab7;
+        color: #eafff6;
+    }
+</style>
+<div class="form-inline">
+    <button id="btn_add" type="button" class="btn btn-primary">增加人员</button>
+    <input type="text" name="" id="test1" class="form-control" style="line-height: 34px">
+    <button class="btn btn-primary">搜索</button>
+    <button class="btn btn-primary" onclick="exportInfo1()">导出EXCEL</button>
+</div>
+<hr width="2249px">
+<div class="form-inline person">
+    <button onclick="person('0')" id="0" class="btn">在职</button>
+    <button onclick="person('1')" id="1" class="btn">离职</button>
+    <button onclick="person('正编')"  id="正编" class="btn">正编</button>
+    <button onclick="person('外协')"  id="外协" class="btn">外协</button>
+    <button onclick="person('实习')"  id="实习" class="btn">实习</button>
+</div>
+
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header" align="center">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" >
+                <h4 class="modal-title">
                     <strong>新 增</strong>
                 </h4>
             </div>
             <div class="modal-body">
-              <form class="form-horizontal">
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="name">姓名</label>
-                    <div class="col-md-4">
-                        <input type="text" required="required" name="name" class="form-control pull-right"
-                               id="name"
-                               placeholder="姓名">
-                    </div>
-                    <label class="col-md-2 control-label" for="sex">性别</label>
-                    <div class="col-md-4">
-                        <select type="text" required="required" name="sex" class="form-control pull-right"
-                               id="sex"
-                                placeholder="性别"><option value="男">男</option><option value="女">女</option></select>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="education">学历</label>
-                    <div class="col-md-4">
-                        <select type="text" required="required" name="education" class="form-control pull-right"
-                               id="education"
-                                placeholder="学历"><option value="高中">高中</option><option value="中专">中专</option><option value="大专">大专</option><option value="本科">本科</option><option value="硕士">硕士</option><option value="其他">其他</option></select>
-                    </div>
-                    <label class="col-md-2 control-label" for="birthday">出生年月</label>
-                    <div class="col-md-4">
-                        <input type="date" required="required" name="gmtBitrh" class="form-control pull-right"
-                               id="birthday"
-                               placeholder="出生年月">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label  class="col-md-2 control-label" for="entrytime">入职时间</label>
-                    <div class="col-md-4">
-                        <input type="date" required="required" name="entrytime" class="form-control pull-right"
-                               id="entrytime"
-                               placeholder="入职时间">
-                    </div>
-                    <label  class="col-md-2 control-label" for="languagedirection">语言方向</label>
-                    <div class="col-md-4">
-                        <input type="text" required="required" name="techDirec" class="form-control pull-right"
-                               id="languagedirection"
-                               placeholder="语言方向">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="technicalgrade">技术等级</label>
-                    <div class="col-md-4">
-                        <select type="text" required="required" name="techLev" class="form-control pull-right"
-                               id="technicalgrade"
-                                placeholder="技术等级"><option value="0">初级</option><option value="1">中级</option><option value="2">高级</option></select>
-                    </div>
-                    <label class="col-md-2 control-label" for="job">岗位</label>
-                    <div class="col-md-4">
-                        <input type="text" required="required" name="position" class="form-control pull-right"
-                               id="job"
-                               placeholder="岗位">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="directlysuperior">直属上级</label>
-                    <div class="col-md-4">
-                        <input type="text" required="required" name="superName" class="form-control pull-right"
-                               id="directlysuperior"
-                               placeholder="直属上级">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="name">姓名</label>
+                        <div class="col-md-4">
+                            <input type="text" required="required" name="name" class="form-control pull-right"
+                                   id="name"
+                                   placeholder="姓名">
+                        </div>
+                        <label class="col-md-2 control-label" for="sex">性别</label>
+                        <div class="col-md-4">
+                            <select type="text" required="required" name="sex" class="form-control pull-right"
+                                    id="sex"
+                                    placeholder="性别">
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <label  class="col-md-2 control-label" for="superNo">上级工号</label>
-                    <div class="col-md-4 ">
-                        <input type="number" min="0" max="99999" required="required" name="superNo" class="form-control pull-right"
-                               id="superNo"
-                                placeholder="上级工号">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="education">学历</label>
+                        <div class="col-md-4">
+                            <select type="text" required="required" name="education" class="form-control pull-right"
+                                    id="education"
+                                    placeholder="学历">
+                                <option value="高中">高中</option>
+                                <option value="中专">中专</option>
+                                <option value="大专">大专</option>
+                                <option value="本科">本科</option>
+                                <option value="硕士">硕士</option>
+                                <option value="其他">其他</option>
+                            </select>
+                        </div>
+                        <label class="col-md-2 control-label" for="birthday">出生年月</label>
+                        <div class="col-md-4">
+                            <input type="date" required="required" name="gmtBitrh" class="form-control pull-right"
+                                   id="birthday"
+                                   placeholder="出生年月">
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label  class="col-md-2 control-label" for="tel">联系方式</label>
-                    <div class="col-md-4">
-                        <input type="tel" required="required" name="tel" class="form-control pull-right"
-                               id="tel"  min="11" max="11" onkeyup = "value=value.replace(/[^\d]/g,'')"
-                               placeholder="联系方式">
-                    </div>
-                    <label  class="col-md-2 control-label" for="email">邮箱地址</label>
-                    <div class="col-md-4 ">
-                        <input type="email" required="required" name="email" class="form-control pull-right"
-                               id="email"
-                               placeholder="邮箱地址">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label  class="col-md-2 control-label" for="idnum">身份证号</label>
-                    <div class="col-md-4 ">
-                        <input type="text" required="required" name="idCard" class="form-control pull-right"
-                           id="idnum" onkeyup = "value=value.replace(/[^\d]/g,'')"
-                           placeholder="身份证号">
-                    </div>
-                    <label   class="col-md-2 control-label" for="num">工号</label>
-                    <div class="col-md-4 ">
-                        <input type="number" min="0" max="99999"  required="required" name="employeeNo" class="form-control pull-right"
-                           id="num" onkeyup = "value=value.replace(/[^\d]/g,'')"
-                           placeholder="工号">
-                    </div>
-                </div>
-                  <div class="form-group">
-                      <label   class="col-md-2 control-label" for="idnum">人员职级</label>
-                      <div class="col-md-4 ">
-                          <select type="text" required="required" name="employeeRank" class="form-control pull-right"
 
-                                  placeholder="人员职级"><option value="0">执行级</option><option value="1">关联级</option><option value="2">部门级</option><option value="3">经营级</option></select>
-                      </div>
-                      <label  class="col-md-2 control-label" for="num">兴趣爱好</label>
-                      <div class="col-md-4 ">
-                          <input type="text" required="required" name="hoby" class="form-control pull-right"
-                                 placeholder="兴趣爱好">
-                      </div>
-                  </div>
-                  <div class="form-group">
-                      <label class="col-md-2 control-label" for="directlysuperior">部门</label>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="entrytime">入职时间</label>
+                        <div class="col-md-4">
+                            <input type="date" required="required" name="entrytime"
+                                   class="form-control pull-right"
+                                   id="entrytime"
+                                   placeholder="入职时间">
+                        </div>
+                        <label class="col-md-2 control-label" for="languagedirection">语言方向</label>
+                        <div class="col-md-4">
+                            <input type="text" required="required" name="techDirec" class="form-control pull-right"
+                                   id="languagedirection"
+                                   placeholder="语言方向">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="technicalgrade">技术等级</label>
+                        <div class="col-md-4">
+                            <select type="text" required="required" name="techLev" class="form-control pull-right"
+                                    id="technicalgrade"
+                                    placeholder="技术等级">
+                                <option value="0">初级</option>
+                                <option value="1">中级</option>
+                                <option value="2">高级</option>
+                            </select>
+                        </div>
+                        <label class="col-md-2 control-label" for="job">岗位</label>
+                        <div class="col-md-4">
+                            <input type="text" required="required" name="position" class="form-control pull-right"
+                                   id="job"
+                                   placeholder="岗位">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="directlysuperior">直属上级</label>
+                        <div class="col-md-4">
+                            <input type="text" required="required" name="superName" class="form-control pull-right"
+                                   id="directlysuperior"
+                                   placeholder="直属上级">
+                        </div>
+
+                        <label class="col-md-2 control-label" for="superNo">上级工号</label>
+                        <div class="col-md-4 ">
+                            <input type="number" min="0" max="99999" required="required" name="superNo" class="form-control pull-right"
+                                   id="superNo"
+                                   placeholder="上级工号">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="tel">联系方式</label>
+                        <div class="col-md-4">
+                            <input type="tel" required="required" name="tel" class="form-control pull-right"
+                                   id="tel" min="11" max="11" onkeyup="value=value.replace(/[^\d]/g,'')"
+                                   placeholder="联系方式">
+                        </div>
+                        <label class="col-md-2 control-label" for="email">邮箱地址</label>
+                        <div class="col-md-4 ">
+                            <input type="email" required="required" name="email" class="form-control pull-right"
+                                   id="email"
+                                   placeholder="邮箱地址">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="idnum">身份证号</label>
+                        <div class="col-md-4 ">
+                            <input type="text" required="required" name="idCard" class="form-control pull-right"
+                                   id="idnum" onkeyup="value=value.replace(/[^\d]/g,'')"
+                                   placeholder="身份证号">
+                        </div>
+                        <label class="col-md-2 control-label" for="num">工号</label>
+                        <div class="col-md-4 ">
+                            <input type="number" min="0" max="99999" required="required" name="employeeNo"
+                                   class="form-control pull-right"
+                                   id="num" onkeyup="value=value.replace(/[^\d]/g,'')"
+                                   placeholder="工号">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="idnum">人员职级</label>
+                        <div class="col-md-4 ">
+                            <select type="text" required="required" name="employeeRank" class="form-control pull-right"
+
+                                    placeholder="人员职级">
+                                <option value="0">执行级</option>
+                                <option value="1">关联级</option>
+                                <option value="2">部门级</option>
+                                <option value="3">经营级</option>
+                            </select>
+                        </div>
+                        <label class="col-md-2 control-label" for="num">兴趣爱好</label>
+                        <div class="col-md-4 ">
+                            <input type="text" required="required" name="hoby" class="form-control pull-right"
+                                   placeholder="兴趣爱好">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="directlysuperior">部门</label>
                       <div class="col-md-4">
                           <select type="text" required="required" name="department" class="form-control pull-right"
                                  id="department"
@@ -151,12 +207,12 @@
                   </div>
                   <div class="form-group">
                       <div class="col-md-4 col-md-offset-0 " style="right: -450px">
-                          <button type="submit" class="btn btn-primary">确认</button>
-                          <input type="reset" class="btn btn-primary" data-dismiss="modal"
-                                 value="取 消">
-                      </div>
-                  </div>
-              </form>
+                            <button type="submit" class="btn btn-primary">确认</button>
+                            <input type="reset" class="btn btn-primary" data-dismiss="modal"
+                                   value="取 消">
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -164,27 +220,29 @@
 
 
 <!-- 页签面板-->
-<table class="table table-condensed">
+<table class="table table-bordered">
     <thead>
     <tr>
-        <th>姓名</th>
-        <th>工号</th>
-        <th>性别</th>
-        <th>学历</th>
-        <th>出生年月</th>
-        <th>入职时间</th>
-        <th>语言方向</th>
-        <th>技术等级</th>
-        <th>岗位</th>
-        <th>直属上级</th>
-        <th>部门</th>
-        <th>联系方式</th>
-        <th>邮箱地址</th>
-        <th>身份证</th>
-        <th>兴趣爱好</th>
+        <th width="80px">姓名</th>
+        <th width="90px">工号</th>
+        <th width="80px">性别</th>
+        <th width="80px">学历</th>
+        <th width="120px">出生年月</th>
+        <th width="120px">入职时间</th>
+        <th width="120px">语言方向</th>
+        <th width="80px">技术等级</th>
+        <th width="200px">岗位</th>
+        <th width="80px">直属上级</th>
+        <th width="160px">部门</th>
+        <th width="200px">联系方式</th>
+        <th width="220px">邮箱地址</th>
+        <th width="200px">身份证</th>
+        <th width="220px">兴趣爱好</th>
+        <th width="200px">操作</th>
     </tr>
+
     </thead>
-    <tbody>
+    <tbody id="ctable">
 
     </tbody>
 </table>
@@ -194,3 +252,4 @@
 </div>
 
 <script src="../js/importUser.js"></script>
+<script src="/js/listUser.js"></script>

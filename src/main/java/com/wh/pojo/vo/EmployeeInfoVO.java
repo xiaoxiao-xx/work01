@@ -1,7 +1,5 @@
 package com.wh.pojo.vo;
 
-import java.util.Date;
-
 /**
  * @author shawn
  * @create 2018-11-13 13:55
@@ -32,9 +30,9 @@ public class EmployeeInfoVO {
     //技术等级
     private String  techLev;
     //出生日期
-    private Date gmtBitrh;
+    private String  gmtBitrh;
     //入职日期
-    private Date gmtEntry;
+    private String  gmtEntry;
     //爱好
     private String hobby;
     //人员职级 执行级。。
@@ -43,30 +41,6 @@ public class EmployeeInfoVO {
     private String employmentStatus;
     //在职状态 在职 离职
     private String  personStatus;
-
-    public EmployeeInfoVO() {
-    }
-
-    public EmployeeInfoVO(String employeeNo, String name, String sex, String idCard, String education, String tel, String email, String department, String superName, String position, String techDirec, String techLev, Date gmtBitrh, Date gmtEntry, String hobby, String employeeRank, String employmentStatus, String personStatus) {
-        this.employeeNo = employeeNo;
-        this.name = name;
-        this.sex = sex;
-        this.idCard = idCard;
-        this.education = education;
-        this.tel = tel;
-        this.email = email;
-        this.department = department;
-        this.superName = superName;
-        this.position = position;
-        this.techDirec = techDirec;
-        this.techLev = techLev;
-        this.gmtBitrh = gmtBitrh;
-        this.gmtEntry = gmtEntry;
-        this.hobby = hobby;
-        this.employeeRank = employeeRank;
-        this.employmentStatus = employmentStatus;
-        this.personStatus = personStatus;
-    }
 
     public String getEmployeeNo() {
         return employeeNo;
@@ -164,19 +138,19 @@ public class EmployeeInfoVO {
         this.techLev = techLev;
     }
 
-    public Date getGmtBitrh() {
+    public String getGmtBitrh() {
         return gmtBitrh;
     }
 
-    public void setGmtBitrh(Date gmtBitrh) {
+    public void setGmtBitrh(String gmtBitrh) {
         this.gmtBitrh = gmtBitrh;
     }
 
-    public Date getGmtEntry() {
+    public String getGmtEntry() {
         return gmtEntry;
     }
 
-    public void setGmtEntry(Date gmtEntry) {
+    public void setGmtEntry(String gmtEntry) {
         this.gmtEntry = gmtEntry;
     }
 
@@ -227,8 +201,8 @@ public class EmployeeInfoVO {
         sb.append(", position='").append(position).append('\'');
         sb.append(", techDirec='").append(techDirec).append('\'');
         sb.append(", techLev='").append(techLev).append('\'');
-        sb.append(", gmtBitrh=").append(gmtBitrh);
-        sb.append(", gmtEntry=").append(gmtEntry);
+        sb.append(", gmtBitrh='").append(gmtBitrh).append('\'');
+        sb.append(", gmtEntry='").append(gmtEntry).append('\'');
         sb.append(", hobby='").append(hobby).append('\'');
         sb.append(", employeeRank='").append(employeeRank).append('\'');
         sb.append(", employmentStatus='").append(employmentStatus).append('\'');

@@ -2,18 +2,14 @@ package com.wh.controller;
 
 import com.wh.pojo.EmployeeInfoT;
 import com.wh.service.EmployeeService;
-import com.wh.util.EmployeeInfoTUtil;
 import com.wh.vo.Result;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * @author shawn
@@ -66,8 +62,7 @@ public class EmployeeController {
      */
     @RequestMapping("/add/exportEmployeeInfo.ajax")
     @ResponseBody
-    public Result addExportEmployeeInfo(HttpServletRequest request) throws Exception{
-        EmployeeInfoT employeeInfoT = new EmployeeInfoTUtil().getEmployeeInfoT(request);
+    public Result addExportEmployeeInfo(HttpServletRequest request,EmployeeInfoT employeeInfoT) throws Exception{
         Result result = null;
         result = emps.addExportEmployeeInfo(employeeInfoT);
         return result;
