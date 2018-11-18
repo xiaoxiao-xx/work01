@@ -230,7 +230,6 @@ public class TravelCostServiceImpl implements TravelCostService {
     /**
      * 非空数据导出到excel
      * @param request
-     * @return 文档下载地址
      */
     @Override
     public void exportInfo(HttpServletRequest request, HttpServletResponse response) {
@@ -289,8 +288,8 @@ public class TravelCostServiceImpl implements TravelCostService {
                 b.setId(t.getId());
                 b.setUserName(t.getUserName());
                 b.setDepartment(t.getDepartment());
-                b.setCostDep(cs.wrapLevel(t.getCostDep()));
-                b.setUserLevel(cs.wrapLevel(t.getUserLevel()));
+                b.setCostDep(t.getCostDep());
+                b.setUserLevel(t.getUserLevel());
                 b.setCause(t.getCause() == null ? "" : t.getCause());
                 b.setTrip(t.getTrip());
                 b.setGmtGo(t.getGmtGo());

@@ -3,23 +3,10 @@ package com.wh;
 import java.math.BigDecimal;
 
 public class CostStandardConfig {
-    /**
-     * 人员级别执行级代码
-     */
-    private static final String EXECUTIVE_LEVEL = "0";
-
-    /**
-     * 人员级别关联级代码
-     */
-    private static final String RELATION_LEVEL = "1";
-    /**
-     * 人员级别部门级代码
-     */
-    private static final String DEPARTMENT_LEVEL = "2";
-    /**
-     * 人员级别经营级代码
-     */
-    private static final String MANAGEMENT_LEVEL = "3";
+    private static final String EXECUTIVE_LEVEL = "执行级";
+    private static final String RELATION_LEVEL = "关联级";
+    private static final String DEPARTMENT_LEVEL = "部门级";
+    private static final String MANAGEMENT_LEVEL = "经营级";
 
     /**
      * 默认交通补贴金额

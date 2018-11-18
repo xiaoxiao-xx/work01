@@ -260,14 +260,14 @@
         travel_user_t.booking_type_go AS booking_type_go,
         travel_user_t.stay_booking_type AS stay_booking_type,
         city_cost_standard_t.standard AS stay_one_day,
-        user_t.user_level AS user_level,
-        user_t.department as department,
+        employee_info_t.employee_rank AS user_level,
+        employee_info_t.department as department,
         travel_user_t.stay_days as stay_days
         FROM
         travel_user_t
         INNER JOIN travel_info_t ON travel_info_t.travel_num = travel_user_t.travel_num
         INNER JOIN city_cost_standard_t ON city_cost_standard_t.city_name = travel_info_t.destination
-        INNER JOIN user_t ON travel_user_t.user_num = user_t.user_num
+        INNER JOIN employee_info_t ON travel_user_t.user_num = employee_info_t.employee_no
         and gmt_back is not null
         <if test="time != 'none'">
             and CONCAT(YEAR(gmt_back),'年',IF(MONTH(gmt_back) &lt; 10,CONCAT('0',MONTH(gmt_back)),MONTH(gmt_back)),'月') = #{time,jdbcType=VARCHAR}
@@ -293,14 +293,14 @@
         travel_user_t.booking_type_go AS booking_type_go,
         travel_user_t.stay_booking_type AS stay_booking_type,
         city_cost_standard_t.standard AS stay_one_day,
-        user_t.user_level AS user_level,
-        user_t.department as department,
+        employee_info_t.employee_rank AS user_level,
+        employee_info_t.department as department,
         travel_user_t.stay_days as stay_days
         FROM
         travel_user_t
         INNER JOIN travel_info_t ON travel_info_t.travel_num = travel_user_t.travel_num
         INNER JOIN city_cost_standard_t ON city_cost_standard_t.city_name = travel_info_t.destination
-        INNER JOIN user_t ON travel_user_t.user_num = user_t.user_num
+        INNER JOIN employee_info_t ON travel_user_t.user_num = employee_info_t.employee_no
         and gmt_back is not null
         and CONCAT(YEAR(gmt_back),'年',IF(MONTH(gmt_back) &lt; 10,CONCAT('0',MONTH(gmt_back)),MONTH(gmt_back)),'月') = #{time,jdbcType=VARCHAR}
     </select>

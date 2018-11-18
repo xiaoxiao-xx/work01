@@ -1,8 +1,3 @@
-laydate.render({
-    elem: '#test1', //指定元素
-    type: 'month',
-    format: 'yyyy年MM月'
-});
 
 /*ajax获取分页数据*/
 var pn = 1;
@@ -12,6 +7,7 @@ function timechange() {
     keyword = $("#test1").val();
     if (keyword == null || keyword == " " || keyword == '') {
         keyword = "none";
+        $("#title").text("微核及中粒全部差旅费明细表")
     } else {
         $("#title").text("微核及中粒" + keyword + "差旅费明细表")
     }
@@ -21,6 +17,12 @@ function timechange() {
 }
 
 $(function () {
+    laydate.render({
+        elem: '#test1', //指定元素
+        type: 'month',
+        format: 'yyyy年MM月'
+    });
+    $("#title").text("微核及中粒全部差旅费明细表");
     getPage();
     showpage(pn);
 });
@@ -82,8 +84,6 @@ function showpage(pn) {
     $.getJSON('travelCostController/listTravel_cost.ajax', data, function (re) {
         $("#ctable").html("");
         $.each(re, function (n, l) {
-            var costDep = levelFormate(l.costDep);
-            var userLevel = levelFormate(l.userLevel);
             if (l.cause == undefined) {
                 l.cause = " "
             }
@@ -92,8 +92,8 @@ function showpage(pn) {
                 "                        <td>" + id + "</td>\n" +
                 "                        <td>" + l.userName + "</td>\n" +
                 "                        <td>" + l.department + "</td>\n" +
-                "                        <td>" + costDep + "</td>\n" +
-                "                        <td>" + userLevel + "</td>\n" +
+                "                        <td>" + l.costDep + "</td>\n" +
+                "                        <td>" + l.userLevel + "</td>\n" +
                 "                        <td title='"+l.cause+"'>" + l.cause + "</td>\n" +
                 "                        <td>" + l.trip + "</td>\n" +
                 "                        <td>" + l.gmtGo + "</td>\n" +
@@ -121,21 +121,6 @@ function showpage(pn) {
     });
 };
 
-function levelFormate(str) {
-    switch (str) {
-        case "0":
-            return "执行级";
-        case "1":
-            return "关联级";
-        case "2":
-            return "部门级";
-        case "3":
-            return "经营级";
-        default:
-            break;
-    }
-    return " "
-}
 
 /**
  * 导出到excel

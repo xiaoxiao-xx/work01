@@ -1,8 +1,3 @@
-/*laydate.render({
-    elem: '#test1', //指定元素
-    type: 'month',
-    format: 'yyyy年MM月'
-});*/
 
 /*ajax获取分页数据*/
 var pn = 1;
@@ -158,4 +153,9 @@ function formatDate(time){
       sec; */
 
     return newTime;
+}
+function searchPerson() {
+    keyword = $('#test1').val();
+    getPage();
+    showpage(1);
 }
